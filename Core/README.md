@@ -19,7 +19,7 @@ $ make
 
 *eAST* runs both in batch mode and interactive mode. To run it in batch mode, execute the application with a macro file,
 ```
-$ ./eAST _run.mac_
+$ ./eAST <run.mac>
 ```
 while to run it in interactive mode, execute the application without a macro file.
 ```
@@ -56,12 +56,12 @@ Prior to the initialization, each detector component has to be activated by its 
 As an example, following are the UI commands for the beampipe component.
 ```
 # activating "beampipe" 
-/eAST/component/beampipe _<verboseLevel>_
+/eAST/component/beampipe <verboseLevel>
 # specifying input GDML files
-/eAST/component/beampipe/envelopeGdmlFile _<envelopeGdmlFile>_
-/eAST/component/beampipe/gdmlFile _<gdmlFile>_
+/eAST/component/beampipe/envelopeGdmlFile <envelopeGdmlFile>
+/eAST/component/beampipe/gdmlFile <gdmlFile>
 # specifying input material definition file
-/eAST/component/beampipe/materialFile _<materialDefinitionFile>_
+/eAST/component/beampipe/materialFile <materialDefinitionFile>
 ```
 
 ### Physics options
@@ -81,7 +81,7 @@ In addition to this command, optical properties of the materials and surfaces ha
 
 To add a user-specific step limitation process
 ```
-/eAST/physics/addStepLimit _<particle>_
+/eAST/physics/addStepLimit <particle>
 ```
 where _<particle>_ could be _charges_ (default), _neutral_, _all_ or _e+/-_. In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
 
@@ -96,7 +96,7 @@ Production thresholds (a.k.a. cuts) for electron, positron, gamma and proton are
 To define a specific value for a region :
 ```
 /eAST/physics/cuts/setRegionCuts _<regionName>_ _<length>_ _<unit>_ 
-
+```
 In general, a step of a track is limited either by a volume boundary crossing or discrete physics interaction (e.g. decay, inelastic scattering, etc.). 
 Artificial limitation of the maximum step length applied to a specified particle type may be defined. Maximum step length could be assigned to a region. Artificial step limitation is useful for particles generating optical photons.
 ```
