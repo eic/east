@@ -29,15 +29,20 @@ include(${Geant4_USE_FILE})
 # NB: headers are included so they will show up in IDEs
 #
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/phys_include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/comp_include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../PhysicsList/Base/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Base/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Beampipe/include
                     ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/phys_src/*.cc
-                  ${PROJECT_SOURCE_DIR}/comp_src/*.cc)
+                  ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/../Components/Base/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/../Components/Beampipe/src/*.cc
+                  )
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/phys_include/*.hh
-                  ${PROJECT_SOURCE_DIR}/comp_include/*.hh)
+                  ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/../Components/Base/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/../Components/Beampipe/include/*.hh
+                  )
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries

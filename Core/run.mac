@@ -14,18 +14,16 @@
 # Detector components
 #######################################################
 /eAST/component/beampipe 1
-###/eAST/component/beampipe/gdmlFile ../gdml/Detector_chamber_3-20-20.gdml
-###/eAST/component/beampipe/gdmlFile ../gdml/Hadron_inj_kicker_V8_NewContacts_w_vacuum_space_A5_BG_03-30-2021.gdml
-/eAST/component/beampipe/envelopeGdmlFile ../gdml/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
-/eAST/component/beampipe/gdmlFile ../gdml/Detector_chamber_210222_test1_BG-04-07-2021.gdml
-/eAST/component/beampipe/materialFile ../gdml/Detector_chamber_210222_test1_BG-04-07-2021.mat
+/eAST/component/beampipe/envelopeGdmlFile ../Components/Beampipe/data/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
+/eAST/component/beampipe/gdmlFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.gdml
+/eAST/component/beampipe/materialFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.mat
 
 #######################################################
 # Physics of the simulation
 #######################################################
 
 #######################################################
-# GORAD and Geant4 initialization
+# eAST and Geant4 initialization
 #######################################################
 /eAST/initialize
 
