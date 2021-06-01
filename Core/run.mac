@@ -1,0 +1,57 @@
+#######################################################
+# macro file of eAST
+#######################################################
+# Set verbosities
+#######################################################
+/control/saveHistory
+/run/verbose 1
+/control/verbose 2
+/event/verbose 0
+/tracking/verbose 0
+/process/verbose 0
+
+#######################################################
+# Detector components
+#######################################################
+/eAST/component/beampipe 1
+###/eAST/component/beampipe/gdmlFile ../gdml/Detector_chamber_3-20-20.gdml
+###/eAST/component/beampipe/gdmlFile ../gdml/Hadron_inj_kicker_V8_NewContacts_w_vacuum_space_A5_BG_03-30-2021.gdml
+/eAST/component/beampipe/envelopeGdmlFile ../gdml/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
+/eAST/component/beampipe/gdmlFile ../gdml/Detector_chamber_210222_test1_BG-04-07-2021.gdml
+/eAST/component/beampipe/materialFile ../gdml/Detector_chamber_210222_test1_BG-04-07-2021.mat
+
+#######################################################
+# Physics of the simulation
+#######################################################
+
+#######################################################
+# GORAD and Geant4 initialization
+#######################################################
+/eAST/initialize
+
+#######################################################
+# Selection of primary particle source
+#######################################################
+/control/execute gps_point.mac
+
+#######################################################
+# Define probes and scorers
+#######################################################
+
+#######################################################
+# Define histograms for batch mode
+#######################################################
+
+#######################################################
+# Run for batch mode
+#######################################################
+/control/doifBatch /run/eventModulo 0 1
+/control/doifBatch /run/beamOn 100
+
+#######################################################
+# Run for interactive mode
+#######################################################
+/control/doifInteractive /run/beamOn 0
+/control/doifInteractive /control/execute vis.mac
+
+exit
