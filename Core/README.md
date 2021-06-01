@@ -83,7 +83,7 @@ To add a user-specific step limitation process
 ```
 /eAST/physics/addStepLimit <particle>
 ```
-where _<particle>_ could be _charges_ (default), _neutral_, _all_ or _e+/-_. In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
+where <particle> could be _charges_ (default), _neutral_, _all_ or _e+/-_. In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
 
 ## UI commands available after initialization
 
@@ -91,31 +91,31 @@ where _<particle>_ could be _charges_ (default), _neutral_, _all_ or _e+/-_. In 
 
 Production thresholds (a.k.a. cuts) for electron, positron, gamma and proton are by default set to 7 mm. They can be changed by :
 ```
-/eAST/physics/cuts/setCuts _<length>_ _<unit>_ 
+/eAST/physics/cuts/setCuts <length> <unit> 
 ```
 To define a specific value for a region :
 ```
-/eAST/physics/cuts/setRegionCuts _<regionName>_ _<length>_ _<unit>_ 
+/eAST/physics/cuts/setRegionCuts <regionName> <length> <unit> 
 ```
 In general, a step of a track is limited either by a volume boundary crossing or discrete physics interaction (e.g. decay, inelastic scattering, etc.). 
 Artificial limitation of the maximum step length applied to a specified particle type may be defined. Maximum step length could be assigned to a region. Artificial step limitation is useful for particles generating optical photons.
 ```
-/eAST/physics/limit/regionStepLimit _<regionName>_ _<length>_ _<unit>_
+/eAST/physics/limit/regionStepLimit <regionName> <length> <unit>
 ```
 
 ### Geometry sanity-check commands
 
 To display defined solid, logical volumes, physical volumes and regions :
 ```
-/eAST/geometry/listSolids _<verboseLevel>_
-/eAST/geometry/listLogicalVolumes _<verboseLevel>_
-/eAST/geometry/listPhysicalVolumes _<verboseLevel>_
-/eAST/geometry/listRegions _<verboseLevel>_
+/eAST/geometry/listSolids <verboseLevel>
+/eAST/geometry/listLogicalVolumes <verboseLevel>
+/eAST/geometry/listPhysicalVolumes <verboseLevel>
+/eAST/geometry/listRegions <verboseLevel>
 ```
 
 To check volume overlap for a physical volume :
 ```
-/eAST/geometry/checkOverlap _<physVolName>_ _<nSpots>_ _<maxError>_ _<tolerance>_ _<unit>_
+/eAST/geometry/checkOverlap <physVolName> <nSpots> <maxError> <tolerance> <unit>
 ```
 
 ## UI commands for histogramming particle flux
@@ -128,12 +128,12 @@ Please note that this section descrives a Geant4 functionality that is not speci
 
 This functionality allows the user to locate scoring “probes” at arbitrary locations. A “probe” is a virtual cube, to which any Geant4 primitive scorers could be assigned. This is a concept alternative to a scoring mesh, where cells of three-dimensional mesh are touching each other. 
 ```
-/score/create/probe _<probeName>_ _<halfWidth>_ _<unit>_
+/score/create/probe <probeName> <halfWidth> <unit>
 ```
 
 The user can locate an arbitrary number of probes by repeating /score/probe/locate commands, but all of these probes are the same shape. Given these probes are located in an artificial “parallel world”, probes may overlap to the volumes defined in the mass geometry, as long as probes themselves are not overlapping to each other or protruding from the world volume. 
 ```
-/score/probe/locate _<x>_ _<y>_ _<z>_ _<unit>_
+/score/probe/locate <x> <y> <z> <unit>
 ```
 
 Once a probe is defined, the user can associate arbitrary number of primitive scorers and filters like the ordinary scoring mesh. All probes have the same scorers but score individually. The following is a sample macro to locate 4 probes and score total flux and proton flux for each of these probes.
@@ -157,26 +157,26 @@ After a simulation run, scored data can be dumped into a file by usual Geant4 `/
 
 The following UI command creates a 1-D energy spectrum histogram that is directly filled by the associated primitive scorer. 
 ```
-/eAST/analysis/1D/spectrum _<probeName>_ _<scorerName>_
+/eAST/analysis/1D/spectrum <probeName> <scorerName>
 ```
-where, _<probeName>_ is the name of the probe defined by `/score/create/probe` command described in the previous sections. 
+where, <probeName> is the name of the probe defined by `/score/create/probe` command described in the previous sections. 
 The x-axis of the histogram defined by this command is the kinetic energy of the track. 
 If probe is located more than once, histograms are created and filled separately to each probe with their sequential order of `/score/probe/locate` command.
 `/eAST/analysis/1D/spectrum` command is available only for primitive scorers that score flux.
 
 `/eAST/analysis/1D/spectrum`command has to be immediately followed by `/eAST/analysis/1D/config` command to specify the histogram parameters. 
 ```
-/eAST/analysis/1D/config _<nBin>_ _<minVal>_ _<maxVal>_ _<unit>_ _<scale>_ _<logVal>_
+/eAST/analysis/1D/config <nBin> <minVal> <maxVal> <unit> <scale> <logVal>
 ```
-Details of each parameters should be consulted to onlne help. _<scale>_ is for the x-axis and it can be either “linear” or “log”. Binning of the histogram is determined by this parameter so that scale cannot be changed once configured. For the y-axis, linear-/log-scale can be chosen with the following command.
+Details of each parameters should be consulted to onlne help. <scale>_is for the x-axis and it can be either “linear” or “log”. Binning of the histogram is determined by this parameter so that scale cannot be changed once configured. For the y-axis, linear-/log-scale can be chosen with the following command.
 ```
-/eAST/analysis/1D/yaxisLog _<flag>_ 
+/eAST/analysis/1D/yaxisLog <flag> 
 ```
 Please note that the y-axis scale is used for plotting this histogram to a PostScript file and does not affect the dumped data.
 
 At the end of a run, each histogram is dumped to a separate file. File name should be specified by this command
 ```
-/eAST/analysis/file _<fileName>_ 
+/eAST/analysis/file <fileName> 
 ```
 but the actual file name will be appended by the histogram type and scorer name, and also by copy number of the probes. 
 By default, *eAST* dumps histograms in CSV format. The file format of the histogram file is described in [the g4tools section of Geant4 Application Developers Guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Analysis/g4tools.html). 
