@@ -5,22 +5,28 @@
 //
 //  History
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
-//    May.05.2021 : migration to Geant4 version 10.7 - Makoto Asai (SLAC)
+//    May.05.2021 : migration to eAST - Makoto Asai (SLAC)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "eASTPhysicsList.hh"
+#include "eASTPhysicsListMessenger.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
+#include "G4ProcessTable.hh"
+#include "G4RegionStore.hh"
 
 #include "G4EmStandardPhysics.hh"
 #include "G4EmExtraPhysics.hh"
-#include "G4OpticalPhysics.hh"
 #include "G4EmParameters.hh"
+#include "G4HadronicParameters.hh"
 #include "G4DecayPhysics.hh"
 #include "G4NuclideTable.hh"
-// #include "G4RadioactiveDecayPhysics.hh"
+
+#include "G4RadioactiveDecayPhysics.hh"
+#include "G4OpticalPhysics.hh"
+#include "G4StepLimiterPhysics.hh"
 
 #include "eASTProtonPhysics.hh"
 #include "eASTNeutronPhysics.hh"
@@ -65,47 +71,23 @@ eASTPhysicsList::eASTPhysicsList()
   // will not be assigned life times (default to 0) 
   G4NuclideTable::GetInstance()->SetThresholdOfHalfLife(0.1*picosecond);
   G4NuclideTable::GetInstance()->SetLevelTolerance(1.0*eV);
-          
-  // EM physics
-  RegisterPhysics(new G4EmStandardPhysics());
-  G4EmParameters* param = G4EmParameters::Instance();
-  param->SetAugerCascade(true);
-  param->SetStepFunction(1., 1.*CLHEP::mm);
-  param->SetStepFunctionMuHad(1., 1.*CLHEP::mm);
 
-  // Decay
-  RegisterPhysics(new G4DecayPhysics());
+  globalCuts[2] = 0.7*mm; //gamma
+  globalCuts[0] = 0.7*mm; //e-
+  globalCuts[1] = 0.7*mm; //e+
+  globalCuts[3] = 0.7*mm; //proton
 
-  // Radioactive decay
-//  RegisterPhysics(new G4RadioactiveDecayPhysics());
-            
-  // Hadronic physics
-  RegisterPhysics(new eASTProtonPhysics() );
-  RegisterPhysics(new eASTNeutronPhysics() );
-  RegisterPhysics(new eASTPionPhysics() );
-  RegisterPhysics(new eASTKaonPhysics() );
-  RegisterPhysics(new eASTHyperonPhysics() );
-  RegisterPhysics(new eASTAntiBaryonPhysics() );
-  RegisterPhysics(new eASTIonPhysics() );
-  RegisterPhysics(new eASTGammaLeptoNuclearPhysics() );
-
-  // Gamma-Nuclear Physics
-//  G4EmExtraPhysics* gnuc = new G4EmExtraPhysics(verb);
-//  gnuc->ElectroNuclear(false);
-//  gnuc->MuonNuclear(false);
-//  RegisterPhysics(gnuc);
-
-  // Optical physics
-//  RegisterPhysics(new G4OpticalPhysics() );
+  pMessenger = new eASTPhysicsListMessenger(this);
 }
 
 
 eASTPhysicsList::~eASTPhysicsList()
-{}
-
+{ delete pMessenger; }
 
 void eASTPhysicsList::ConstructParticle()
 {
+  if(!processesAreRegistered) SetupProcesses();
+
   G4BosonConstructor  pBosonConstructor;
   pBosonConstructor.ConstructParticle();
 
@@ -125,12 +107,143 @@ void eASTPhysicsList::ConstructParticle()
   pShortLivedConstructor.ConstructParticle();  
 }
 
+void eASTPhysicsList::SetupProcesses()
+{
+  // EM physics
+  RegisterPhysics(new G4EmStandardPhysics());
+  G4EmParameters* param = G4EmParameters::Instance();
+  param->SetAugerCascade(true);
+  param->SetStepFunction(1., 1.*CLHEP::mm);
+  param->SetStepFunctionMuHad(1., 1.*CLHEP::mm);
+
+  // Decay
+  RegisterPhysics(new G4DecayPhysics());
+
+  // Radioactive decay
+  if(addRDM)
+  { RegisterPhysics(new G4RadioactiveDecayPhysics()); }
+
+  // Hadronic physics
+  RegisterPhysics(new eASTProtonPhysics() );
+  RegisterPhysics(new eASTNeutronPhysics() );
+  RegisterPhysics(new eASTPionPhysics() );
+  RegisterPhysics(new eASTKaonPhysics() );
+  RegisterPhysics(new eASTHyperonPhysics() );
+  RegisterPhysics(new eASTAntiBaryonPhysics() );
+  RegisterPhysics(new eASTIonPhysics() );
+  RegisterPhysics(new eASTGammaLeptoNuclearPhysics() );
+
+  // Optical physics
+  if(addOptical)
+  { RegisterPhysics(new G4OpticalPhysics() ); }
+
+  // Step limiter
+  if(stepLimit_opt>=0)
+  { RegisterPhysics(new G4StepLimiterPhysics()); }
+
+  processesAreRegistered = true;
+}
+
+void eASTPhysicsList::ConstructProcess()
+{
+  auto verbose = G4ProcessTable::GetProcessTable()->GetVerboseLevel();
+  SetVerboseLevel(verbose);
+  G4EmParameters::Instance()->SetVerbose(verbose);
+  G4HadronicParameters::Instance()->SetVerboseLevel(verbose);
+
+  G4VModularPhysicsList::ConstructProcess();
+}
 
 void eASTPhysicsList::SetCuts()
 {
-  SetCutValue(0.7*mm, "proton");
-  SetCutValue(0.7*mm, "e-");
-  SetCutValue(0.7*mm, "e+");
-  SetCutValue(0.7*mm, "gamma");      
+  SetCutValue(globalCuts[2],"gamma"); // gamma should be defined first!
+  SetCutValue(globalCuts[0],"e-");
+  SetCutValue(globalCuts[1],"e+");
+  SetCutValue(globalCuts[3],"proton");
 }
+
+G4Region* eASTPhysicsList::FindRegion(const G4String& reg) const
+{
+  auto store = G4RegionStore::GetInstance();
+  return store->GetRegion(reg);
+}
+
+void eASTPhysicsList::SetGlobalCuts(G4double val)
+{
+  for(G4int i=0; i<4; i++)
+  { SetGlobalCut(i,val); }
+  SetCuts();
+}
+
+void eASTPhysicsList::SetGlobalCut(G4int i, G4double val)
+{
+  globalCuts[i] = val;
+  SetCuts();
+}
+
+G4Region* eASTPhysicsList::SetLocalCut(const G4String& reg,G4int i,G4double val)
+{
+  auto regPtr = FindRegion(reg);
+  if(!regPtr) return regPtr;
+
+  auto cuts = regPtr->GetProductionCuts();
+  if(!cuts)
+  {
+    cuts = new G4ProductionCuts();
+    regPtr->SetProductionCuts(cuts);
+  }
+
+  cuts->SetProductionCut(val,i);
+  return regPtr;
+}
+
+G4double eASTPhysicsList::GetLocalCut(const G4String& reg,G4int i) const
+{
+  auto regPtr = FindRegion(reg);
+  G4double val = -1.0;
+  if(regPtr)
+  {
+    auto cuts = regPtr->GetProductionCuts();
+    if(cuts) val = cuts->GetProductionCut(i);
+  }
+  return val;
+}
+
+#include "G4UserLimits.hh"
+
+G4Region* eASTPhysicsList::SetLocalStepLimit(const G4String& reg,G4double val)
+{
+  auto regPtr = FindRegion(reg);
+  if(!regPtr) return regPtr;
+
+  auto uLim = regPtr->GetUserLimits();
+  if(!uLim)
+  {
+    uLim = new G4UserLimits(val);
+    regPtr->SetUserLimits(uLim);
+  }
+  else
+  { uLim->SetMaxAllowedStep(val); }
+  return regPtr;
+}
+
+#include "G4Track.hh"
+G4double eASTPhysicsList::GetLocalStepLimit(const G4String& reg) const
+{
+  static G4Track dummyTrack;
+  auto regPtr = FindRegion(reg);
+  G4double val = -1.0;
+  if(regPtr)
+  {
+    auto uLim = regPtr->GetUserLimits();
+    if(uLim) val = uLim->GetMaxAllowedStep(dummyTrack);
+  }
+  return val;
+}
+
+void eASTPhysicsList::SetGlobalStepLimit(G4double val)
+{ SetLocalStepLimit("DefaultRegionForTheWorld",val); }
+
+G4double eASTPhysicsList::GetGlobalStepLimit() const
+{ return GetLocalStepLimit("DefaultRegionForTheWorld"); }
 
