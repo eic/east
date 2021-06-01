@@ -43,7 +43,7 @@ For demonstration purposes, *eAST* includes a macro file `run.mac` that can be u
 ```
 /gorad/initialize
 ```
-This command internally calls `/run/initialize` to initialize _G4MTRunManager_, so that the user should *not* use _/run/initialize_. Prior to this initialization command, *eAST* needs the following to be defined:
+This command internally calls `/run/initialize` to initialize _G4MTRunManager_, so that the user should *not* use `/run/initialize`. Prior to this initialization command, *eAST* needs the following to be defined:
 - Simulation geometry
 - Choice of Physics models
 
@@ -83,7 +83,7 @@ To add a user-specific step limitation process
 ```
 /eAST/physics/addStepLimit <particle>
 ```
-where <particle> could be _charges_ (default), _neutral_, _all_ or _e+/-_. In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
+where _particle_ could be "_charges_" (default), "_neutral_", "_all_" or "_e+/-_". In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
 
 ## UI commands available after initialization
 
@@ -159,7 +159,7 @@ The following UI command creates a 1-D energy spectrum histogram that is directl
 ```
 /eAST/analysis/1D/spectrum <probeName> <scorerName>
 ```
-where, <probeName> is the name of the probe defined by `/score/create/probe` command described in the previous sections. 
+where, _probeName_ is the name of the probe defined by `/score/create/probe` command described in the previous sections. 
 The x-axis of the histogram defined by this command is the kinetic energy of the track. 
 If probe is located more than once, histograms are created and filled separately to each probe with their sequential order of `/score/probe/locate` command.
 `/eAST/analysis/1D/spectrum` command is available only for primitive scorers that score flux.
@@ -182,7 +182,7 @@ but the actual file name will be appended by the histogram type and scorer name,
 By default, *eAST* dumps histograms in CSV format. The file format of the histogram file is described in [the g4tools section of Geant4 Application Developers Guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Analysis/g4tools.html). 
 If another format (Root or xml) is preferred, `eASTAnalysis.hh` has to be modified accordingly and *eAST* has to be recompiled. 
 
-In addition to dumping to CSV files, histograms can be plotted to a PostScript file if `/eAST/analysis/plot` command is set. _<fileName>_ is also used for this PostScript file. 
+In addition to dumping to CSV files, histograms can be plotted to a PostScript file if `/eAST/analysis/plot` command is set. _fileName_ is also used for this PostScript file. 
 
 
 
