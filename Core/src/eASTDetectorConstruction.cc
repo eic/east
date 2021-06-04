@@ -70,7 +70,7 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
                   "No detector component is registered. Nothing to construct!!");
     }
 
-    auto worldBox = new G4Box("worldBox",10.*CLHEP::m,10.*CLHEP::m,10.*CLHEP::m);
+    auto worldBox = new G4Box("worldBox",50.*CLHEP::m,50.*CLHEP::m,150.*CLHEP::m);
     auto air = G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR");
     auto worldLog = new G4LogicalVolume(worldBox,air,"worldLog");
     auto visAtt = new G4VisAttributes(G4Colour(0.5,0.5,0.5));
@@ -83,6 +83,13 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
     {
       G4cout << "##### Constructing " << comp.first << "........." << G4endl;
       comp.second->Construct(fWorld);
+    }
+
+    // now construct component-specific user run action for master thread
+    // this should be done after all components are constructed
+    for(auto comp : components)
+    {
+      comp.second->ConstructActionForMaster();
     }
   }
   return fWorld;
@@ -100,6 +107,7 @@ void eASTDetectorConstruction::ConstructSDAndField()
   for(auto comp : components)
   {
     comp.second->ConstructSD();
+    comp.second->ConstructActions();
   }
 }
 

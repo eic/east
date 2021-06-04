@@ -13,6 +13,7 @@
 #include "G4Region.hh"
 #include "eASTDetectorComponentMessenger.hh"
 #include "eASTDetectorConstruction.hh"
+#include "eASTUserActionDispatcher.hh"
 #include "G4UImanager.hh"
 #include "G4Tokenizer.hh"
 #include <fstream>
@@ -22,6 +23,7 @@ eASTVDetectorComponent::eASTVDetectorComponent(G4String compName, G4int vl)
 {
   baseMessenger = new eASTDetectorComponentMessenger(this,compName);
   commandDir = "/eAST/component/" + compName + "/";
+  userActionDispatcher = eASTUserActionDispatcher::Instance();
 }
 
 eASTVDetectorComponent::~eASTVDetectorComponent()
@@ -67,4 +69,33 @@ void eASTVDetectorComponent::ReadMaterialFile(G4String fileName)
   }
   matFile.close();
 }
+
+void eASTVDetectorComponent::RegisterUserAction(G4UserRunAction* ua)
+{ if(CheckRegion()) userActionDispatcher->RegisterUserAction(pRegion,ua); }
+
+void eASTVDetectorComponent::RegisterUserAction(G4UserEventAction* ua)
+{ if(CheckRegion()) userActionDispatcher->RegisterUserAction(pRegion,ua); }
+
+void eASTVDetectorComponent::RegisterUserAction(G4UserStackingAction* ua)
+{ if(CheckRegion()) userActionDispatcher->RegisterUserAction(pRegion,ua); }
+
+void eASTVDetectorComponent::RegisterUserAction(G4UserTrackingAction* ua)
+{ if(CheckRegion()) userActionDispatcher->RegisterUserAction(pRegion,ua); }
+
+void eASTVDetectorComponent::RegisterUserAction(G4UserSteppingAction* ua)
+{ if(CheckRegion()) pRegion->SetRegionalSteppingAction(ua); }
+
+G4bool eASTVDetectorComponent::CheckRegion()
+{
+  if(pRegion==nullptr)
+  {
+    G4ExceptionDescription ed;
+    ed << "Component <" << componentName << "> does not have a valid G4Region pointer.";
+    G4Exception("eASTVDetectorComponent::RegisterUserAction()","eASTComp0001",
+                FatalException,ed);
+    return false;
+  }
+  return true;
+}
+
 
