@@ -29,8 +29,13 @@
 /vis/drawVolume worlds
 #
 # Specify view angle:
-#/vis/viewer/set/viewpointThetaPhi 90. 0.
-/vis/viewer/set/viewpointThetaPhi 80. -92.
+#  viewing from the top of the experimental hall
+#  red arrow (x-axis) goes up on the screen, toward the center of the ring. 
+#  green arrow (y-axis) comes toward us, i.e. toward the sky. 
+#  blue arrow (z-axis) is toward right and aligned to electron beam line
+#         (electron beam goes toward -z)
+/vis/viewer/set/upVector 1 0 0
+/vis/viewer/set/viewpointThetaPhi 90. 90. deg
 #
 # Specify zoom value:
 /vis/viewer/zoom 1.3
