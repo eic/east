@@ -103,6 +103,10 @@ class eASTVDetectorComponent
       if(ax=="y") fRotation.rotateY(ang);
       if(ax=="z") fRotation.rotateZ(ang);
     }
+    G4ThreeVector GetLocation()
+    { return fPosition; }
+    G4RotationMatrix GetRotation()
+    { return fRotation; }
 
   private:
     G4bool CheckRegion();

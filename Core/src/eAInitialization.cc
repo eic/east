@@ -23,6 +23,7 @@
 #include <CLHEP/Units/SystemOfUnits.h>
 
 #include "eASTBeamPipe.hh"
+#include "eASTSupportStructure.hh"
 
 eAInitialization::eAInitialization(G4int verboseLvl)
 : verboseLevel(verboseLvl)
@@ -50,6 +51,8 @@ eAInitialization::eAInitialization(G4int verboseLvl)
 
   // EIC Detector Components
   new eASTBeamPipe("beampipe");
+  new eASTSupportStructure("DIRC_support");
+  new eASTSupportStructure("EM_CAL_support");
 }
 
 eAInitialization::~eAInitialization()
