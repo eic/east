@@ -12,6 +12,7 @@
 #define eASTVDetectorComponent_H 1
 
 class G4VPhysicalVolume;
+class G4LogicalVolume;
 class G4Region;
 class eASTDetectorComponentMessenger;
 class eASTUserActionDispatcher;
@@ -23,15 +24,14 @@ class G4UserTrackingAction;
 class G4UserSteppingAction;
 
 #include "globals.hh"
+#include "G4ThreeVector.hh"
+#include "G4RotationMatrix.hh"
 
 class eASTVDetectorComponent
 {
   public:
     eASTVDetectorComponent(G4String compName, G4int vl = 0);
     virtual ~eASTVDetectorComponent();
-
-  public:
-    void SetUpBase(G4int vl = 0);
 
   public:
     // invoked only in the master thread
@@ -45,6 +45,10 @@ class eASTVDetectorComponent
     {;}
     virtual void ConstructActions()
     {;}
+
+  protected:
+    // Utility method to locate the component
+    void Locate(G4LogicalVolume* compLogVol, G4VPhysicalVolume* worldPhys);
 
   protected:
     // Utility methods to register component-specific
@@ -74,6 +78,9 @@ class eASTVDetectorComponent
     G4Region* pRegion = nullptr;
 
   public:
+    void SetUpBase(G4int vl = 0);
+
+  public:
     virtual G4VPhysicalVolume* GetEnvelope()
     { return pEnvelopePhys; }
     virtual G4Region* GetRegion()
@@ -82,6 +89,20 @@ class eASTVDetectorComponent
   private:
     eASTDetectorComponentMessenger* baseMessenger;
     eASTUserActionDispatcher* userActionDispatcher;
+
+  private:
+    G4ThreeVector fPosition;
+    G4RotationMatrix fRotation;
+
+  public:
+    void SetLocation(G4ThreeVector pos)
+    { fPosition = pos; }
+    void SetRotation(G4String ax,G4double ang)
+    {
+      if(ax=="x") fRotation.rotateX(ang);
+      if(ax=="y") fRotation.rotateY(ang);
+      if(ax=="z") fRotation.rotateZ(ang);
+    }
 
   private:
     G4bool CheckRegion();

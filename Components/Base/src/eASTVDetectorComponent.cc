@@ -10,6 +10,7 @@
 
 #include "eASTVDetectorComponent.hh"
 #include "G4VPhysicalVolume.hh"
+#include "G4PVPlacement.hh"
 #include "G4Region.hh"
 #include "eASTDetectorComponentMessenger.hh"
 #include "eASTDetectorConstruction.hh"
@@ -34,6 +35,14 @@ void eASTVDetectorComponent::SetUpBase(G4int vl)
   verboseLevel = vl;
   eASTDetectorConstruction::Instance()->RegisterComponent(componentName,this);
   SetUp();
+  baseMessenger->SetUpBaseCommands(commandDir);
+}
+
+void eASTVDetectorComponent::Locate(G4LogicalVolume* compLogVol, 
+                G4VPhysicalVolume* worldPhys)
+{
+  pEnvelopePhys = new G4PVPlacement(G4Transform3D(fRotation,fPosition),compLogVol,
+                        componentName+"_phys",worldPhys->GetLogicalVolume(),0,0,0);
 }
 
 void eASTVDetectorComponent::ReadMaterialFile(G4String fileName)
