@@ -14,6 +14,8 @@
 #include "G4PVPlacement.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VSolid.hh"
+#include "G4Region.hh"
+#include "G4RegionStore.hh"
 #include "G4GDMLParser.hh"
 #include "G4GenericMessenger.hh"
 #include "G4VisAttributes.hh"
@@ -56,6 +58,14 @@ void eASTSupportStructure::Construct(G4VPhysicalVolume* worldPhys)
 
   G4GDMLParser parser;
   // Support structures will be placed directly to the world volume
+  // There is no envelope volume to be defined
+  // A region is created for this component and all volumes that consist
+  // of this component will share the same region.
+
+  pRegion = G4RegionStore::GetInstance()->FindOrCreateRegion(componentName+"_reg");
+  auto regInfo = new eASTRegionInformation(componentName+"_regInfo");
+  regInfo->SetSupportStructure();
+  pRegion->SetUserInformation(regInfo);
 
   // Now we read the GDML contents
   parser.Read(gdmlFileName);
@@ -81,6 +91,8 @@ void eASTSupportStructure::Construct(G4VPhysicalVolume* worldPhys)
     daughter->GetLogicalVolume()->SetVisAttributes(visAtt);
     worldPhys->GetLogicalVolume()->AddDaughter(daughter);
     daughter->SetMotherLogical(worldPhys->GetLogicalVolume());
+    daughter->GetLogicalVolume()->SetRegion(pRegion);
+    pRegion->AddRootLogicalVolume(daughter->GetLogicalVolume());
   }
   delete tempEnv;
   delete tempEnvLog;

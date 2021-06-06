@@ -22,6 +22,9 @@
 #include "G4NistManager.hh"
 #include "G4Material.hh"
 #include "G4VisAttributes.hh"
+#include "G4Region.hh"
+#include "G4RegionStore.hh"
+#include "eASTRegionInformation.hh"
 #include <algorithm>
 
 eASTDetectorConstruction* eASTDetectorConstruction::instance = nullptr;
@@ -78,6 +81,12 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
     visAtt->SetForceWireframe();
     worldLog->SetVisAttributes(visAtt);
     fWorld = new G4PVPlacement(0,G4ThreeVector(),worldLog,"worldPhys",0,0,0);
+
+    auto worldDefRegion = G4RegionStore::GetInstance()
+                                ->GetRegion("DefaultRegionForTheWorld");
+    auto worldDefRegionInfo = new eASTRegionInformation("world_RegInfo");
+    worldDefRegionInfo->SetExperimentalHall();
+    worldDefRegion->SetUserInformation(worldDefRegionInfo);
 
     for(auto comp : components)
     {
