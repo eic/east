@@ -63,7 +63,7 @@ This method is invoked only in the master thread, and the component needs UserRu
 
 ## Defining a component
 
-A component has to be instantiated in [_eAInitialization_](Core/src/eAInitialization.cc) with its unique component name. 
+A component has to be instantiated in [_eAInitialization_](../Core/src/eAInitialization.cc) with its unique component name. 
 
 The component is actually constructed only if a user issues a UI command
 ```
