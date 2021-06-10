@@ -22,6 +22,7 @@ In the future, commands for physics options will be added as well.
 ### void Construct(G4VPhysicalVolume* worldPhys)
 
 All the volumes should be constructed in this method, and the top level envelope(s) should be located to _worldPhys_ world volume.
+You can assume all the UI commands needed for configuration defined in above-mentioned _SetUp()_ method have already been applied.
 For the convenience, 
 ```
     void Locate(G4LogicalVolume* compLogVol, G4VPhysicalVolume* worldPhys);
