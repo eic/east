@@ -66,7 +66,7 @@ A component has to be instantiated in [_eAInitialization_](Core/src/eAInitializa
 
 The component is actually constructed only if a user issues a UI command
 ```
-   /eAST/component/&lt;_componentName_&gt; &lt;_verboseLevel_&gt;
+   /eAST/component/<_componentName_> <_verboseLevel_>
 ```
 
 
