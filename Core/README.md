@@ -2,7 +2,7 @@
 
 ## Installing eAST
 
-*eAST* (eA simulation toolkit) runs on top of the latest public version of Geant4 (currently version 10.7.p02). You need to install Geant4 in advance to installing eAST with the following options. Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html).
+*eAST* (eA simulation toolkit) runs on top of the latest public version of Geant4 (currently [version 10.7.p02](https://geant4.web.cern.ch/support/download)). You need to install Geant4 in advance to installing eAST with the following options. Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html).
 - GEANT4_BUILD_MULTITHREADED
 - GEANT4_USE_GDML (it requires _Xerces-C++_ pre-installed)
 - GEANT4_USE_OPENGL_X11 (if you use event display. it requires _X11_ and _OpenGL_ libraries)
