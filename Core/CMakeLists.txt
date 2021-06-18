@@ -30,16 +30,19 @@ include(${Geant4_USE_FILE})
 #
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/../PhysicsList/Base/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../PrimGenInterface/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Base/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Beampipe/include
                     ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc
                   ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/../PrimGenInterface/src/*.cc
                   ${PROJECT_SOURCE_DIR}/../Components/Base/src/*.cc
                   ${PROJECT_SOURCE_DIR}/../Components/Beampipe/src/*.cc
                   )
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
                   ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/*.hh
                   ${PROJECT_SOURCE_DIR}/../Components/Base/include/*.hh
                   ${PROJECT_SOURCE_DIR}/../Components/Beampipe/include/*.hh
                   )
