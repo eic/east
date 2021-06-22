@@ -5,6 +5,6 @@
 #include <HepMC3/GenVertex.h>
 #include <HepMC3/GenParticle.h>
 
-void HepMCDummyFunction( const HepMC3::GenParticlePtr& p, std::unique_ptr<erhic::EventHepMC>& mEvent );
+void HepMCDummyFunction( const HepMC3::GenParticlePtr& p );
 
 #endif  // HEPMCDUMMY_H_

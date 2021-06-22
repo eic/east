@@ -28,7 +28,11 @@ include(${Geant4_USE_FILE})
 # You can set eAST_USE_HepMC3 to OFF via the command line or ccmake/cmake-gui
 option(eAST_USE_HepMC3 "Build example with HepMC support, requires HepMC3" ON)
 if(eAST_USE_HepMC3)
+  message ( "---- You can specify a HepMC3 installation using \"-DHepMC3=[path/to/lib]\" " )
   find_package(HepMC3 REQUIRED HINTS ${HepMC3_DIR} ${HepMC3} )
+  message ( "-- HepMC3 library found at ${HEPMC3_LIB}" )
+  # message ( "-- HepMC3 headers found in ${HEPMC3_INCLUDE_DIR}" )
+  add_definitions(-DeAST_USE_HepMC3)
 endif()
 
 #----------------------------------------------------------------------------
@@ -55,18 +59,23 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
                   )
 
 # In order to keep using glob, we have to manually remove optional sources
-if( NOT eAST_USE_HepMC3)
+if(eAST_USE_HepMC3)
+  include_directories ( ${HEPMC3_INCLUDE_DIR} )
+else()
   list(REMOVE_ITEM sources "src/HepmcDummy.cc")
   list(REMOVE_ITEM headers "include/HepmcDummy.hh")
 endif()
 		
-		
 #----------------------------------------------------------------------------
-# Add the executable, and link it to the Geant4 libraries
+# Add the executable, and link it to external libraries
 #
 add_executable(eAST eAST.cc ${sources} ${headers})
-target_link_libraries(eAST ${Geant4_LIBRARIES})
-
+if(eAST_USE_HepMC3)
+  target_link_libraries(eAST ${Geant4_LIBRARIES}  ${HEPMC3_LIB} )
+else()
+  target_link_libraries(eAST ${Geant4_LIBRARIES})
+endif()
+  
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build RS. This is so that we can run the executable directly because it
