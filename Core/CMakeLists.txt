@@ -1,10 +1,10 @@
 #----------------------------------------------------------------------------
 # Setup the project
-cmake_minimum_required(VERSION 3.8...3.18)
+cmake_minimum_required(VERSION 3.8)
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
-project(eAST)
+project(eAST VERSION 0.1.0)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -23,6 +23,13 @@ endif()
 # Setup include directory for this project
 #
 include(${Geant4_USE_FILE})
+
+#----------------------------------------------------------------------------
+# You can set eAST_USE_HepMC3 to OFF via the command line or ccmake/cmake-gui
+option(eAST_USE_HepMC3 "Build example with HepMC support, requires HepMC3" ON)
+if(eAST_USE_HepMC3)
+  find_package(HepMC3 REQUIRED HINTS ${HepMC3_DIR} ${HepMC3} )
+endif()
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -47,6 +54,13 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
                   ${PROJECT_SOURCE_DIR}/../Components/Beampipe/include/*.hh
                   )
 
+# In order to keep using glob, we have to manually remove optional sources
+if( NOT eAST_USE_HepMC3)
+  list(REMOVE_ITEM sources "src/HepmcDummy.cc")
+  list(REMOVE_ITEM headers "include/HepmcDummy.hh")
+endif()
+		
+		
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
