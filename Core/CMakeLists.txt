@@ -96,7 +96,21 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS eAST DESTINATION bin)
+install(TARGETS eAST
+  EXPORT east-export
+  DESTINATION bin)
 # Below should go into share?
 install(FILES DESTINATION bin)
+
+#----------------------------------------------------------------------------
+## Generate and install cmake configuration file
+install(EXPORT east-export
+  FILE
+    eastConfig.cmake
+  NAMESPACE
+    east::
+  DESTINATION
+  cmake
+  )
+
 
