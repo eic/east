@@ -33,6 +33,7 @@ class eASTActionInitialization : public G4VUserActionInitialization
     G4GenericMessenger* generatorMsg;
     G4bool useParticleGun = false;
     G4bool useParticleSource = true;
+    G4bool useHepMC3Interface = false;
 };
 
 #endif
