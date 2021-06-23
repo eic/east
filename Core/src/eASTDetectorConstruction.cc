@@ -13,6 +13,7 @@
 
 #include "eASTDetectorConstructionMessenger.hh"
 #include "eASTVDetectorComponent.hh"
+#include "eASTMagneticField.hh"
 
 #include "G4RunManager.hh"
 #include "G4VPhysicalVolume.hh"
@@ -101,6 +102,11 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
       comp.second->ConstructActionForMaster();
     }
   }
+
+  // Load magnetic field
+  G4cout << "Creating magnetic field" << G4endl;
+  fField = new eASTMagneticField();
+
   return fWorld;
 }
 
