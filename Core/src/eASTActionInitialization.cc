@@ -5,6 +5,7 @@
 //
 // History
 //   May 8th, 2021 : first implementation - Makoto Asai (SLAC)
+//   June 23rd, 2021 : Add HepMC3INterface - Makoto Asai (SLAC)
 //
 // ********************************************************************
 
@@ -28,6 +29,10 @@ eASTActionInitialization::eASTActionInitialization()
                 useParticleSource, "use General Particle Source");
   useParticleSourceCmd.SetStates(G4State_PreInit);
   useParticleSourceCmd.SetToBeBroadcasted(false);
+  auto& useHepMC3InterfaceCmd = generatorMsg->DeclareProperty("useHepMC3",
+                useHepMC3Interface, "use HepMC3 interface");
+  useHepMC3InterfaceCmd.SetStates(G4State_PreInit);
+  useHepMC3InterfaceCmd.SetToBeBroadcasted(false);
 }
 
 eASTActionInitialization::~eASTActionInitialization()
@@ -44,14 +49,14 @@ void eASTActionInitialization::BuildForMaster() const
 void eASTActionInitialization::Build() const
 {
   SetUserAction(new eASTRunAction);
-  if(!useParticleGun && !useParticleSource)
+  if(!useParticleGun && !useParticleSource && !useHepMC3Interface)
   {
     G4ExceptionDescription ed;
-    ed << "Neither Particle Gun nor General Particle Source is selected.\n"
-       << "No way to generate primary particles!!!\n"
-       << "Use /eAST/generator/useParticleGun or /eAST/generator/useParticleSource command.";
+    ed << "No way to generate primary particles!!!\n"
+       << "Use command(s) in /eAST/generator/ to define at least one primary generator.";
     G4Exception("eASTActionInitialization::Build()","eAST0001",FatalException,ed);
   }
-  SetUserAction(new eASTPrimaryGeneratorAction(useParticleGun,useParticleSource));
+  SetUserAction(new eASTPrimaryGeneratorAction(useParticleGun,useParticleSource,
+                                               useHepMC3Interface));
 }  
 

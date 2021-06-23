@@ -5,6 +5,7 @@
 //
 // History
 //  May 8th, 2021 : first implementation - Makoto Asai (SLAC)
+//  June 23rd, 2021 : Add eASTHepMC3Interface - Makoto Asai (SLAC)
 //
 // ********************************************************************
 
@@ -16,12 +17,13 @@
 
 class G4ParticleGun;
 class G4GeneralParticleSource;
+class eASTHepMC3Interface;
 class G4Event;
 
 class eASTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    eASTPrimaryGeneratorAction(G4bool,G4bool);
+    eASTPrimaryGeneratorAction(G4bool,G4bool,G4bool);
     virtual ~eASTPrimaryGeneratorAction();
     
     virtual void GeneratePrimaries(G4Event*);
@@ -29,6 +31,7 @@ class eASTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4ParticleGun* fParticleGun = nullptr;
     G4GeneralParticleSource* fParticleSource = nullptr;
+    eASTHepMC3Interface* fHepMC3Interface = nullptr;
 };
 
 #endif

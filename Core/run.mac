@@ -33,14 +33,22 @@
 #######################################################
 
 #######################################################
+# Selection of primary generator
+#######################################################
+/eAST/generator/useParticleGun 0
+/eAST/generator/useParticleSource 1
+/eAST/generator/useHepMC3 0
+
+#######################################################
 # eAST and Geant4 initialization
 #######################################################
 /eAST/initialize
 
 #######################################################
-# Selection of primary particle source
+# Set up general particle source if it is used
 #######################################################
-/control/execute gps_point.mac
+/control/getVal ifGPS /eAST/generator/useParticleSource
+/control/doif {ifGPS} > 0 /control/execute gps_point.mac
 
 #######################################################
 # Define probes and scorers
