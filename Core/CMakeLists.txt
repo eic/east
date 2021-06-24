@@ -62,8 +62,8 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
 if(eAST_USE_HepMC3)
   include_directories ( ${HEPMC3_INCLUDE_DIR} )
 else()
-  list(REMOVE_ITEM sources "src/HepmcDummy.cc")
-  list(REMOVE_ITEM headers "include/HepmcDummy.hh")
+  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/src/HepmcDummy.cc")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/include/HepmcDummy.hh")
 endif()
 		
 #----------------------------------------------------------------------------
