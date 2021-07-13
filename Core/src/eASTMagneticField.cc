@@ -16,7 +16,7 @@
 #include <fstream>
 
 // Set location of cell vertices
-const char eASTMagneticField::kLinearMap[8][3] = {
+const int eASTMagneticField::kLinearMap[8][3] = {
     {0, 0, 0},  // 00
     {0, 0, 1},
     {0, 1, 0},
@@ -26,7 +26,7 @@ const char eASTMagneticField::kLinearMap[8][3] = {
     {1, 1, 0},
     {1, 1, 1},
 };
-const char eASTMagneticField::kCubicMap[64][3] = {
+const int eASTMagneticField::kCubicMap[64][3] = {
     {-1, -1, -1},  // 00
     {-1, -1, 0},
     {-1, -1, 1},
@@ -200,6 +200,7 @@ void eASTMagneticField::GetFieldValue(const G4double point[4], G4double *cartesi
     point[2],
     atan2(point[1], point[0])
   };
+  G4cout << polar[0] << " " << polar[1] << " " << polar[2] << G4endl;
 
   // Determine cell and local coordinate
   unsigned int index[3] = {0, 0, 0};
@@ -208,10 +209,12 @@ void eASTMagneticField::GetFieldValue(const G4double point[4], G4double *cartesi
     index[i] = (int) floor ((polar[i]/fGridUnit[i] - std::get<0>(fGridExtent[i])) / std::get<1>(fGridExtent[i]));
     local[i] = (polar[i]/fGridUnit[i] - std::get<0>(fGridExtent[i]) - index[i] * std::get<1>(fGridExtent[i])) / std::get<1>(fGridExtent[i]);
   }
+  G4cout << index[0] << " " << index[1] << " " << index[2] << G4endl;
+  G4cout << local[0] << " " << local[1] << " " << local[2] << G4endl;
 
   // Get cell corner values
   size_t n = 8;
-  const char (*map)[3] = kLinearMap;
+  const int (*map)[3] = kLinearMap;
   switch (fInterpolationType) {
     case kLinear:
       map = kLinearMap;
@@ -230,7 +233,9 @@ void eASTMagneticField::GetFieldValue(const G4double point[4], G4double *cartesi
           fMap[j][index[0] + map[i][0]][index[1] + map[i][1]][index[2] + map[i][2]] :
           fMap[j][index[0] + map[i][0]][index[1] + map[i][1]][0]
         );
+      G4cout << values[j][i] << " ";
     }
+    G4cout << " at (" << map[i][0] << "," << map[i][1] << "," << map[i][2] << ")" << G4endl;
   }
 
   // Interpolate in cylindrical components
@@ -238,10 +243,19 @@ void eASTMagneticField::GetFieldValue(const G4double point[4], G4double *cartesi
   for (unsigned int j = 0; j < 3; j++) {
     cylindrical[j] = _trilinearInterpolate(values[j], local);
   }
+  G4cout << cylindrical[0] << " " << cylindrical[1] << " " << cylindrical[2] << G4endl;
+  G4cout << polar[0] << " " << polar[1] << " " << polar[2] << G4endl;
 
-  // Rotate into cartesian coordinates: cartesian
-  cartesian[0] = (cylindrical[0] * point[1] - cylindrical[2] * point[0]) / polar[0];
-  cartesian[1] = (cylindrical[2] * point[0] + cylindrical[0] * point[1]) / polar[0];
+  // Rotate into cartesian coordinates:
+  //  cartesian[Bx,By,Bz], point[x,y,z]
+  //  cylindrical[Br,Bz,Bphi], polar[r,z,phi]
+  if (polar[0] > 0) {
+    cartesian[0] = (cylindrical[0] * point[0] - cylindrical[2] * point[1]) / polar[0];
+    cartesian[1] = (cylindrical[2] * point[0] + cylindrical[0] * point[1]) / polar[0];
+  } else {
+    cartesian[0] = cylindrical[0] * cos(polar[2]) - cylindrical[2] * sin(polar[2]);
+    cartesian[1] = cylindrical[2] * cos(polar[2]) + cylindrical[0] * sin(polar[2]);
+  }
   cartesian[2] = cylindrical[1];
 }
 
@@ -249,8 +263,8 @@ void eASTMagneticField::PrintFieldValue(const G4ThreeVector& point)
 {
   G4double B[3];
   G4double p[4] = {point.x(), point.y(), point.z(), 0.0};
-  G4cout << "B" << point << " = ";
+  G4cout << "B" << point/CLHEP::m << " [m] = ";
   GetFieldValue(p, B);
-  for (unsigned int i = 0; i < 3; i++) G4cout << B[i] << " ";
-  G4cout << G4endl;
+  for (unsigned int i = 0; i < 3; i++) G4cout << B[i]/CLHEP::tesla << " ";
+  G4cout << "[T]" << G4endl;
 }

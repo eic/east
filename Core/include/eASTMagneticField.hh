@@ -13,6 +13,7 @@
 
 #include "G4MagneticField.hh"
 #include "G4GenericMessenger.hh"
+#include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
 #include <vector>
@@ -22,8 +23,8 @@ class eASTMagneticField : public G4MagneticField {
 
   private:
     // Static maps to indices of neighboring points
-    static const char kLinearMap[8][3];
-    static const char kCubicMap[64][3];
+    static const int kLinearMap[8][3];
+    static const int kCubicMap[64][3];
 
   public:
 
@@ -53,8 +54,8 @@ class eASTMagneticField : public G4MagneticField {
   private:
 
     // Map units and extent
-    double fFieldUnit{1.0};
-    std::array<double,3> fGridUnit{1.0, 1.0, 1.0};
+    double fFieldUnit{CLHEP::tesla};
+    std::array<double,3> fGridUnit{CLHEP::cm, CLHEP::cm, CLHEP::deg};
     std::array<std::tuple<double,double,double>,3> fGridExtent; // min, max, spacing
 
   public:
