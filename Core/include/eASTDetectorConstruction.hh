@@ -18,8 +18,8 @@
 
 class eASTDetectorConstructionMessenger;
 class eASTVDetectorComponent;
+class eASTMagneticField;
 class G4VPhysicalVolume;
-class G4MagneticField;
 
 class eASTDetectorConstruction : public G4VUserDetectorConstruction
 {
@@ -38,7 +38,7 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
   private:
     eASTDetectorConstructionMessenger* messenger;
     G4VPhysicalVolume* fWorld = nullptr;
-    G4MagneticField* fField = nullptr;
+    eASTMagneticField* fField = nullptr;
 
   public:
     void RegisterComponent(G4String,eASTVDetectorComponent*);
@@ -60,6 +60,9 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
     G4bool GetMaterial(G4String&);
     G4int SetMaterial(G4String&,G4String&);
 
+    void SetMagneticField(eASTMagneticField* field) {
+      fField = field;
+    }
 };
 
 #endif

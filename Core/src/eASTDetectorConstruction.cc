@@ -103,10 +103,6 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
     }
   }
 
-  // Load magnetic field
-  G4cout << "Creating magnetic field" << G4endl;
-  fField = new eASTMagneticField();
-
   return fWorld;
 }
 
@@ -117,12 +113,17 @@ namespace
 }
 
 void eASTDetectorConstruction::ConstructSDAndField()
-{ 
+{
   G4AutoLock l(&constructSDAndFieldMutex);
   for(auto comp : components)
   {
     comp.second->ConstructSD();
     comp.second->ConstructActions();
+  }
+
+  G4cout << "##### Activating magnetic field........." << G4endl;
+  if (fField) {
+    fField->Activate();
   }
 }
 
