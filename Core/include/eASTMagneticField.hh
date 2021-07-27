@@ -18,24 +18,44 @@
 
 #include <vector>
 
+class G4EquationOfMotion;
+class G4MagIntegratorStepper;
+class G4ChordFinder;
+class G4FieldManager;
+class G4PropagatorInField;
 
-class eASTMagneticField : public G4MagneticField {
+class eASTMagneticFieldMap {
+
+  public:
+    eASTMagneticFieldMap(const G4String& name);
+    ~eASTMagneticFieldMap() = default;
 
   private:
+
     // Static maps to indices of neighboring points
     static const int kLinearMap[8][3];
     static const int kCubicMap[64][3];
 
+  private:
+
+    // Field name
+    G4String fName{""};
+
   public:
 
-    eASTMagneticField();
-    ~eASTMagneticField() = default;
-
     // Load field map from filename
-    bool LoadFieldMap(const G4String& filename);
+    bool Load(const G4String& filename);
 
     // Get field value at point
-    void GetFieldValue(const G4double point[4], G4double *field) const;
+    void GetFieldValue(const G4double point[4], G4double *field) const {
+      field[0] = 0;
+      field[1] = 0;
+      field[2] = 0;
+      AddFieldValue(point, field);
+    };
+
+    // Add field value at point
+    void AddFieldValue(const G4double point[4], G4double *field) const;
 
     // Print field value at point
     void PrintFieldValue(const G4ThreeVector& point);
@@ -43,7 +63,7 @@ class eASTMagneticField : public G4MagneticField {
   private:
 
     // Field messenger
-    G4GenericMessenger fFieldMessenger;
+    G4GenericMessenger fFieldMapMessenger;
 
   private:
 
@@ -142,6 +162,64 @@ class eASTMagneticField : public G4MagneticField {
       c[3] = _bicubicInterpolate(&(p[48]), &(x[1]));
       return _cubicInterpolate(c, x[0]);
     }
+
+};
+
+class eASTMagneticField : public G4MagneticField {
+
+  public:
+
+    eASTMagneticField();
+    ~eASTMagneticField() = default;
+
+    // Activate in ConstuctSDandField
+    void Activate();
+
+    // Create new field
+    void CreateField(const G4String& name);
+
+    // Get field value at point
+    void GetFieldValue(const G4double point[4], G4double *field) const {
+      field[0] = 0;
+      field[1] = 0;
+      field[2] = 0;
+      for (auto &map: fMaps) {
+        map.AddFieldValue(point, field);
+      }
+    };
+
+    // Print field value at point
+    void PrintFieldValue(const G4ThreeVector& point) {
+      for (auto &map: fMaps) {
+        map.PrintFieldValue(point);
+      }
+    };
+
+  private:
+
+    // Field messenger
+    G4GenericMessenger fFieldMessenger;
+
+  private:
+
+    // Field maps
+    std::vector<eASTMagneticFieldMap> fMaps;
+
+  private:
+
+    G4double fMinStep{0.01*mm};
+    G4double fDeltaChord{3.0*mm};
+    G4double fDeltaOneStep{0.01*mm};
+    G4double fDeltaIntersection{0.1*mm};
+    G4double fEpsMin{1.0e-5*mm};
+    G4double fEpsMax{1.0e-4*mm};
+
+    G4EquationOfMotion*     fEquation{nullptr};
+    G4int                   fEquationDoF{0};
+    G4FieldManager*         fFieldManager{nullptr};
+    G4PropagatorInField*    fFieldPropagator{nullptr};
+    G4MagIntegratorStepper* fStepper{nullptr};
+    G4ChordFinder*          fChordFinder{nullptr};
 
 };
 
