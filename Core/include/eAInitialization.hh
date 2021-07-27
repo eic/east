@@ -15,6 +15,7 @@
 
 class eASTDetectorConstruction;
 class G4VModularPhysicsList;
+class eASTMagneticField;
 class eASTActionInitialization;
 class G4GenericMessenger;
 class G4UIExecutive;
@@ -30,6 +31,7 @@ class eAInitialization
   private:
     eASTDetectorConstruction* detector;
     G4VModularPhysicsList* physics;
+    eASTMagneticField* field;
     eASTActionInitialization* actionInitialization;
 
     G4GenericMessenger* messenger;
