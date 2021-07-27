@@ -201,10 +201,23 @@ void eASTMagneticFieldMap::AddFieldValue(const G4double point[4], G4double *cart
     local[i] = (polar[i]/fGridUnit[i] - std::get<0>(fGridExtent[i]) - index[i] * std::get<2>(fGridExtent[i])) / std::get<2>(fGridExtent[i]);
   }
 
+  // Fall back to linear interpolation at boundary layer
+  EInterpolationType interpolation = fInterpolationType;
+  if (interpolation == kCubic) {
+    if ((index[0] == 0)
+     || (index[1] == 0)
+     || (index[2] == 0 && fFileFormat == kFileFormatRZPhi)
+     || (index[0] == fGridSize[0] - 2)
+     || (index[1] == fGridSize[1] - 2)
+     || (index[2] == fGridSize[2] - 2 && fFileFormat == kFileFormatRZPhi)) {
+      interpolation = kLinear;
+    }
+  }
+
   // Get cell corner values
   size_t n = 8;
   const int (*map)[3] = kLinearMap;
-  switch (fInterpolationType) {
+  switch (interpolation) {
     case kLinear:
       map = kLinearMap;
       n = 8;
