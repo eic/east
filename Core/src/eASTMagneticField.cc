@@ -106,12 +106,12 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
   // Determine map type
   if (std::get<0>(fGridExtent[2]) == std::get<1>(fGridExtent[2])) {
     G4cout << "Assuming axially symmetric 2D grid." << G4endl;
-    fFileFormat = kFileFormat2D;
     fGridSize[2] = 1;
+    fFileFormat = kFileFormatRZ;
   } else {
-    fFileFormat = kFileFormat3D;
     G4cout << "Assuming R,Z,Phi grid." << G4endl;
     fGridSize[2] = (int) rint (std::get<1>(fGridExtent[2]) - std::get<0>(fGridExtent[2])) / std::get<2>(fGridExtent[2]) + 1;
+    fFileFormat = kFileFormatRZPhi;
   }
 
   // Resize map
@@ -131,7 +131,7 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
     double polar[3] = {0.0, 0.0, 0.0};
     double field[3] = {0.0, 0.0, 0.0};
     switch (fFileFormat) {
-      case kFileFormat3D:
+      case kFileFormatRZPhi:
         if (! (inputfile >>
                polar[0] >> polar[1] >> polar[2] >>
                field[0] >> field[1] >> field[2])) {
@@ -140,7 +140,7 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
           return false;
         }
         break;
-      case kFileFormat2D:
+      case kFileFormatRZ:
         if (! (inputfile >>
                polar[0] >> polar[1] >>
                field[0] >> field[1])) {
@@ -157,7 +157,7 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
 
     // Determine grid index
     unsigned int index[3] = {0, 0, 0};
-    for (unsigned int i = 0; i < (fFileFormat == kFileFormat3D ? 3: 2); i++) {
+    for (unsigned int i = 0; i < (fFileFormat == kFileFormatRZPhi ? 3: 2); i++) {
       index[i] = (int) rint ((polar[i] - std::get<0>(fGridExtent[i])) / std::get<2>(fGridExtent[i]));
     }
     for (unsigned int i = 0; i < 3; i++) {
@@ -196,7 +196,7 @@ void eASTMagneticFieldMap::AddFieldValue(const G4double point[4], G4double *cart
   // Determine cell and local coordinate
   unsigned int index[3] = {0, 0, 0};
   double local[3] = {0.0, 0.0, 0.0};
-  for (unsigned int i = 0; i < (fFileFormat == kFileFormat3D ? 3: 2); i++) {
+  for (unsigned int i = 0; i < (fFileFormat == kFileFormatRZPhi ? 3: 2); i++) {
     index[i] = (int) floor ((polar[i]/fGridUnit[i] - std::get<0>(fGridExtent[i])) / std::get<2>(fGridExtent[i]));
     local[i] = (polar[i]/fGridUnit[i] - std::get<0>(fGridExtent[i]) - index[i] * std::get<2>(fGridExtent[i])) / std::get<2>(fGridExtent[i]);
   }
@@ -218,7 +218,7 @@ void eASTMagneticFieldMap::AddFieldValue(const G4double point[4], G4double *cart
   for (unsigned int i = 0; i < n; i++) {
     for (unsigned int j = 0; j < 3; j++) {
       values[j][i] =
-        (fFileFormat == kFileFormat3D ?
+        (fFileFormat == kFileFormatRZPhi ?
           fMap[j][index[0] + map[i][0]][index[1] + map[i][1]][index[2] + map[i][2]] :
           fMap[j][index[0] + map[i][0]][index[1] + map[i][1]][0]
         );

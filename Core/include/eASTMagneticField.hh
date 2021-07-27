@@ -68,7 +68,7 @@ class eASTMagneticFieldMap {
   private:
 
     // File format
-    enum EFileFormat {kFileFormatUndefined, kFileFormat3D, kFileFormat2D};
+    enum EFileFormat {kFileFormatUndefined, kFileFormatRZPhi, kFileFormatRZ};
     EFileFormat fFileFormat{kFileFormatUndefined};
 
   private:
