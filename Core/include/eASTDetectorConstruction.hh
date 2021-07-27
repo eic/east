@@ -27,7 +27,7 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
     eASTDetectorConstruction();
     virtual ~eASTDetectorConstruction();
     virtual G4VPhysicalVolume* Construct();
-    virtual void ConstructSDAndField();
+    virtual void ConstructSDandField();
 
   public:
     static eASTDetectorConstruction* Instance();

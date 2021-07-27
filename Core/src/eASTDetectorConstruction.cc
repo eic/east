@@ -109,12 +109,12 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
 #include "G4AutoLock.hh"
 namespace
 {
-  G4Mutex constructSDAndFieldMutex = G4MUTEX_INITIALIZER;
+  G4Mutex constructSDandFieldMutex = G4MUTEX_INITIALIZER;
 }
 
-void eASTDetectorConstruction::ConstructSDAndField()
+void eASTDetectorConstruction::ConstructSDandField()
 {
-  G4AutoLock l(&constructSDAndFieldMutex);
+  G4AutoLock l(&constructSDandFieldMutex);
   for(auto comp : components)
   {
     comp.second->ConstructSD();
