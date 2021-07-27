@@ -19,6 +19,7 @@
 /eAST/field/central/extent 0    (0.0,398.0,2.0)
 /eAST/field/central/extent 1 (-600.0,598.0,2.0)
 /eAST/field/central/fieldunit tesla
+/eAST/field/central/type cubic
 /eAST/field/central/load data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
 
 /eAST/field/print (0.0, 0.0, 0.0)
