@@ -77,6 +77,7 @@ class eASTMagneticFieldMap {
     double fFieldUnit{CLHEP::tesla};
     std::array<double,3> fGridUnit{CLHEP::cm, CLHEP::cm, CLHEP::deg};
     std::array<std::tuple<double,double,double>,3> fGridExtent; // min, max, spacing
+    std::array<unsigned int,3> fGridSize{0,0,0};
 
   public:
 

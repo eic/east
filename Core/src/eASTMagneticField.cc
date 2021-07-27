@@ -93,11 +93,10 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
   }
 
   // Determine grid size for i = 0,1
-  unsigned int count[3] = {0, 0, 0};
   for (unsigned int i = 0; i < 2; i++) {
     if (std::get<0>(fGridExtent[i]) < std::get<1>(fGridExtent[i])
      && std::get<2>(fGridExtent[i]) > 0) {
-      count[i] = (int) rint (std::get<1>(fGridExtent[i]) - std::get<0>(fGridExtent[i])) / std::get<2>(fGridExtent[i]) + 1;
+      fGridSize[i] = (int) rint (std::get<1>(fGridExtent[i]) - std::get<0>(fGridExtent[i])) / std::get<2>(fGridExtent[i]) + 1;
     } else {
       G4cerr << "ERROR: unable to read grid." << G4endl;
       return false;
@@ -107,19 +106,19 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
   // Determine map type
   if (std::get<0>(fGridExtent[2]) == std::get<1>(fGridExtent[2])) {
     G4cout << "Assuming axially symmetric 2D grid." << G4endl;
-    count[2] = 1;
     fFileFormat = kFileFormat2D;
+    fGridSize[2] = 1;
   } else {
-    G4cout << "Assuming 3D grid." << G4endl;
-    count[2] = (int) rint (std::get<1>(fGridExtent[2]) - std::get<0>(fGridExtent[2])) / std::get<2>(fGridExtent[2]) + 1;
     fFileFormat = kFileFormat3D;
+    G4cout << "Assuming R,Z,Phi grid." << G4endl;
+    fGridSize[2] = (int) rint (std::get<1>(fGridExtent[2]) - std::get<0>(fGridExtent[2])) / std::get<2>(fGridExtent[2]) + 1;
   }
 
   // Resize map
   fMap.resize(3,
-    std::vector<std::vector<std::vector<double>>>(count[0],
-      std::vector<std::vector<double>>(count[1],
-        std::vector<double>(count[2],
+    std::vector<std::vector<std::vector<double>>>(fGridSize[0],
+      std::vector<std::vector<double>>(fGridSize[1],
+        std::vector<double>(fGridSize[2],
           0.0
         )
       )
@@ -168,8 +167,8 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
   }
 
   // Check total entries read
-  if (counter != count[0] * count[1] * count[2]) {
-    G4cout << "ERROR: expected " << count[0] * count[1] * count[2] << " entries "
+  if (counter != fGridSize[0] * fGridSize[1] * fGridSize[2]) {
+    G4cout << "ERROR: expected " << fGridSize[0] * fGridSize[1] * fGridSize[2] << " entries "
            << "but read " << counter << G4endl;
     return false;
   }
