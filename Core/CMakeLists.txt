@@ -67,6 +67,18 @@ else()
 endif()
 		
 #----------------------------------------------------------------------------
+# Add the field maps
+#
+file(DOWNLOAD
+  https://github.com/eic/BeastMagneticField/raw/master/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords_%5Bcm%5D_%5BT%5D.120000.lines.Bmap
+  ${PROJECT_SOURCE_DIR}/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+)
+file(DOWNLOAD
+  https://github.com/eic/BeastMagneticField/raw/master/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords_%5Bcm%5D_%5BT%5D.401301.line.Bmap
+  ${PROJECT_SOURCE_DIR}/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap
+)
+
+#----------------------------------------------------------------------------
 # Add the executable, and link it to external libraries
 #
 add_executable(eAST eAST.cc ${sources} ${headers})

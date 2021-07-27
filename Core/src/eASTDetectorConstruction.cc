@@ -13,6 +13,7 @@
 
 #include "eASTDetectorConstructionMessenger.hh"
 #include "eASTVDetectorComponent.hh"
+#include "eASTMagneticField.hh"
 
 #include "G4RunManager.hh"
 #include "G4VPhysicalVolume.hh"
@@ -101,22 +102,28 @@ G4VPhysicalVolume* eASTDetectorConstruction::Construct()
       comp.second->ConstructActionForMaster();
     }
   }
+
   return fWorld;
 }
 
 #include "G4AutoLock.hh"
 namespace
 {
-  G4Mutex constructSDAndFieldMutex = G4MUTEX_INITIALIZER;
+  G4Mutex constructSDandFieldMutex = G4MUTEX_INITIALIZER;
 }
 
-void eASTDetectorConstruction::ConstructSDAndField()
-{ 
-  G4AutoLock l(&constructSDAndFieldMutex);
+void eASTDetectorConstruction::ConstructSDandField()
+{
+  G4AutoLock l(&constructSDandFieldMutex);
   for(auto comp : components)
   {
     comp.second->ConstructSD();
     comp.second->ConstructActions();
+  }
+
+  G4cout << "##### Activating magnetic field........." << G4endl;
+  if (fField) {
+    fField->Activate();
   }
 }
 
