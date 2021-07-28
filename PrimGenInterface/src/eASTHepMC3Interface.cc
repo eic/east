@@ -77,6 +77,18 @@ G4bool eASTHepMC3Interface::OpenFile(G4String fName)
 {
   fileName = fName;
 
+  // Make a new reader for every file.
+  // We could use a central one, but we want to differentiate between
+  // HepMC2 and HepMC3 anyway, and the smart pointer does our cleanup
+  HepMC3Reader =  make_shared<ReaderAscii>(fileName);
+
+  
+  // TODO: Need to determine version, then we can use
+  // HepMC3Reader = std::make_shared<HepMC3::ReaderAsciiHepMC2>(fileName);
+
+
+
+  
   // return false if file cannot be opened
   return true;
 }
