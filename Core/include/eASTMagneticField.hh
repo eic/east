@@ -17,6 +17,7 @@
 #include "G4UnitsTable.hh"
 
 #include <vector>
+#include <array>
 
 class G4EquationOfMotion;
 class G4MagIntegratorStepper;
