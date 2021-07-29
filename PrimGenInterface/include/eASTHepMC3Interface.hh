@@ -12,7 +12,14 @@
 #define eASTHepMC3Interface_h 1
 
 #include "G4VPrimaryGenerator.hh"
+#include "G4PrimaryVertex.hh"
 #include "globals.hh"
+
+#include <HepMC3/Reader.h>
+#include <set>
+#include <map>
+
+
 class G4Event;
 class G4GenericMessenger;
 
@@ -63,11 +70,16 @@ private:
   G4String            fileName;
   G4GenericMessenger* messenger;
 
-  std::shared_ptr<HepMC3::Reader> HepMC3Reader;
-  
   G4ThreeVector   vPosition = G4ThreeVector(0.,0.,0.);
   G4double        vTime = 0.;
   G4int           verboseLevel = 1;
+
+  std::shared_ptr<HepMC3::Reader> HepMC3Reader;
+  G4PrimaryParticle* MakeParticle ( const HepMC3::ConstGenParticlePtr hep_p,
+				    const bool safetycheck, std::set<int>& used);
+
+  std::map<int,G4PrimaryParticle*> created_daughters;
+  
 };
 
 #endif

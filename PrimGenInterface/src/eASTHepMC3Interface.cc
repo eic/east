@@ -16,11 +16,20 @@
 #include "G4GenericMessenger.hh"
 #include "G4SystemOfUnits.hh"
 
-#ifdef eAST_USE_HepMC3
+// The newer ReaderFactory is header-only and can be used for older versions
+// This file is copied verbatim from https://gitlab.cern.ch/hepmc/HepMC3
+// Copyright (C) 2014-2020 The HepMC collaboration, licensed under GPL3
+#include <HepMC3/Version.h>
+#if HEPMC3_VERSION_CODE < 3002004
+#include <HepMC_3_2_4_ReaderFactory.h>
+#else
+#include <HepMC3/ReaderFactory.h>
+#endif
+
 #include <HepMC3/GenEvent.h>
 #include <HepMC3/GenVertex.h>
 #include <HepMC3/GenParticle.h>
-#endif
+
 
 #include "G4AutoLock.hh"
 namespace { G4Mutex myHepMC3Mutex = G4MUTEX_INITIALIZER; }
@@ -78,18 +87,15 @@ G4bool eASTHepMC3Interface::OpenFile(G4String fName)
   fileName = fName;
 
   // Make a new reader for every file.
-  // We could use a central one, but we want to differentiate between
-  // HepMC2 and HepMC3 anyway, and the smart pointer does our cleanup
-  HepMC3Reader =  make_shared<ReaderAscii>(fileName);
+  // Note: This supports a variety of formats (versions 1, 2, 3, HepEct, Root)
+  //       and sources (files, streams, urls, ...)
+  HepMC3Reader = HepMC3::deduce_reader(fileName); 
 
-  
-  // TODO: Need to determine version, then we can use
-  // HepMC3Reader = std::make_shared<HepMC3::ReaderAsciiHepMC2>(fileName);
-
-
-
-  
-  // return false if file cannot be opened
+  if (HepMC3Reader->failed() ) return false;
+  if(verboseLevel>0){
+    G4cout << "eASTHepMC3Interface - " << fileName << " is open." << G4endl;
+  }
+     
   return true;
 }
 
@@ -97,26 +103,125 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
 {
   G4AutoLock mlock(&myHepMC3Mutex);
 
-/************************************************************************
-  // loop over vertecies
-  for(...)
-  {
-    auto* g4vtx = new G4PrimaryVertex(vPosition.x(),vPosition.y(),vPosition.z(),vTime);
+  //read the event
+  HepMC3::GenEvent hepevt(HepMC3::Units::GEV,HepMC3::Units::MM);
+
+  if (HepMC3Reader->failed()){
+    // Todo: Don't know if there's a correct exceptionCode
+    G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Event0201",
+		FatalException, "eASTHepMC3Interface:: cannot open input.");
+  }
+  if ( !HepMC3Reader->read_event(hepevt) ) return; // false for eof
+
+  // The root vertex is the default primary vertex
+  // There can be multiple, unconnected graphs in the event.
+  // In all cases I've seen, that is done for technical reasons,
+  // the record still only has one event, i.e. they all share the same primary vertex
+  auto pos = hepevt.event_pos();
+  auto* g4vtx  = new G4PrimaryVertex(pos.x()*mm, pos.y()*mm, pos.z()*mm, 0);
+
+  // loop over particles
+  // allowed statuses: 1 - final, 2 - decayed hadron/lepton
+  // decay daughters will be enrolled by their mothers.
+  // topological ordering in HepMC guarantees that mothers are
+  // seen first, so only need to keep track of already created ones
+  // to either ignore or reuse
+  // using the std::map created_daughters;
+
+  // better safe than sorry, detect faulty double-counting
+  bool safetycheck=true;
+  std::set<int> used;
   
-    // loop over particles
-    for(...)
-    {
-      auto* g4prim = new G4PrimaryParticle(pdgcode, p.x(), p.y(), p.z());
-      if(...)
-      // pre-assigned decay
-      { g4motherprim->SetDaughter(g4prim); }
-      else
-      // primary particle
-      { g4vtx->SetPrimary(g4prim); }
+  for(auto hep_p : hepevt.particles()) {
+
+    auto status = hep_p->status();
+    if ( status == 1 || status == 2  ) continue;
+    
+    // already created?
+    auto id = hep_p->id();
+    auto finditer=created_daughters.find( id );
+    G4PrimaryParticle* g4prim;
+    if ( finditer != created_daughters.end() ){
+      g4prim = finditer->second;
+    } else {
+      // doesn't exist already -> need to create
+      // that also means it belongs to the primary vertex
+      g4prim = MakeParticle ( hep_p, safetycheck, used );
+      g4vtx->SetPrimary(g4prim);
     }
 
-    g4event->AddPrimaryVertex(g4vtx);
+    if ( hep_p->status() == 1 ){ // final
+      // Nothing else to do, but should look for sanity
+      if ( hep_p->children().size() !=0 ){
+	// This should never happen
+	G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","HepmcStatus",
+		    FatalException, "eASTHepMC3Interface:: status 1 but children.");
+      }
+      continue;
+    }
+    
+    
+    if ( hep_p->status() == 2 ){ // decayed, has daugthers
+      if ( hep_p->children().size() ==0 ){
+	// This should never happen
+	G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","HepmcStatus",
+		    FatalException, "eASTHepMC3Interface:: status 2 but no children.");
+      }
+      // Now register daughters
+      for ( auto hep_d : hep_p->children()) {
+	auto id_d = hep_d->id();
+	auto finditer_d=created_daughters.find( id_d );
+	if ( finditer_d != created_daughters.end() ){
+	  // This should never happen
+	  G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Daughter",
+		      FatalException, "eASTHepMC3Interface:: found daughter out of order.");
+	}
+	if ( hep_p->status() == 2 || hep_p->status() == 1 ){
+	  auto g4daughter = MakeParticle ( hep_d, safetycheck, used );
+	  g4prim->SetDaughter(g4daughter);
+	  // and register
+	  created_daughters[id_d] = g4daughter;      
+	}
+      }
+    } // end of status == 1
+    
+    
+    // if(...)
+    // // pre-assigned decay
+    // { g4motherprim->SetDaughter(g4prim); }
+    // else
+    // // primary particle
+    // { g4vtx->SetPrimary(g4prim); }
+    // }
+    
+  }//particle loop
+  
+  g4event->AddPrimaryVertex(g4vtx);
+}
+
+G4PrimaryParticle* eASTHepMC3Interface::MakeParticle ( const HepMC3::ConstGenParticlePtr hep_p,
+						       const bool safetycheck, std::set<int>& used){
+  // Shouldn't see a particle more than once
+  if ( safetycheck ){
+    auto id = hep_p->id();
+    if ( used.count ( id ) ){ // contains() is c++20...
+      G4Exception("eASTHepMC3Interface::MakeParticle","Particle",
+		  FatalException, "eASTHepMC3Interface:: Double-counting particles.");
+    } else {
+      used.insert( id );
+    }
   }
-************************************************************************/
+  auto p = hep_p->momentum();
+  auto* g4prim = new G4PrimaryParticle(hep_p->pid(), p.x(), p.y(), p.z());
+  g4prim->SetPolarization(0, 0, 0);
+  
+  if ( verboseLevel > 1) { 
+    G4cout << " Made primary with pid = " << hep_p->pid()
+	   << ", status = " << hep_p->status()
+	   << " and 4-momentum = " << p.px() << " " << p.py() << " , " << p.pz() << " , " << p.e()
+	   << G4endl;
+  }
+  
+  return g4prim; 
 }
 

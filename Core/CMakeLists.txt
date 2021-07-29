@@ -61,9 +61,11 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
 # In order to keep using glob, we have to manually remove optional sources
 if(eAST_USE_HepMC3)
   include_directories ( ${HEPMC3_INCLUDE_DIR} )
+  list(APPEND headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 else()
-  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/src/HepmcDummy.cc")
-  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/include/HepmcDummy.hh")
+  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/../PrimGenInterface/src/eASTPrimaryGeneratorAction.cc")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/eASTPrimaryGeneratorAction.hh")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 endif()
 		
 #----------------------------------------------------------------------------
