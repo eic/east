@@ -58,8 +58,9 @@
 # Selection of primary generator
 #######################################################
 /eAST/generator/useParticleGun 0
-/eAST/generator/useParticleSource 1
-/eAST/generator/useHepMC3 0
+/eAST/generator/useParticleSource 0
+/eAST/generator/useHepMC3 1
+/eAST/generator/HepMC3/openFile nc_hepmc3.dat
 
 #######################################################
 # eAST and Geant4 initialization
