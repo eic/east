@@ -22,15 +22,15 @@
 /eAST/field/central/type cubic
 /eAST/field/central/load data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
 
-/eAST/field/print (0.0, 0.0, 0.0)
-/eAST/field/print (1000.0, 0.0, 0.0)
-/eAST/field/print (0.0, 1000.0, 0.0)
-/eAST/field/print (0.0, 0.0, 1000.0)
-/eAST/field/print (0.0, 1000.0, 1000.0)
-/eAST/field/print (1000.0, 0.0, 1000.0)
-/eAST/field/print (1000.0, 1000.0, 0.0)
-/eAST/field/print (1000.0, 1000.0, 1000.0)
-/eAST/field/print (0.0, 0.0, 10000.0)
+# /eAST/field/print (0.0, 0.0, 0.0)
+# /eAST/field/print (1000.0, 0.0, 0.0)
+# /eAST/field/print (0.0, 1000.0, 0.0)
+# /eAST/field/print (0.0, 0.0, 1000.0)
+# /eAST/field/print (0.0, 1000.0, 1000.0)
+# /eAST/field/print (1000.0, 0.0, 1000.0)
+# /eAST/field/print (1000.0, 1000.0, 0.0)
+# /eAST/field/print (1000.0, 1000.0, 1000.0)
+# /eAST/field/print (0.0, 0.0, 10000.0)
 
 #######################################################
 # Detector components
@@ -73,7 +73,8 @@
 /control/doif {ifGPS} > 0 /control/execute gps_point.mac
 
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
-/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc3.dat
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile "nc_hepmc3.dat"
 
 #######################################################
 # Define probes and scorers

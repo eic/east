@@ -85,6 +85,11 @@ eASTHepMC3Interface::~eASTHepMC3Interface()
 G4bool eASTHepMC3Interface::OpenFile(G4String fName)
 {
   fileName = fName;
+  G4cerr << "hello world" << G4endl;
+  G4cout << "eASTHepMC3Interface - opening " << fileName << G4endl;
+  if(verboseLevel>0){
+    G4cout << "eASTHepMC3Interface - opening " << fileName << G4endl;
+  }
 
   // Make a new reader for every file.
   // Note: This supports a variety of formats (versions 1, 2, 3, HepEct, Root)
@@ -103,6 +108,8 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
 {
   G4AutoLock mlock(&myHepMC3Mutex);
 
+  G4cerr << 1 << G4endl;
+
   //read the event
   HepMC3::GenEvent hepevt(HepMC3::Units::GEV,HepMC3::Units::MM);
 
@@ -111,7 +118,9 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
     G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Event0201",
 		FatalException, "eASTHepMC3Interface:: cannot open input.");
   }
+  G4cerr << 2 << G4endl;
   if ( !HepMC3Reader->read_event(hepevt) ) return; // false for eof
+  G4cerr << 3 << G4endl;
 
   // The root vertex is the default primary vertex
   // There can be multiple, unconnected graphs in the event.
@@ -120,6 +129,7 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
   auto pos = hepevt.event_pos();
   auto* g4vtx  = new G4PrimaryVertex(pos.x()*mm, pos.y()*mm, pos.z()*mm, 0);
 
+  G4cerr << 4 << G4endl;
   // loop over particles
   // allowed statuses: 1 - final, 2 - decayed hadron/lepton
   // decay daughters will be enrolled by their mothers.
