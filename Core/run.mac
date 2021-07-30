@@ -60,7 +60,6 @@
 /eAST/generator/useParticleGun 0
 /eAST/generator/useParticleSource 0
 /eAST/generator/useHepMC3 1
-/eAST/generator/HepMC3/openFile nc_hepmc3.dat
 
 #######################################################
 # eAST and Geant4 initialization
@@ -72,6 +71,9 @@
 #######################################################
 /control/getVal ifGPS /eAST/generator/useParticleSource
 /control/doif {ifGPS} > 0 /control/execute gps_point.mac
+
+/control/getVal ifHepMC3 /eAST/generator/useHepMC3
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc3.dat
 
 #######################################################
 # Define probes and scorers
