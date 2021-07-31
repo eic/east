@@ -17,8 +17,11 @@
 
 class G4ParticleGun;
 class G4GeneralParticleSource;
-class eASTHepMC3Interface;
 class G4Event;
+
+#ifdef eAST_USE_HepMC3
+class eASTHepMC3Interface;
+#endif // eAST_USE_HepMC3
 
 class eASTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
@@ -31,7 +34,9 @@ class eASTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   private:
     G4ParticleGun* fParticleGun = nullptr;
     G4GeneralParticleSource* fParticleSource = nullptr;
-    eASTHepMC3Interface* fHepMC3Interface = nullptr;
+#ifdef eAST_USE_HepMC3
+  eASTHepMC3Interface* fHepMC3Interface = nullptr;
+#endif // eAST_USE_HepMC3
 };
 
 #endif

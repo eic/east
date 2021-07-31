@@ -17,7 +17,10 @@
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
+
+#ifdef eAST_USE_HepMC3
 #include "eASTHepMC3Interface.hh"
+#endif //  eAST_USE_HepMC3
 
 eASTPrimaryGeneratorAction::eASTPrimaryGeneratorAction(
              G4bool useParticleGun, G4bool useParticleSource,
@@ -41,16 +44,21 @@ eASTPrimaryGeneratorAction::eASTPrimaryGeneratorAction(
   if(useParticleSource)
   { fParticleSource = new G4GeneralParticleSource(); }
 
+#ifdef eAST_USE_HepMC3
   if(useHepMC3Interface)
   { fHepMC3Interface = eASTHepMC3Interface::GetInstance(); }
+#endif // eAST_USE_HepMC3
 }
 
 eASTPrimaryGeneratorAction::~eASTPrimaryGeneratorAction()
 {
   if(fParticleGun!=nullptr) delete fParticleGun;
   if(fParticleSource!=nullptr) delete fParticleSource;
+
+#ifdef eAST_USE_HepMC3
   if(fHepMC3Interface!=nullptr && eASTHepMC3Interface::GetInstance()!=nullptr)
-  { delete fHepMC3Interface; }
+    { delete fHepMC3Interface; }
+#endif // eAST_USE_HepMC3
 }
 
 void eASTPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
