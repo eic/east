@@ -111,8 +111,6 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
 {
   G4AutoLock mlock(&myHepMC3Mutex);
 
-  G4cerr << 1 << G4endl;
-
   //read the event
   HepMC3::GenEvent hepevt(HepMC3::Units::GEV,HepMC3::Units::MM);
 
@@ -121,9 +119,7 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
     G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Event0201",
 		FatalException, "eASTHepMC3Interface:: cannot open input.");
   }
-  G4cerr << 2 << G4endl;
-  if ( !HepMC3Reader->read_event(hepevt) ) return; // false for eof
-  G4cerr << 3 << G4endl;
+  if ( !HepMC3Reader->read_event(hepevt) ) return; // reached eof
 
   // The root vertex is the default primary vertex
   // There can be multiple, unconnected graphs in the event.
@@ -132,7 +128,6 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
   auto pos = hepevt.event_pos();
   auto* g4vtx  = new G4PrimaryVertex(pos.x()*mm, pos.y()*mm, pos.z()*mm, 0);
 
-  G4cerr << 4 << G4endl;
   // loop over particles
   // allowed statuses: 1 - final, 2 - decayed hadron/lepton
   // decay daughters will be enrolled by their mothers.
@@ -148,7 +143,7 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
   for(auto hep_p : hepevt.particles()) {
 
     auto status = hep_p->status();
-    if ( status == 1 || status == 2  ) continue;
+    if ( status != 1 && status != 2  ) continue;
     
     // already created?
     auto id = hep_p->id();

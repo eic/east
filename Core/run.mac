@@ -35,12 +35,12 @@
 #######################################################
 # Detector components
 #######################################################
-/eAST/component/beampipe 1
-/eAST/component/beampipe/envelopeGdmlFile ../Components/Beampipe/data/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
-/eAST/component/beampipe/gdmlFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.gdml
-/eAST/component/beampipe/materialFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.mat
-/eAST/component/beampipe/rotate x -90. deg
-/eAST/component/beampipe/rotate y -90. deg
+# /eAST/component/beampipe 1
+# /eAST/component/beampipe/envelopeGdmlFile ../Components/Beampipe/data/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
+# /eAST/component/beampipe/gdmlFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.gdml
+# /eAST/component/beampipe/materialFile ../Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.mat
+# /eAST/component/beampipe/rotate x -90. deg
+# /eAST/component/beampipe/rotate y -90. deg
 
 /eAST/component/DIRC_support 1
 /eAST/component/DIRC_support/gdmlFile ../Components/Beampipe/data/DIRC_support_06-04-21.gdml
@@ -74,7 +74,7 @@
 
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
-/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc3.dat
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc2.dat
 
 #######################################################
 # Define probes and scorers
