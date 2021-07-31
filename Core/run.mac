@@ -74,7 +74,7 @@
 
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
-/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile "nc_hepmc3.dat"
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc3.dat
 
 #######################################################
 # Define probes and scorers
@@ -84,15 +84,15 @@
 # Define histograms for batch mode
 #######################################################
 
-#######################################################
-# Run for batch mode
-#######################################################
+# #######################################################
+# # Run for batch mode
+# #######################################################
 /control/doifBatch /run/eventModulo 0 1
 /control/doifBatch /run/beamOn 100
 
-#######################################################
-# Run for interactive mode
-#######################################################
+# #######################################################
+# # Run for interactive mode
+# #######################################################
 /control/doifInteractive /run/beamOn 0
 /control/doifInteractive /control/execute vis.mac
 

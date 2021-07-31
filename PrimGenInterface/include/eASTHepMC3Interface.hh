@@ -58,13 +58,13 @@ public:
 
   // SetGet vertex time
   void SetVertexTime(G4double t0)
-  { G4cout << " hello time " << G4endl; vTime = t0; }
+  { vTime = t0; }
   G4double GetVertexTime() const
   { return vTime; }
 
   // Verbose level
   void SetVerbose(G4int vl)
-  { G4cout << " hello verbose " << G4endl; verboseLevel = vl; }
+  { verboseLevel = vl; }
     
 private:
   G4String            fileName;

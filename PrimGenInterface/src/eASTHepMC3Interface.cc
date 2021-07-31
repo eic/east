@@ -85,8 +85,6 @@ eASTHepMC3Interface::~eASTHepMC3Interface()
 G4bool eASTHepMC3Interface::OpenFile(G4String fName)
 {
   fileName = fName;
-  G4cerr << "hello world" << G4endl;
-  G4cout << "eASTHepMC3Interface - opening " << fileName << G4endl;
   if(verboseLevel>0){
     G4cout << "eASTHepMC3Interface - opening " << fileName << G4endl;
   }
@@ -96,7 +94,12 @@ G4bool eASTHepMC3Interface::OpenFile(G4String fName)
   //       and sources (files, streams, urls, ...)
   HepMC3Reader = HepMC3::deduce_reader(fileName); 
 
-  if (HepMC3Reader->failed() ) return false;
+  if ( !HepMC3Reader || HepMC3Reader->failed() ) {
+    G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Event0201",
+		FatalException, "eASTHepMC3Interface:: cannot open input.");
+  }    
+  // if ( !HepMC3Reader || HepMC3Reader->failed() ) return false;
+  
   if(verboseLevel>0){
     G4cout << "eASTHepMC3Interface - " << fileName << " is open." << G4endl;
   }
