@@ -135,6 +135,7 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
   // seen first, so only need to keep track of already created ones
   // to either ignore or reuse
   // using the std::map created_daughters;
+  created_daughters.clear();
 
   // better safe than sorry, detect faulty double-counting
   bool safetycheck=true;
@@ -181,6 +182,15 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
 	auto finditer_d=created_daughters.find( id_d );
 	if ( finditer_d != created_daughters.end() ){
 	  // This should never happen
+	  G4cout << " PROBLEM: This primary with id = " << hep_d->id()
+		 << ", mother id = " << hep_p->id()
+		 << ", pid = " << hep_d->pid()
+		 << ", status = " << hep_d->status()
+		 << " and 4-momentum = " << hep_d->momentum().px() << " " << hep_d->momentum().py() << " , " << hep_d->momentum().pz() << " , " << hep_d->momentum().e()
+	   << G4endl;
+	  G4cout << " PROBLEM: already there with: " << G4endl;
+	  finditer_d->second->Print();
+
 	  G4Exception("eASTHepMC3Interface::GeneratePrimaryVertex","Daughter",
 		      FatalException, "eASTHepMC3Interface:: found daughter out of order.");
 	}
@@ -220,7 +230,7 @@ G4PrimaryParticle* eASTHepMC3Interface::MakeParticle ( const HepMC3::ConstGenPar
     }
   }
   auto p = hep_p->momentum();
-  auto* g4prim = new G4PrimaryParticle(hep_p->pid(), p.x(), p.y(), p.z());
+  auto* g4prim = new G4PrimaryParticle(hep_p->pid(), p.x()*GeV, p.y()*GeV, p.z()*GeV);
   g4prim->SetPolarization(0, 0, 0);
   
   if ( verboseLevel > 1) { 
