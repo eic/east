@@ -202,16 +202,6 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
 	}
       }
     } // end of status == 1
-    
-    
-    // if(...)
-    // // pre-assigned decay
-    // { g4motherprim->SetDaughter(g4prim); }
-    // else
-    // // primary particle
-    // { g4vtx->SetPrimary(g4prim); }
-    // }
-    
   }//particle loop
   
   // clean the HepMC objects
