@@ -74,7 +74,8 @@
 
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
-/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc2.dat
+# /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc2.dat
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile pythia6test.hepmc
 
 #######################################################
 # Define probes and scorers
