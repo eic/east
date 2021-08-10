@@ -29,7 +29,8 @@ include(${Geant4_USE_FILE})
 option(eAST_USE_HepMC3 "Build example with HepMC support, requires HepMC3" ON)
 if(eAST_USE_HepMC3)
   message ( "---- You can specify a HepMC3 installation using \"-DHepMC3=[path/to/lib]\" " )
-  find_package(HepMC3 REQUIRED HINTS ${HepMC3_DIR} ${HepMC3} )
+  # message ( "---- HepMC3=" ${HepMC3} )
+  find_package(HepMC3 REQUIRED HINTS ${HepMC3} ${HepMC3_DIR} )
   message ( "-- HepMC3 library found at ${HEPMC3_LIB}" )
   # message ( "-- HepMC3 headers found in ${HEPMC3_INCLUDE_DIR}" )
   add_definitions(-DeAST_USE_HepMC3)
@@ -61,9 +62,11 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
 # In order to keep using glob, we have to manually remove optional sources
 if(eAST_USE_HepMC3)
   include_directories ( ${HEPMC3_INCLUDE_DIR} )
+  list(APPEND headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 else()
-  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/src/HepmcDummy.cc")
-  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/include/HepmcDummy.hh")
+  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/../PrimGenInterface/src/eASTPrimaryGeneratorAction.cc")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/eASTPrimaryGeneratorAction.hh")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 endif()
 		
 #----------------------------------------------------------------------------

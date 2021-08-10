@@ -14,6 +14,10 @@
 #include "eASTPrimaryGeneratorAction.hh"
 #include "G4GenericMessenger.hh"
 
+#ifdef eAST_USE_HepMC3
+#include "eASTHepMC3Interface.hh"
+#endif // eAST_USE_HepMC3
+
 eASTActionInitialization::eASTActionInitialization()
 {
   filler = new G4TScoreHistFiller<G4AnalysisManager>;
@@ -29,10 +33,13 @@ eASTActionInitialization::eASTActionInitialization()
                 useParticleSource, "use General Particle Source");
   useParticleSourceCmd.SetStates(G4State_PreInit);
   useParticleSourceCmd.SetToBeBroadcasted(false);
+
+#ifdef eAST_USE_HepMC3
   auto& useHepMC3InterfaceCmd = generatorMsg->DeclareProperty("useHepMC3",
                 useHepMC3Interface, "use HepMC3 interface");
   useHepMC3InterfaceCmd.SetStates(G4State_PreInit);
   useHepMC3InterfaceCmd.SetToBeBroadcasted(false);
+#endif // eAST_USE_HepMC3
 }
 
 eASTActionInitialization::~eASTActionInitialization()
@@ -44,6 +51,13 @@ eASTActionInitialization::~eASTActionInitialization()
 void eASTActionInitialization::BuildForMaster() const
 {
   SetUserAction(new eASTRunAction);
+#ifdef eAST_USE_HepMC3
+ if(useHepMC3Interface) 
+ {
+   auto* HepMC3 = eASTHepMC3Interface::GetInstance();
+   G4cout << "eASTHepMC3Interface is instantiated ########### " << HepMC3 << G4endl;
+ }
+#endif // eAST_USE_HepMC3
 }
 
 void eASTActionInitialization::Build() const

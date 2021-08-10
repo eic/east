@@ -13,7 +13,7 @@
 
 #include "eASTVDetectorComponent.hh"
 
-class G4GenericMessenger;;
+class G4GenericMessenger;
 
 class eASTSupportStructure : public eASTVDetectorComponent
 {
