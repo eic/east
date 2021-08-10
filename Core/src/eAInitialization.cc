@@ -62,6 +62,9 @@ eAInitialization::eAInitialization(G4int verboseLvl)
 
 eAInitialization::~eAInitialization()
 {
+  delete field;
+  delete physics;
+  delete detector;
   delete messenger; 
 }
 

@@ -20,7 +20,8 @@
 #include <fstream>
 
 eASTMagneticField::eASTMagneticField()
-: fFieldMessenger(this,"/eAST/field/","Field properties")
+: fFieldDirectory("/eAST/field/"),
+  fFieldMessenger(this,"/eAST/field/","Field properties")
 {
   fFieldMessenger.DeclareMethod("create",&eASTMagneticField::CreateField,"Create magnetic field")
                  .SetStates(G4State_PreInit)
@@ -28,15 +29,6 @@ eASTMagneticField::eASTMagneticField()
   fFieldMessenger.DeclareMethod("print",&eASTMagneticField::PrintFieldValue,"Print magnetic field [mm]")
                  .SetStates(G4State_PreInit, G4State_Init, G4State_Idle)
                  .SetToBeBroadcasted(false);
-}
-
-void eASTMagneticField::Activate()
-{
-  // Point field manager to field
-  auto transportationmanager = G4TransportationManager::GetTransportationManager();
-  fFieldPropagator = transportationmanager->GetPropagatorInField();
-  fFieldManager = transportationmanager->GetFieldManager();
-  fFieldManager->SetDetectorField(this);
 
   // Set equation
   fEquation = new G4Mag_UsualEqRhs(this);
@@ -47,6 +39,22 @@ void eASTMagneticField::Activate()
   fChordFinder = new G4ChordFinder(this,fMinStep,fStepper);
   fChordFinder->GetIntegrationDriver()->SetVerboseLevel(0);
   fChordFinder->SetDeltaChord(fDeltaChord);
+}
+
+eASTMagneticField::~eASTMagneticField()
+{
+  delete fChordFinder;
+  delete fStepper;
+  delete fEquation;
+}
+
+void eASTMagneticField::Activate()
+{
+  // Point field manager to field
+  auto transportationmanager = G4TransportationManager::GetTransportationManager();
+  fFieldPropagator = transportationmanager->GetPropagatorInField();
+  fFieldManager = transportationmanager->GetFieldManager();
+  fFieldManager->SetDetectorField(this);
   fFieldManager->SetChordFinder(fChordFinder);
   fFieldManager->SetAccuraciesWithDeltaOneStep(fDeltaOneStep);
   fFieldManager->SetDeltaIntersection(fDeltaIntersection);
@@ -59,7 +67,9 @@ void eASTMagneticField::CreateField(const G4String& name) {
 }
 
 eASTMagneticFieldMap::eASTMagneticFieldMap(const G4String& name)
-: fName(name),fFieldMapMessenger(this,"/eAST/field/" + fName + "/","Field map properties")
+: fName(name),
+  fFieldMapDirectory(("/eAST/field/" + fName + "/").c_str()),
+  fFieldMapMessenger(this,"/eAST/field/" + fName + "/","Field map properties")
 {
   fFieldMapMessenger.DeclareMethod("load",&eASTMagneticFieldMap::Load,"Load magnetic field")
                     .SetStates(G4State_PreInit)
