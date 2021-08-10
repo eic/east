@@ -214,6 +214,10 @@ void eASTHepMC3Interface::GeneratePrimaryVertex(G4Event* g4event)
     
   }//particle loop
   
+  // clean the HepMC objects
+  hepevt.clear();
+
+  // set the primary vertex to G4Event
   g4event->AddPrimaryVertex(g4vtx);
 }
 
