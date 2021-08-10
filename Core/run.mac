@@ -60,7 +60,7 @@
 /eAST/generator/useParticleGun 0
 /eAST/generator/useParticleSource 0
 /eAST/generator/useHepMC3 1
-
+ 
 #######################################################
 # eAST and Geant4 initialization
 #######################################################
@@ -74,7 +74,7 @@
 
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
-/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile nc_hepmc2.dat
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile pythia6test.hepmc
 
 #######################################################
 # Define probes and scorers
@@ -88,7 +88,7 @@
 # # Run for batch mode
 # #######################################################
 /control/doifBatch /run/eventModulo 0 1
-/control/doifBatch /run/beamOn 100
+/control/doifBatch /run/beamOn 10
 
 # #######################################################
 # # Run for interactive mode
