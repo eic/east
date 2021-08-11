@@ -13,8 +13,10 @@
 
 #include "G4UserTrackingAction.hh"
 #include "globals.hh"
+#include "G4SystemOfUnits.hh"
 
 class G4Track;
+class G4GenericMessenger;
     
 class eASTTrackingAction : public G4UserTrackingAction
 {
@@ -24,6 +26,11 @@ class eASTTrackingAction : public G4UserTrackingAction
 
     virtual void PreUserTrackingAction(const G4Track*);
     virtual void PostUserTrackingAction(const G4Track*);
+
+  private:
+    G4GenericMessenger* messenger;
+    G4double lowELimit = 100. * CLHEP::MeV;
+    G4int defaultStoreTraj = 0;
 
 };
 

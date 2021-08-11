@@ -12,6 +12,7 @@
 #include "eASTActionInitialization.hh"
 #include "eASTRunAction.hh"
 #include "eASTPrimaryGeneratorAction.hh"
+#include "eASTTrackingAction.hh"
 #include "G4GenericMessenger.hh"
 
 #ifdef eAST_USE_HepMC3
@@ -63,6 +64,7 @@ void eASTActionInitialization::BuildForMaster() const
 void eASTActionInitialization::Build() const
 {
   SetUserAction(new eASTRunAction);
+  SetUserAction(new eASTTrackingAction);
   if(!useParticleGun && !useParticleSource && !useHepMC3Interface)
   {
     G4ExceptionDescription ed;

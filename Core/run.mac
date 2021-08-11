@@ -100,5 +100,6 @@
 # #######################################################
 /control/doifInteractive /run/beamOn 0
 /control/doifInteractive /control/execute vis.mac
+/control/doifInteractive /eAST/trajectory/minimumKE 100. MeV
 
 exit
