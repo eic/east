@@ -64,6 +64,7 @@ class eASTMagneticFieldMap {
   private:
 
     // Field messenger
+    G4UIdirectory fFieldMapDirectory;
     G4GenericMessenger fFieldMapMessenger;
 
   private:
@@ -172,7 +173,7 @@ class eASTMagneticField : public G4MagneticField {
   public:
 
     eASTMagneticField();
-    ~eASTMagneticField() = default;
+    virtual ~eASTMagneticField();
 
     // Activate in ConstuctSDandField
     void Activate();
@@ -200,6 +201,7 @@ class eASTMagneticField : public G4MagneticField {
   private:
 
     // Field messenger
+    G4UIdirectory fFieldDirectory;
     G4GenericMessenger fFieldMessenger;
 
   private:
