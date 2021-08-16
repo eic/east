@@ -31,7 +31,6 @@
 #include "G4ChipsKaonPlusInelasticXS.hh"
 #include "G4ChipsKaonMinusInelasticXS.hh"
 #include "G4ChipsKaonZeroInelasticXS.hh"
-#include "G4CrossSectionPairGG.hh"
 #include "G4CrossSectionElastic.hh"
 #include "G4ComponentGGHadronNucleusXsc.hh"
 #include "G4SystemOfUnits.hh"
