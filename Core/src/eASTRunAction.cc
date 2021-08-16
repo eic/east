@@ -13,6 +13,7 @@
 #include "eASTRunAction.hh"
 #include "eASTRunActionMessenger.hh"
 #include "eASTAnalysis.hh"
+#include "eASTUserActionDispatcher.hh"
 
 #include "G4Run.hh"
 #include "G4RunManager.hh"
@@ -35,7 +36,7 @@ eASTRunAction::~eASTRunAction()
   delete messenger;
 }
 
-void eASTRunAction::BeginOfRunAction(const G4Run* /*run*/)
+void eASTRunAction::BeginOfRunAction(const G4Run* run)
 { 
   // Open an output file
   //
@@ -44,6 +45,15 @@ void eASTRunAction::BeginOfRunAction(const G4Run* /*run*/)
   // Define nTuple column if needed
   //
   DefineNTColumn();
+
+  // Invoke component-specific run actions
+  //
+  auto runActions = eASTUserActionDispatcher::Instance()->GetRunActions();
+  if((runActions!=nullptr) && !(runActions->empty()))
+  {
+    for(auto ua : *runActions)
+    { ua.second->BeginOfRunAction(run); }
+  }
 }
 
 void eASTRunAction::OpenFile()
@@ -57,9 +67,18 @@ void eASTRunAction::OpenFile()
   }
 }
 
-void eASTRunAction::EndOfRunAction(const G4Run* /*run*/)
+void eASTRunAction::EndOfRunAction(const G4Run* run)
 {
   if(!ifCarry) Flush();
+
+  // Invoke component-specific run actions
+  //
+  auto runActions = eASTUserActionDispatcher::Instance()->GetRunActions();
+  if((runActions!=nullptr) && !(runActions->empty()))
+  {
+    for(auto ua : *runActions)
+    { ua.second->EndOfRunAction(run); }
+  }
 }
 
 void eASTRunAction::Flush()

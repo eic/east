@@ -1,25 +1,25 @@
 // ********************************************************************
 //
-// eASTBeamPipe.hh
+// eASTSupportStructure.hh
 //   eAST Beam pipe component
 //
 // History
-//   May 8th, 2021 : first implementation
+//   June 5th, 2021 : first implementation
 //
 // ********************************************************************
 
-#ifndef eASTBeamPipe_H
-#define eASTBeamPipe_H 1
+#ifndef eASTSupportStructure_H
+#define eASTSupportStructure_H 1
 
 #include "eASTVDetectorComponent.hh"
 
 class G4GenericMessenger;
 
-class eASTBeamPipe : public eASTVDetectorComponent
+class eASTSupportStructure : public eASTVDetectorComponent
 {
   public:
-    eASTBeamPipe(G4String compName, G4int vl = 0);
-    virtual ~eASTBeamPipe();
+    eASTSupportStructure(G4String compName, G4int vl = 0);
+    virtual ~eASTSupportStructure();
 
   public:
     virtual void SetUp();
@@ -27,14 +27,11 @@ class eASTBeamPipe : public eASTVDetectorComponent
 
   private:
     G4GenericMessenger* messenger = nullptr;
-    G4String envGdmlFileName = "*NOTDEFINED*";
     G4String gdmlFileName = "*NOTDEFINED*";
     G4String matFileName  = "*NOTDEFINED*";
     G4bool materialToBeSet = false;
 
   public:
-    void SetEnvGDML(G4String fn)
-    { envGdmlFileName = fn; }
     void SetGDML(G4String fn)
     { gdmlFileName = fn; }
     void SetMatFile(G4String fn)

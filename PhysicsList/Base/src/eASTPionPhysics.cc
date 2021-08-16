@@ -28,9 +28,8 @@
 #include "G4HadronElastic.hh"
 #include "G4ElasticHadrNucleusHE.hh"
 
-#include "G4PiNuclearCrossSection.hh"
-#include "G4CrossSectionPairGG.hh"
 #include "G4BGGPionElasticXS.hh"
+#include "G4BGGPionInelasticXS.hh"
 
 #include "G4SystemOfUnits.hh"
 
@@ -82,9 +81,6 @@ void eASTPionPhysics::ConstructProcess()
   ftfp->SetMinEnergy(10*GeV);
   ftfp->SetMaxEnergy(100*TeV);
 
-  // Inelastic cross section
-  G4VCrossSectionDataSet* piCS = new G4PiNuclearCrossSection;
-
   //////////////////////////////////////////////////////////////////////////////
   //   pi+                                                                    // 
   //////////////////////////////////////////////////////////////////////////////
@@ -102,7 +98,7 @@ void eASTPionPhysics::ConstructProcess()
   G4PionPlusInelasticProcess* pipProcInel = new G4PionPlusInelasticProcess;
   pipProcInel->RegisterMe(loInelModel);
   pipProcInel->RegisterMe(ftfp);
-  pipProcInel->AddDataSet(piCS);
+  pipProcInel->AddDataSet(new G4BGGPionInelasticXS(G4PionPlus::PionPlus() ) );
   procMan->AddDiscreteProcess(pipProcInel);
 
   //////////////////////////////////////////////////////////////////////////////
@@ -122,7 +118,7 @@ void eASTPionPhysics::ConstructProcess()
   G4PionMinusInelasticProcess* pimProcInel = new G4PionMinusInelasticProcess;
   pimProcInel->RegisterMe(loInelModel);
   pimProcInel->RegisterMe(ftfp);
-  pimProcInel->AddDataSet(piCS);
+  pimProcInel->AddDataSet(new G4BGGPionInelasticXS(G4PionMinus::PionMinus() ) );
   procMan->AddDiscreteProcess(pimProcInel);
 
   // stopping

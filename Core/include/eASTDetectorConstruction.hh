@@ -18,6 +18,7 @@
 
 class eASTDetectorConstructionMessenger;
 class eASTVDetectorComponent;
+class eASTMagneticField;
 class G4VPhysicalVolume;
 
 class eASTDetectorConstruction : public G4VUserDetectorConstruction
@@ -25,8 +26,8 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
   public:
     eASTDetectorConstruction();
     virtual ~eASTDetectorConstruction();
-    virtual G4VPhysicalVolume* Construct();
-    virtual void ConstructSDAndField();
+    virtual G4VPhysicalVolume* Construct() override;
+    virtual void ConstructSDandField() override;
 
   public:
     static eASTDetectorConstruction* Instance();
@@ -37,6 +38,7 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
   private:
     eASTDetectorConstructionMessenger* messenger;
     G4VPhysicalVolume* fWorld = nullptr;
+    eASTMagneticField* fField = nullptr;
 
   public:
     void RegisterComponent(G4String,eASTVDetectorComponent*);
@@ -58,6 +60,9 @@ class eASTDetectorConstruction : public G4VUserDetectorConstruction
     G4bool GetMaterial(G4String&);
     G4int SetMaterial(G4String&,G4String&);
 
+    void SetMagneticField(eASTMagneticField* field) {
+      fField = field;
+    }
 };
 
 #endif

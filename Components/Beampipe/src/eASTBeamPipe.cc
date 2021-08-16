@@ -12,6 +12,7 @@
 
 #include "G4VPhysicalVolume.hh"
 #include "G4PVPlacement.hh"
+#include "G4Transform3D.hh"
 #include "G4LogicalVolume.hh"
 #include "G4VSolid.hh"
 #include "G4Region.hh"
@@ -70,12 +71,6 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
     auto tempWorld = parser.GetWorldVolume();
     envelopeLog = tempWorld->GetLogicalVolume();
     delete tempWorld;
-
-    envelopeLog->SetName(componentName+"_log");
-    envelopeLog->GetSolid()->SetName(componentName+"_solid");
-
-    pEnvelopePhys = new G4PVPlacement(0,G4ThreeVector(),envelopeLog,componentName+"_phys",
-                       worldPhys->GetLogicalVolume(),0,0,0);
   }
   else
   {
@@ -147,8 +142,7 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
   regInfo->SetBeamPipe();
   pRegion->SetUserInformation(regInfo);
 
-  pEnvelopePhys = new G4PVPlacement(0,G4ThreeVector(),envelopeLog,componentName+"_phys",
-                       worldPhys->GetLogicalVolume(),0,0,0);
+  Locate(envelopeLog,worldPhys);
 
   if(materialToBeSet)
   { ReadMaterialFile(matFileName); }

@@ -16,6 +16,8 @@
 
 class eASTVDetectorComponent;
 class G4UIcmdWithAnInteger;
+class G4UIcmdWith3VectorAndUnit;
+class G4UIcommand;
 
 class eASTDetectorComponentMessenger: public G4UImessenger
 {
@@ -25,9 +27,14 @@ class eASTDetectorComponentMessenger: public G4UImessenger
     virtual void SetNewValue(G4UIcommand*,G4String);
     virtual G4String GetCurrentValue(G4UIcommand*);
 
+  public:
+    void SetUpBaseCommands(G4String);
+
   private:
     eASTVDetectorComponent* pDC;
     G4UIcmdWithAnInteger*	setupCmd;
+    G4UIcmdWith3VectorAndUnit*  locCmd;
+    G4UIcommand*                rotCmd;
 };
 
 #endif

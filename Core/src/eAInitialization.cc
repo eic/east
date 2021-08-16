@@ -12,6 +12,7 @@
 
 #include "eASTDetectorConstruction.hh"
 #include "eASTPhysicsList.hh"
+#include "eASTMagneticField.hh"
 //#include "FTFP_BERT.hh"
 #include "eASTActionInitialization.hh"
 #include "G4GenericMessenger.hh"
@@ -23,6 +24,7 @@
 #include <CLHEP/Units/SystemOfUnits.h>
 
 #include "eASTBeamPipe.hh"
+#include "eASTSupportStructure.hh"
 
 eAInitialization::eAInitialization(G4int verboseLvl)
 : verboseLevel(verboseLvl)
@@ -45,11 +47,17 @@ eAInitialization::eAInitialization(G4int verboseLvl)
 
   detector = new eASTDetectorConstruction();
   physics = new eASTPhysicsList();
-  //physics = new FTFP_BERT();
+  field = new eASTMagneticField();
+
+  detector->SetMagneticField(field);
+
   actionInitialization = new eASTActionInitialization();
 
   // EIC Detector Components
   new eASTBeamPipe("beampipe");
+  new eASTSupportStructure("DIRC_support");
+  new eASTSupportStructure("EM_CAL_support");
+
 }
 
 eAInitialization::~eAInitialization()

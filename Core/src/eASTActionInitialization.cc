@@ -5,13 +5,19 @@
 //
 // History
 //   May 8th, 2021 : first implementation - Makoto Asai (SLAC)
+//   June 23rd, 2021 : Add HepMC3INterface - Makoto Asai (SLAC)
 //
 // ********************************************************************
 
 #include "eASTActionInitialization.hh"
 #include "eASTRunAction.hh"
 #include "eASTPrimaryGeneratorAction.hh"
+#include "eASTTrackingAction.hh"
 #include "G4GenericMessenger.hh"
+
+#ifdef eAST_USE_HepMC3
+#include "eASTHepMC3Interface.hh"
+#endif // eAST_USE_HepMC3
 
 eASTActionInitialization::eASTActionInitialization()
 {
@@ -28,6 +34,13 @@ eASTActionInitialization::eASTActionInitialization()
                 useParticleSource, "use General Particle Source");
   useParticleSourceCmd.SetStates(G4State_PreInit);
   useParticleSourceCmd.SetToBeBroadcasted(false);
+
+#ifdef eAST_USE_HepMC3
+  auto& useHepMC3InterfaceCmd = generatorMsg->DeclareProperty("useHepMC3",
+                useHepMC3Interface, "use HepMC3 interface");
+  useHepMC3InterfaceCmd.SetStates(G4State_PreInit);
+  useHepMC3InterfaceCmd.SetToBeBroadcasted(false);
+#endif // eAST_USE_HepMC3
 }
 
 eASTActionInitialization::~eASTActionInitialization()
@@ -39,19 +52,27 @@ eASTActionInitialization::~eASTActionInitialization()
 void eASTActionInitialization::BuildForMaster() const
 {
   SetUserAction(new eASTRunAction);
+#ifdef eAST_USE_HepMC3
+ if(useHepMC3Interface) 
+ {
+   auto* HepMC3 = eASTHepMC3Interface::GetInstance();
+   G4cout << "eASTHepMC3Interface is instantiated ########### " << HepMC3 << G4endl;
+ }
+#endif // eAST_USE_HepMC3
 }
 
 void eASTActionInitialization::Build() const
 {
   SetUserAction(new eASTRunAction);
-  if(!useParticleGun && !useParticleSource)
+  SetUserAction(new eASTTrackingAction);
+  if(!useParticleGun && !useParticleSource && !useHepMC3Interface)
   {
     G4ExceptionDescription ed;
-    ed << "Neither Particle Gun nor General Particle Source is selected.\n"
-       << "No way to generate primary particles!!!\n"
-       << "Use /eAST/generator/useParticleGun or /eAST/generator/useParticleSource command.";
+    ed << "No way to generate primary particles!!!\n"
+       << "Use command(s) in /eAST/generator/ to define at least one primary generator.";
     G4Exception("eASTActionInitialization::Build()","eAST0001",FatalException,ed);
   }
-  SetUserAction(new eASTPrimaryGeneratorAction(useParticleGun,useParticleSource));
+  SetUserAction(new eASTPrimaryGeneratorAction(useParticleGun,useParticleSource,
+                                               useHepMC3Interface));
 }  
 
