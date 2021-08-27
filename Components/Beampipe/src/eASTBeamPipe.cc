@@ -75,7 +75,7 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
   else
   {
     // Envelope is read from a separate GDML file
-    parser.Read(gdmlFileName, m_validate_gdml);
+    parser.Read(envGdmlFileName, m_validate_gdml);
     auto tempWorld = parser.GetWorldVolume();
     auto tempWorldLog = tempWorld->GetLogicalVolume();
     auto tempWorldSolid = tempWorldLog->GetSolid();
