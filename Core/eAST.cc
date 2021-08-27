@@ -35,14 +35,15 @@ int main(int argc,char** argv)
   G4String searchpath = UImanager->GetMacroSearchPath();
   if (searchpath!="") searchpath += ":";
   searchpath += CMAKE_INSTALL_FULL_DATADIR;
-  // Also add data from the source directory to the search path
-  // This way, no "make install" should be necessary
-  if (searchpath!="") searchpath += ":";
-  searchpath += G4String(CMAKE_PROJECT_SOURCE_DIR);
+  
+  // // Also add data from the source directory to the search path
+  // // This way, no "make install" should be necessary
+  // if (searchpath!="") searchpath += ":";
+  // searchpath += G4String(CMAKE_PROJECT_SOURCE_DIR);
   
   UImanager->SetMacroSearchPath(searchpath);
   UImanager->ParseMacroSearchPath();
-  if( true || UImanager->GetVerboseLevel() >0){
+  if( UImanager->GetVerboseLevel() >0){
     G4cout << " Search path is " << UImanager->GetMacroSearchPath() << G4endl;
   }
   

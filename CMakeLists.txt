@@ -89,6 +89,12 @@ file(DOWNLOAD
   ${PROJECT_SOURCE_DIR}/Solenoid/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap
 )
 
+# Install solenoid data to CMAKE_INSTALL_FULL_DATADIR
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Solenoid/data 
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Solenoid )
+
+
 #----------------------------------------------------------------------------
 # Add the executable, and link it to external libraries
 #
@@ -122,8 +128,18 @@ endforeach()
 install(TARGETS eAST
   EXPORT east-export
   DESTINATION bin)
-# Below should go into share?
-install(FILES DESTINATION bin)
+
+
+#----------------------------------------------------------------------------
+# Install other data to CMAKE_INSTALL_FULL_DATADIR
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Core/data
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Core )
+
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Components/Beampipe/data
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Components/Beampipe )
+
 
 #----------------------------------------------------------------------------
 ## Generate and install cmake configuration file
