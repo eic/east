@@ -37,12 +37,12 @@ class eASTBeamPipe : public eASTVDetectorComponent
 
   public:
     void SetEnvGDML(G4String fn)
-    { envGdmlFileName = fn; }
+    { envGdmlFileName = LocateDataFile(fn); }
     void SetGDML(G4String fn)
-    { gdmlFileName = fn; }
+    { gdmlFileName = LocateDataFile(fn); }
     void SetMatFile(G4String fn)
     {
-      matFileName = fn;
+      matFileName = LocateDataFile(fn);
       materialToBeSet = true; 
     }
 };

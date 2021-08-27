@@ -6,6 +6,14 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 project(eAST VERSION 0.1.0)
 
+
+## This enables us to use CMAKE_INSTALL_FULL_DATADIR in the code
+## (should resolve to ${CMAKE_INSTALL_PREFIX}/share)
+include(GNUInstallDirs)
+add_definitions(-DCMAKE_INSTALL_FULL_DATADIR="${CMAKE_INSTALL_FULL_DATADIR}")
+## Also hand over the source directory for people who don't do make install
+add_definitions(-DCMAKE_PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -127,5 +135,6 @@ install(EXPORT east-export
   DESTINATION
   cmake
   )
+
 
 

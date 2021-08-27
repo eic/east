@@ -30,11 +30,26 @@ int main(int argc,char** argv)
   auto visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
 
+  // Enable seach paths for component and b-field data
+  auto UImanager = G4UImanager::GetUIpointer();
+  G4String searchpath = UImanager->GetMacroSearchPath();
+  if (searchpath!="") searchpath += ":";
+  searchpath += CMAKE_INSTALL_FULL_DATADIR;
+  // Also add data from the source directory to the search path
+  // This way, no "make install" should be necessary
+  if (searchpath!="") searchpath += ":";
+  searchpath += G4String(CMAKE_PROJECT_SOURCE_DIR);
+  
+  UImanager->SetMacroSearchPath(searchpath);
+  UImanager->ParseMacroSearchPath();
+  if( true || UImanager->GetVerboseLevel() >0){
+    G4cout << " Search path is " << UImanager->GetMacroSearchPath() << G4endl;
+  }
+  
   if ( argc == 2 ) {
     // execute an argument macro file 
     G4String command = "/control/execute ";
     G4String fileName = argv[1];
-    auto UImanager = G4UImanager::GetUIpointer();
     UImanager->ApplyCommand(command+fileName);
   }
   else {

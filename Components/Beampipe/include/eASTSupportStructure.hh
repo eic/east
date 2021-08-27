@@ -36,10 +36,10 @@ class eASTSupportStructure : public eASTVDetectorComponent
 
   public:
     void SetGDML(G4String fn)
-    { gdmlFileName = fn; }
+    { gdmlFileName = LocateDataFile(fn); }
     void SetMatFile(G4String fn)
     {
-      matFileName = fn;
+      matFileName = LocateDataFile(fn);
       materialToBeSet = true; 
     }
 };

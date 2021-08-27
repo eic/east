@@ -45,6 +45,22 @@ void eASTVDetectorComponent::Locate(G4LogicalVolume* compLogVol,
                         componentName+"_phys",worldPhys->GetLogicalVolume(),0,0,0);
 }
 
+G4String eASTVDetectorComponent::LocateDataFile( const G4String fn ) const
+{
+  if ( verboseLevel > 0 )  G4cout << "LocateDataFile: Searching for " << fn << G4endl;
+
+  if(fn == "*NOTDEFINED*"){
+    // Do nothing, let implementations decide
+    if ( verboseLevel > 0 )  G4cout << "LocateDataFile: Returning " << fn << G4endl;
+    return fn;
+  }
+  
+  auto UImanager = G4UImanager::GetUIpointer();
+  auto ret = UImanager->FindMacroPath(fn);
+  if ( verboseLevel > 0 ) G4cout << "LocateDataFile: Returning " << ret << G4endl;
+  return ret;
+}
+
 void eASTVDetectorComponent::ReadMaterialFile(G4String fileName)
 {
   enum { BUFSIZE = 128 };
