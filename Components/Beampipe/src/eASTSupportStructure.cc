@@ -22,8 +22,8 @@
 
 #include "eASTRegionInformation.hh"
 
-eASTSupportStructure::eASTSupportStructure(G4String compName, G4int vl)
-: eASTVDetectorComponent(compName,vl)
+eASTSupportStructure::eASTSupportStructure(G4String compName, G4int vl, const G4bool validate_gdml)
+  : eASTVDetectorComponent(compName,vl),  m_validate_gdml (validate_gdml)
 {;}
 
 eASTSupportStructure::~eASTSupportStructure()
@@ -68,7 +68,7 @@ void eASTSupportStructure::Construct(G4VPhysicalVolume* worldPhys)
   pRegion->SetUserInformation(regInfo);
 
   // Now we read the GDML contents
-  parser.Read(gdmlFileName);
+  parser.Read(gdmlFileName, m_validate_gdml);
   auto tempEnv = parser.GetWorldVolume();
   auto tempEnvLog = tempEnv->GetLogicalVolume();
   auto tempEnvSolid = tempEnvLog->GetSolid();

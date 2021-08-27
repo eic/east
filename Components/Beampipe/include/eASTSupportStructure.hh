@@ -18,7 +18,7 @@ class G4GenericMessenger;
 class eASTSupportStructure : public eASTVDetectorComponent
 {
   public:
-    eASTSupportStructure(G4String compName, G4int vl = 0);
+    eASTSupportStructure(G4String compName, G4int vl = 0, const G4bool validate_gdml=false);
     virtual ~eASTSupportStructure();
 
   public:
@@ -30,6 +30,9 @@ class eASTSupportStructure : public eASTVDetectorComponent
     G4String gdmlFileName = "*NOTDEFINED*";
     G4String matFileName  = "*NOTDEFINED*";
     G4bool materialToBeSet = false;
+
+  protected: 
+    const G4bool m_validate_gdml=false;
 
   public:
     void SetGDML(G4String fn)

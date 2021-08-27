@@ -23,8 +23,8 @@
 
 #include "eASTRegionInformation.hh"
 
-eASTBeamPipe::eASTBeamPipe(G4String compName, G4int vl)
-: eASTVDetectorComponent(compName,vl)
+eASTBeamPipe::eASTBeamPipe(G4String compName, G4int vl, const G4bool validate_gdml)
+  : eASTVDetectorComponent(compName,vl), m_validate_gdml (validate_gdml)
 {;}
 
 eASTBeamPipe::~eASTBeamPipe()
@@ -67,7 +67,7 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
   if(envGdmlFileName == "*NOTDEFINED*")
   {
     // Local world volume of the input GDML file is used as the envelope
-    parser.Read(gdmlFileName);
+    parser.Read(gdmlFileName, m_validate_gdml);
     auto tempWorld = parser.GetWorldVolume();
     envelopeLog = tempWorld->GetLogicalVolume();
     delete tempWorld;
@@ -75,7 +75,7 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
   else
   {
     // Envelope is read from a separate GDML file
-    parser.Read(envGdmlFileName);
+    parser.Read(gdmlFileName, m_validate_gdml);
     auto tempWorld = parser.GetWorldVolume();
     auto tempWorldLog = tempWorld->GetLogicalVolume();
     auto tempWorldSolid = tempWorldLog->GetSolid();
@@ -97,7 +97,7 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
     parser.Clear();
 
     // Now we read the beampipe contents
-    parser.Read(gdmlFileName);
+    parser.Read(gdmlFileName, m_validate_gdml);
     auto tempEnv = parser.GetWorldVolume();
     auto tempEnvLog = tempEnv->GetLogicalVolume();
     auto tempEnvSolid = tempEnvLog->GetSolid();
