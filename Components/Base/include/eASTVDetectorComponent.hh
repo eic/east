@@ -49,6 +49,8 @@ class eASTVDetectorComponent
   protected:
     // Utility method to locate the component
     void Locate(G4LogicalVolume* compLogVol, G4VPhysicalVolume* worldPhys);
+    /// Utility method to locate data files in the MacroSearchPath
+    G4String LocateDataFile( const G4String fn ) const;
 
   protected:
     // Utility methods to register component-specific

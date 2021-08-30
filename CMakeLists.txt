@@ -6,6 +6,14 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 project(eAST VERSION 0.1.0)
 
+
+## This enables us to use CMAKE_INSTALL_FULL_DATADIR in the code
+## (should resolve to ${CMAKE_INSTALL_PREFIX}/share)
+include(GNUInstallDirs)
+add_definitions(-DCMAKE_INSTALL_FULL_DATADIR="${CMAKE_INSTALL_FULL_DATADIR}")
+## Also hand over the source directory for people who don't do make install
+add_definitions(-DCMAKE_PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
 # You can set WITH_GEANT4_UIVIS to OFF via the command line or ccmake/cmake-gui
@@ -40,33 +48,33 @@ endif()
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../PhysicsList/Base/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../PrimGenInterface/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Base/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../Components/Beampipe/include
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Core/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsList/Base/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/PrimGenInterface/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/Components/Base/include
+                    ${CMAKE_CURRENT_SOURCE_DIR}/Components/Beampipe/include
                     ${Geant4_INCLUDE_DIR})
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/../PrimGenInterface/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/../Components/Base/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/../Components/Beampipe/src/*.cc
+file(GLOB sources ${PROJECT_SOURCE_DIR}/Core/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/PhysicsList/Base/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/PrimGenInterface/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/Components/Base/src/*.cc
+                  ${PROJECT_SOURCE_DIR}/Components/Beampipe/src/*.cc
                   )
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/../PhysicsList/Base/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/../Components/Base/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/../Components/Beampipe/include/*.hh
+file(GLOB headers ${PROJECT_SOURCE_DIR}/Core/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/PhysicsList/Base/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/PrimGenInterface/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/Components/Base/include/*.hh
+                  ${PROJECT_SOURCE_DIR}/Components/Beampipe/include/*.hh
                   )
 
 # In order to keep using glob, we have to manually remove optional sources
 if(eAST_USE_HepMC3)
   include_directories ( ${HEPMC3_INCLUDE_DIR} )
-  list(APPEND headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
+  list(APPEND headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 else()
-  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/../PrimGenInterface/src/eASTPrimaryGeneratorAction.cc")
-  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/eASTPrimaryGeneratorAction.hh")
-  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/../PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
+  list(REMOVE_ITEM sources "${PROJECT_SOURCE_DIR}/PrimGenInterface/src/eASTPrimaryGeneratorAction.cc")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/eASTPrimaryGeneratorAction.hh")
+  list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 endif()
 		
 #----------------------------------------------------------------------------
@@ -74,17 +82,23 @@ endif()
 #
 file(DOWNLOAD
   https://github.com/eic/BeastMagneticField/raw/master/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords_%5Bcm%5D_%5BT%5D.120000.lines.Bmap
-  ${PROJECT_SOURCE_DIR}/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+  ${PROJECT_SOURCE_DIR}/Solenoid/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
 )
 file(DOWNLOAD
   https://github.com/eic/BeastMagneticField/raw/master/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords_%5Bcm%5D_%5BT%5D.401301.line.Bmap
-  ${PROJECT_SOURCE_DIR}/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap
+  ${PROJECT_SOURCE_DIR}/Solenoid/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap
 )
+
+# Install solenoid data to CMAKE_INSTALL_FULL_DATADIR
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Solenoid/data 
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Solenoid )
+
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to external libraries
 #
-add_executable(eAST eAST.cc ${sources} ${headers})
+add_executable(eAST Core/eAST.cc ${sources} ${headers})
 if(eAST_USE_HepMC3)
   target_link_libraries(eAST ${Geant4_LIBRARIES}  ${HEPMC3_LIB} )
 else()
@@ -102,7 +116,7 @@ set(RS_SCRIPTS
 
 foreach(_script ${RS_SCRIPTS})
   configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
+    ${PROJECT_SOURCE_DIR}/Core/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
     COPYONLY
     )
@@ -114,8 +128,18 @@ endforeach()
 install(TARGETS eAST
   EXPORT east-export
   DESTINATION bin)
-# Below should go into share?
-install(FILES DESTINATION bin)
+
+
+#----------------------------------------------------------------------------
+# Install other data to CMAKE_INSTALL_FULL_DATADIR
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Core/data
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Core )
+
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Components/Beampipe/data
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Components/Beampipe )
+
 
 #----------------------------------------------------------------------------
 ## Generate and install cmake configuration file
@@ -127,5 +151,6 @@ install(EXPORT east-export
   DESTINATION
   cmake
   )
+
 
 

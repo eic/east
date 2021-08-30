@@ -18,7 +18,7 @@ class G4GenericMessenger;
 class eASTBeamPipe : public eASTVDetectorComponent
 {
   public:
-    eASTBeamPipe(G4String compName, G4int vl = 0);
+    eASTBeamPipe(G4String compName, G4int vl = 0, const G4bool validate_gdml=false);
     virtual ~eASTBeamPipe();
 
   public:
@@ -32,14 +32,17 @@ class eASTBeamPipe : public eASTVDetectorComponent
     G4String matFileName  = "*NOTDEFINED*";
     G4bool materialToBeSet = false;
 
+  protected: 
+    const G4bool m_validate_gdml=false;
+
   public:
     void SetEnvGDML(G4String fn)
-    { envGdmlFileName = fn; }
+    { envGdmlFileName = LocateDataFile(fn); }
     void SetGDML(G4String fn)
-    { gdmlFileName = fn; }
+    { gdmlFileName = LocateDataFile(fn); }
     void SetMatFile(G4String fn)
     {
-      matFileName = fn;
+      matFileName = LocateDataFile(fn);
       materialToBeSet = true; 
     }
 };

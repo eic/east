@@ -11,6 +11,7 @@
 #include "eASTMagneticField.hh"
 
 #include "G4TransportationManager.hh"
+#include "G4UImanager.hh"
 #include "G4FieldManager.hh"
 
 #include "G4PropagatorInField.hh"
@@ -86,9 +87,17 @@ bool eASTMagneticFieldMap::Load(const G4String& filename)
   // Do not reload map
   if (! fMap.empty()) return false;
 
+  // should protect G4cout's with if ( verboseLevel > 0 ),
+  // but this class doesn't have one
+  G4cout << "Locate Magnet map: Searching for " << filename << G4endl;  
+  auto UImanager = G4UImanager::GetUIpointer();
+  auto fullfile  = UImanager->FindMacroPath(filename);
+  G4cout << "Locate Magnet map: Using" << fullfile << G4endl;
+
   // Create ifstream
-  std::ifstream inputfile(filename);
-  if (! inputfile.good()) {
+  std::ifstream inputfile(fullfile);
+  if (!inputfile.good()) {
+    G4cout << "WARNING: Couldn't open " << fullfile << G4endl;  
     return false;
   }
 
