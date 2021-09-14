@@ -1,0 +1,25 @@
+name: CMake Build with LCG on CVMFS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        LCG: ["LCG_99/x86_64-centos7-clang10-opt",
+              "LCG_99/x86_64-centos7-gcc10-opt",
+              "LCG_99/x86_64-centos8-gcc10-opt",
+              "LCG_99/x86_64-ubuntu2004-gcc9-opt"]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: cvmfs-contrib/github-action-cvmfs@v2
+      with:
+        cvmfs_repositories: 'sft.cern.ch,geant4.cern.ch'
+    - uses: aidasoft/run-lcg-view@v3
+      with:
+        release-platform: ${{ matrix.LCG }}
+        run: |
+          cmake -B ${{github.workspace}}/build
+          cmake --build ${{github.workspace}}/build
