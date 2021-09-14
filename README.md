@@ -98,9 +98,10 @@ Important: You can use paths relative to the installation location, for example:
 /eAST/component/DIRC_support/gdmlFile Components/Beampipe/data/DIRC_support_06-04-21.gdml
 ```
 will be expanded to
-```/path/to/installdir/share/Components/Beampipe/data/DIRC_support_06-04-21.gdml
 ```
-if the file or folder is not found in the working directory first. 
+/path/to/installdir/share/Components/Beampipe/data/DIRC_support_06-04-21.gdml
+```
+if the file or folder is not found in the working directory first.
 
 ### Physics options
 
