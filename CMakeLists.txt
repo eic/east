@@ -124,9 +124,9 @@ file(DOWNLOAD
 #
 add_executable(eAST Core/eAST.cc ${sources} ${headers})
 if(eAST_USE_HepMC3)
-  target_link_libraries(eAST lib${PROJECT_NAME}Core ${Geant4_LIBRARIES}  ${HEPMC3_LIB} )
+  target_link_libraries(eAST lib${PROJECT_NAME}Core lib${PROJECT_NAME}PhysicsListBase ${Geant4_LIBRARIES}  ${HEPMC3_LIB} )
 else()
-  target_link_libraries(eAST lib${PROJECT_NAME}Core ${Geant4_LIBRARIES})
+  target_link_libraries(eAST lib${PROJECT_NAME}Core lib${PROJECT_NAME}PhysicsListBase ${Geant4_LIBRARIES})
 endif()
   
 #----------------------------------------------------------------------------
