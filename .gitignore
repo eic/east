@@ -57,5 +57,11 @@ Solenoid/data
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 .idea/
 
-
+# Jekyll/GitHub pages artefacts
+_site
+_site/*
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
 
