@@ -18,6 +18,13 @@ Project *eAST* (eA Simulation Toolkit) is led by Makoto Asai (SLAC) and builds o
 Building is done via cmake, using the `CMakeLists.txt` file at the top level. It is recommended to use a separate build directory. Please make sure all the necessary Geant4 environment variables are set in advance.
 ```
 cd east
+cmake -S . -B build
+cmake --build build
+```
+
+Or alternatively,
+```
+cd east
 mkdir build
 cd build
 cmake ..
@@ -29,16 +36,16 @@ Important note: During this configuration proccess, additional files may be down
 ### Configuration options
 To customize an installation location, use the `CMAKE_INSTALL_PREFIX` option:
 ```
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -S . -B build
+cmake --build build
+cmake --install build
 ```
 This will copy libraries, binaries, data, and cmake configuration files into a central location. Note that you probably want to ensure that (in this example) `/path/to/installdir/bin` is in the `$PATH` environment variable and `/path/to/installdir/lib` in the `$LD_LIBRARY_PATH` one.
 
 ### HepMC support
 cmake will pick up an existing HepMC3 installation in default spots, or allow using a specified location with the `HepMC3` option:
 ```
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -DHepMC3=~/path/to/HepMC3dir/ ..
+cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -DHepMC3=~/path/to/HepMC3dir/  -S . -B build
 ```
 
 
