@@ -1,15 +1,19 @@
 - name: makoto
-  full: Makoto Asai
+  full: Asai, Makoto
   email: asai@slac.stanford.edu
 
 - name: wouter
-  full: Wouter Deconinck
+  full: Deconinck, Wouter
   email: wouter.deconinck@umanitoba.ca
 
 - name: kolja
-  full: Kolja Kauder
+  full: Kauder, Kolja
   email: kkauder@gmail.com
 
 - name: maxim
-  full: Maxim Potekhin
+  full: Potekhin, Maxim
   email: potekhin@bnl.gov
+
+- name: markus
+  full: Diefenthaler, Markus
+  email: mdiefent@jlab.org

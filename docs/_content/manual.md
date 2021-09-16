@@ -4,4 +4,4 @@ layout: base
 name: manual
 ---
 
-user manual
+user manual - work in progress
