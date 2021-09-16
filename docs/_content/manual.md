@@ -7,7 +7,7 @@ name: manual
 # Running eAST
 
 *eAST* runs both in batch mode and interactive mode. To run it in batch mode, execute the application with a macro file,
-```
+```bash
 $ ./eAST <run.mac>
 ```
 while to run it in interactive mode, execute the application without a macro file.

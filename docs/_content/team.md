@@ -8,7 +8,8 @@ name: team
 
 # The Team
 ---
-<table width="80%">
+<table border="1" width="30%">
+<tr><th>Name</th><th>e-mail</th></tr>
   {% for member in team %}
   <tr>
   <td>
