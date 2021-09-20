@@ -89,12 +89,6 @@ file(DOWNLOAD
   ${PROJECT_SOURCE_DIR}/Solenoid/data/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap
 )
 
-# Install solenoid data to CMAKE_INSTALL_FULL_DATADIR
-install(
-  DIRECTORY ${PROJECT_SOURCE_DIR}/Solenoid/data 
-  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Solenoid )
-
-
 #----------------------------------------------------------------------------
 # Add the executable, and link it to external libraries
 #
@@ -131,14 +125,27 @@ install(TARGETS eAST
 
 
 #----------------------------------------------------------------------------
-# Install other data to CMAKE_INSTALL_FULL_DATADIR
+# Install data to CMAKE_INSTALL_FULL_DATADIR/east
+install(
+  DIRECTORY ${PROJECT_SOURCE_DIR}/Solenoid/data 
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/east/Solenoid )
+
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/Core/data
-  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Core )
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/east/Core )
 
 install(
   DIRECTORY ${PROJECT_SOURCE_DIR}/Components/Beampipe/data
-  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/Components/Beampipe )
+  DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/east/Components/Beampipe )
+
+# Install scripts to CMAKE_INSTALL_FULL_DATADIR/east
+foreach(_script ${RS_SCRIPTS})
+  install(
+    FILES ${PROJECT_SOURCE_DIR}/Core/${_script}
+    DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/east
+    )
+endforeach()
+
 
 
 #----------------------------------------------------------------------------
