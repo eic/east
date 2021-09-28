@@ -1,0 +1,28 @@
+# Jekyll, Bootstrap and related tools
+- name: markdown
+  url: 'https://www.markdownguide.org/'
+
+- name: jekyll
+  url: 'http://jekyllrb.com/'
+
+- name: ruby_downloads
+  url: 'https://www.ruby-lang.org/en/downloads/'
+
+- name: rubygems_downloads
+  url: 'https://rubygems.org/pages/download'
+
+- name: liquid
+  url: 'https://shopify.github.io/liquid/'
+
+- name: bootstrap
+  url: 'http://getbootstrap.com/'
+
+# GitHub
+- name: github_eic
+  url: 'https://github.com/eic/'
+
+- name: github_east
+  url: 'https://github.com/eic/east'
+
+- name: github_pages
+  url: 'https://pages.github.com/'
