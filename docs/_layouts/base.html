@@ -2,28 +2,36 @@
     <html lang="en">
     {% include head.html %}
     <body>
+
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 fixed-top">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ '/' | relative_url }}">
             <img src="{{ '/assets/images/logo/eAST-logo-white.png' | relative_url }}" height="60">
             </a>
         </nav>
 
+
+       
         <div class="container-fluid">
-            <div class="row">
+            <!-- mxp -->
+            <!-- div class="row collapse show" -->
+            <div class="col-sm-4"></div>
                 {% include sidebar.html %}
             </div>
-          </div>
-          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    
+            <div class="col-sm-8"></div>
+        <main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3 px-4">
 	  
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3"><!-- border-bottom" -->
+            <!-- div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3" -->
+                <!-- border-bottom" -->
               <!-- h3 class="h3">{{ header }}</h3 -->
             
-            </div>
-        {{ content }}
-    </main>
-	
-</div>
-</div>
+            <!-- /div -->
+            {{ content }}
+        </main>
+    </div>
+        </div>
+
+<!-- /div -->
         <!-- JS instrumentation -->
 <!-- Placed at the end of the document so the pages load faster -->
 
