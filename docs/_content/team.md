@@ -10,7 +10,7 @@ name: team
 
 ---
 
-<table width="40%">
+<table width="100%">
 
   {% for member in team %}
   <tr class="bland">

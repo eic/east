@@ -56,6 +56,13 @@ tr:nth-child(odd) {background-color: #f2f2f2;}
 tr.bland {
     background: none !important;
 }
+
+div.txt {
+    max-width: 85%;
+    text-overflow: ellipsis;
+    word-wrap: break-word;     
+}
+
 /* ---------------------------- */
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
