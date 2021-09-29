@@ -1,0 +1,53 @@
+<!doctype html>
+    <html lang="en">
+    {% include head.html %}
+    <body>
+
+        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 fixed-top">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ '/' | relative_url }}">
+            <img src="{{ '/assets/images/logo/eAST-logo-white.png' | relative_url }}" height="60">
+            </a>
+        </nav>
+
+
+       
+        <div class="container-fluid">
+            <!-- mxp -->
+            <!-- div class="row collapse show" -->
+            <div class="col-sm-6"></div>
+                {% include sidebar_alt.html %}
+            </div>
+    
+            <div class="col-sm-6"></div>
+<main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+      <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+      </button>
+
+            {{ content }}
+        </main>
+    </div>
+        </div>
+
+<!-- /div -->
+        <!-- JS instrumentation -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script -->
+    <!-- script src="../../../../assets/js/vendor/popper.min.js"></script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="{{ 'assets/bootstrap/js/bootstrap.min.js' | relative_url }}"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+    </body>
+    </html>
