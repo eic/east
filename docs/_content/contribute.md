@@ -67,7 +67,7 @@ on the [installation page](https://jekyllrb.com/docs/installation/) of the Jekyl
 Once the installation is done, you can run a development web server locally:
 
 ```bash
-bundler exec jekyll serve
+bundle exec jekyll serve
 ```
 
 Assuming you are in the ```docs``` folder of the eAST repository,
