@@ -11,10 +11,11 @@ name: contribute
 
 # Overview
 
-The following will be of interest to the collaborators interested in contributing to this
-site or involved in its maintenance.
+This page will be of interest to the collaborators interested in contributing to this
+site or involved in its maintenance. In many cases making a contribution can be as easy
+as editing a text file.
 
-We use GitHub to manage the code for this site. Please take a look at the
+We use GitHub to manage the content and formatting for this site. Please take a look at the
 {% include link.md name='github_east' tag='eAST repository' %}, which
 is under the {% include link.md name='github_eic' tag='EIC Software Organization' %}
 on GitHub to get an idea of the general organization of the data, layouts and supporing logic.
@@ -172,3 +173,4 @@ For example, this site contains a file named
 which provides a way to quickly generate URLs on pages using mnemonic names. This is done
 using this simple macro:
 <a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
+

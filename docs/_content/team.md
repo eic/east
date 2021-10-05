@@ -4,22 +4,19 @@ layout: base
 name: team
 ---
 
-{% assign team=site.data.team | sort: "full" %}
+{% assign team=site.data.team | sort: "last" %}
 
 # The Team
+
 ---
-<table border="1" width="30%">
-<tr><th>Name</th><th>e-mail</th></tr>
+
+<table width="100%">
+
   {% for member in team %}
-  <tr>
-  <td>
-  {{ member.full }}
-  </td>
-  <td>
-  {{ member.email }}
-  </td>
+  <tr class="bland">
+  <td>{{ member.first }} {{ member.last }}</td>
+  <td>{{ member.email }}</td>
   </tr>
   {% endfor %}
 
 </table>
-

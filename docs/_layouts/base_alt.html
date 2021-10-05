@@ -14,19 +14,23 @@
         <div class="container-fluid">
             <!-- mxp -->
             <!-- div class="row collapse show" -->
-            <div class="col-sm-4"></div>
-                {% include sidebar.html %}
+            <div class="col-sm-6"></div>
+                {% include sidebar_alt.html %}
             </div>
     
-            <div class="col-sm-8"></div>
-                <main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3 px-4">
-	            <!-- div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3" -->
-                <!-- border-bottom" -->
-                <!-- h3 class="h3">{{ header }}</h3 -->
-                <!-- /div -->
-                <div class="txt">
-                    {{ content }}</div>
-                </main>
+            <div class="col-sm-6"></div>
+<main role="main" class="col-md-10 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        <i class="fa fa-bars"></i>
+        <span class="sr-only">Toggle Menu</span>
+      </button>
+      <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars"></i>
+      </button>
+
+            {{ content }}
+        </main>
     </div>
         </div>
 
