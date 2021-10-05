@@ -164,4 +164,3 @@ which provides a way to quickly generate URLs on pages using mnemonic names. Thi
 using this simple macro:
 <a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
 
-
