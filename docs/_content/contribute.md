@@ -68,7 +68,7 @@ on the [installation page](https://jekyllrb.com/docs/installation/) of the Jekyl
 Once the installation is done, you can run a development web server locally:
 
 ```bash
-bundler exec jekyll serve
+bundle exec jekyll serve
 ```
 
 Assuming you are in the ```docs``` folder of the eAST repository,
@@ -163,3 +163,14 @@ For example, this site contains a file named
 which provides a way to quickly generate URLs on pages using mnemonic names. This is done
 using this simple macro:
 <a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
+
+YAML (and data in other formats) are parsed into data structures such as lists an arrays,
+providing an intuitive way for the developer to combine and process data using 
+the {% include link.md name='liquid' tag='Liquid' %} template language. This is often
+done using *macros* which are technically include files but are semantically similar to functions.
+For example, this site contains a file named
+<a href="https://github.com/eic/east/tree/main/docs/_data/links.yml" target="_blank">links.yml</a>
+which provides a way to quickly generate URLs on pages using mnemonic names. This is done
+using this simple macro:
+<a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
+
