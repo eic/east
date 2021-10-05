@@ -5,6 +5,9 @@ cmake-build-*/
 # Downloaded data files
 Solenoid/data
 
+# jekyll files
+Gemfile.lock
+
 # Prerequisites
 *.d
 
