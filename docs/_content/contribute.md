@@ -152,3 +152,23 @@ files or in separate YAML (or JSON, CSV etc) data sources. The front matter appr
 for small sites. For scalability, it is recommended to rely mostly on dedicated data files (i.e.
 files in the "<a href="https://github.com/eic/east/tree/main/docs/_data" target="_blank">_data</a>" folder)
 and keep the content of the front matter sections of individual MD files to a minimum.
+
+YAML (and data in other formats) are parsed into data structures such as lists an arrays,
+providing an intuitive way for the developer to combine and process data using 
+the {% include link.md name='liquid' tag='Liquid' %} template language. This is often
+done using *macros* which are technically include files but are semantically similar to functions.
+For example, this site contains a file named
+<a href="https://github.com/eic/east/tree/main/docs/_data/links.yml" target="_blank">links.yml</a>
+which provides a way to quickly generate URLs on pages using mnemonic names. This is done
+using this simple macro:
+<a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
+
+YAML (and data in other formats) are parsed into data structures such as lists an arrays,
+providing an intuitive way for the developer to combine and process data using 
+the {% include link.md name='liquid' tag='Liquid' %} template language. This is often
+done using *macros* which are technically include files but are semantically similar to functions.
+For example, this site contains a file named
+<a href="https://github.com/eic/east/tree/main/docs/_data/links.yml" target="_blank">links.yml</a>
+which provides a way to quickly generate URLs on pages using mnemonic names. This is done
+using this simple macro:
+<a href="https://raw.githubusercontent.com/eic/east/main/docs/_includes/link.md" target="_blank">link.md</a>
