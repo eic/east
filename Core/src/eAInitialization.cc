@@ -76,7 +76,9 @@ void eAInitialization::Initialize()
 }
 
 #include "G4UIExecutive.hh"
+#ifdef G4UI_USE_QT
 #include "G4UIQt.hh"
+#endif
 
 void eAInitialization::SetWindowText(G4UIExecutive* ui)
 {
