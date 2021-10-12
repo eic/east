@@ -13,7 +13,7 @@ tables:
       ]
       - [
       "GEANT4_USE_GDML",
-      'Mandatory. Requires <a href="http://xerces.apache.org/xerces-c/" target="_blank"><em>Xerces-C++</em></a> parser.'
+      '<b>Mandatory</b>. Requires <a href="http://xerces.apache.org/xerces-c/" target="_blank"><em>Xerces-C++</em></a> parser.'
       ]
       - [
       "GEANT4_USE_OPENGL_X11",
@@ -21,7 +21,7 @@ tables:
       ]
       - [
       "GEANT4_USE_QT",
-      "Needed if you use the Qt window. Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
+      "<b>Mandatory</b>. Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
       ]
       - [
       "GEANT4_INSTALL_DATA",
