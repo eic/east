@@ -25,7 +25,7 @@ tables:
       ]
       - [
       "GEANT4_INSTALL_DATA",
-      "Install datasets."
+      "Install datasets (recommended)."
       ]      
 ---        
 <h1>Installation Procedure</h1>
@@ -61,7 +61,7 @@ Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.
 
 A command line for ```cmake``` using some of these options might look like this:
 ```bash
-cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_GDML=ON /path/to/geant/directory
+cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_QT=ON /path/to/geant/directory
 ```
 If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges.
 
