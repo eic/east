@@ -21,7 +21,7 @@ tables:
       ]
       - [
       "GEANT4_USE_QT",
-      "<b>Mandatory</b>. Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
+      "<b>Recommended</b>. Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
       ]
       - [
       "GEANT4_INSTALL_DATA",
@@ -34,7 +34,7 @@ tables:
 
 ---
 
-# GEANT
+# GEANT4
 
 *eAST* runs on top of the latest public version of Geant4 (currently [version 10.7.p02](https://geant4.web.cern.ch/support/download)),
 so before building eAST you need to install Geant4.
