@@ -34,12 +34,21 @@ int main(int argc,char** argv)
   auto UImanager = G4UImanager::GetUIpointer();
   G4String searchpath = UImanager->GetMacroSearchPath();
   if (searchpath!="") searchpath += ":";
-  searchpath += CMAKE_INSTALL_FULL_DATADIR;
   
-  // // Also add data from the source directory to the search path
-  // // This way, no "make install" should be necessary
-  // if (searchpath!="") searchpath += ":";
-  // searchpath += G4String(CMAKE_PROJECT_SOURCE_DIR);
+  // First, add "."
+  searchpath += ".";
+
+  // Then the install path
+  searchpath += ":";
+  searchpath += CMAKE_INSTALL_FULL_DATADIR;
+  searchpath += "/east";
+
+  // Finally, the original source directory 
+  // This way, no "make install" should be necessary
+  searchpath += ":";
+  searchpath += G4String(CMAKE_PROJECT_SOURCE_DIR);
+
+
   
   UImanager->SetMacroSearchPath(searchpath);
   UImanager->ParseMacroSearchPath();

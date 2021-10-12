@@ -47,7 +47,9 @@ void eASTVDetectorComponent::Locate(G4LogicalVolume* compLogVol,
 
 G4String eASTVDetectorComponent::LocateDataFile( const G4String fn ) const
 {
-  if ( verboseLevel > 0 )  G4cout << "LocateDataFile: Searching for " << fn << G4endl;
+  if ( verboseLevel > 0 )  G4cout << "LocateDataFile: Searching for " << fn
+				  << " in " << G4UImanager::GetUIpointer()->GetMacroSearchPath()
+				  << G4endl;
 
   if(fn == "*NOTDEFINED*"){
     // Do nothing, let implementations decide
