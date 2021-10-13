@@ -7,25 +7,25 @@ tables:
   g4options:
     headers: [Option, Comment]
     rows:
-      - [
-      "GEANT4_BUILD_MULTITHREADED",
-      "-"
-      ]
+#      - [
+#      "GEANT4_BUILD_MULTITHREADED",
+#      "-"
+#      ]
       - [
       "GEANT4_USE_GDML",
-      '<b>Mandatory</b>. Requires <a href="http://xerces.apache.org/xerces-c/" target="_blank"><em>Xerces-C++</em></a> parser.'
+      'Requires <a href="http://xerces.apache.org/xerces-c/" target="_blank"><em>Xerces-C++</em></a> parser.'
       ]
       - [
       "GEANT4_USE_OPENGL_X11",
-      "Needed if you use the event display. Requires <em>X11</em> and <em>OpenGL</em> libraries."
+      "Requires <em>X11</em> and <em>OpenGL</em> libraries."
       ]
       - [
       "GEANT4_USE_QT",
-      "<b>Mandatory</b>. Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
+      "Requires <em>Qt5</em> and <em>OpenGL</em> libraries."
       ]
       - [
       "GEANT4_INSTALL_DATA",
-      "Install datasets (recommended)."
+      "Installs datasets."
       ]      
 ---        
 <h1>Installation Procedure</h1>
@@ -36,9 +36,14 @@ tables:
 
 # GEANT
 
-*eAST* runs on top of the latest public version of Geant4 (currently [version 10.7.p02](https://geant4.web.cern.ch/support/download)),
-so before building eAST you need to install Geant4.
-Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and make sure you set the following options:
+*eAST* runs on top of the latest public version of Geant4 (currently [version 10.7.p02](https://geant4.web.cern.ch/support/download)), so before building eAST you need to install Geant4. The process involves using `cmake`.
+Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and make sure you follow all instructions carefully. In particular, it is
+important that you use the "build" directory as recommended in the Geant4 guide. If an error was made when
+using `cmake` the safest option is to start from clean source i.e. to wipe out the Geant4 directory and
+recreate it from the tarball - this helps to avoid possible effects of lingering cmake artefacts.
+
+*In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*. As you can see from the table, if you start from scratch you may need to install
+the prerequisits first such as <em>X11, Qt5, OpenGL and Xerces-C++</em> libraries.
 
 <table border="1" width="60%">
 <tr>
@@ -59,15 +64,22 @@ Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.
 
 <p/>
 
-A command line for ```cmake``` using some of these options might look like this:
+A command line for ```cmake``` using these options might look like this:
 ```bash
-cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_QT=ON /path/to/geant/directory
+cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_QT=ON /path/to/geant/directory
 ```
-If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges.
+**Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the PATH
+and their versions comply with GEANT requirements.**
 
-Building is done via cmake, using the `CMakeLists.txt` file at the top level. It is recommended to use a separate build directory. Please make sure all the necessary Geant4 environment variables are set in advance.
+Certain files maybe downloaded automatically during the build, so make sure your computer is online
+suring that process.
+If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges (e.g. to use `chown` etc).
+There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to correctly set the environment variables
+important for Geant4 operation.
 
-# The Build
+---
+
+# Building eAST
 
 ```bash
 cd east
@@ -89,6 +101,8 @@ make
 {% endcomment %}
 
 Important note: During this configuration proccess, additional files may be downloaded, so internet access is required.
+
+---
 
 # Configuration options
 
