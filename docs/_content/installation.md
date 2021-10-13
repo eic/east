@@ -34,7 +34,7 @@ tables:
 
 ---
 
-# GEANT
+# GEANT4
 
 *eAST* runs on top of the latest public version of Geant4 (currently [version 10.7.p02](https://geant4.web.cern.ch/support/download)), so before building eAST you need to install Geant4. The process involves using `cmake`.
 Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and make sure you follow all instructions carefully. In particular, it is
@@ -68,60 +68,53 @@ A command line for ```cmake``` using these options might look like this:
 ```bash
 cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_QT=ON /path/to/geant/directory
 ```
-**Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the PATH
+**Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
 and their versions comply with GEANT requirements.**
 
 Certain files maybe downloaded automatically during the build, so make sure your computer is online
 suring that process.
 If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges (e.g. to use `chown` etc).
+It is a good idea to create such folder (e.g. *geant4.10.07.p02* but the name of course can be different) beforehand and use `chown` to ensure
+it's writeable by the user who does the installation, before actually running `make install`.
+
 There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to correctly set the environment variables
 important for Geant4 operation.
 
 ---
 
-# Building eAST
+# Building and Installing eAST
 
-```bash
-cd east
-cmake -S . -B build
-cmake --build build
-```
+Notes:
+* During this proccess, additional files may be downloaded, so internet access is required
+* To customize an installation location, use the `CMAKE_INSTALL_PREFIX` option
 
-{% comment %}
-Or alternatively,
 
-```
-cd east
-mkdir build
-cd build
-cmake ..
-make
-```
-
-{% endcomment %}
-
-Important note: During this configuration proccess, additional files may be downloaded, so internet access is required.
-
----
-
-# Configuration options
-
-To customize an installation location, use the `CMAKE_INSTALL_PREFIX` option:
-
+The following is an example of what the commands for the build and install
+procedure may look like:
 ```bash
 cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -S . -B build
 cmake --build build
 cmake --install build
 ```
 
-This will copy libraries, binaries, data, and cmake configuration files into a central location. Note that you probably want to ensure that (in this example) `/path/to/installdir/bin` is in the `$PATH` environment variable and `/path/to/installdir/lib` in the `$LD_LIBRARY_PATH` one.
+This will copy libraries, binaries, data, and cmake configuration files into the
+predefined install location.
+If you elect to install into a system directory (e.g. under `/opt` etc) please see the notes
+in the Geant4 section above.
+After installtion has completed you probably want to ensure that (in this example) `/path/to/installdir/bin`
+is in the `$PATH` environment variable and `/path/to/installdir/lib` in `$LD_LIBRARY_PATH`.
+
+{% comment %}
+Or alternatively, cd east mkdir build cd build cmake .. make 
+{% endcomment %}
+
 
 # HepMC support
 Please visit
 [this link](https://gitlab.cern.ch/hepmc/HepMC3/-/tree/master/){:target="_blank"}
  if you need to install HepMC3 from binaries or build it from source. When building
-eAST ```cmake``` will pick up an existing HepMC3 installation in default spots,
-or allow using a specified location with the `HepMC3` option:
+eAST ```cmake``` will attempt to find an existing HepMC3 installation in default locations.
+A more reliable method is to specify a location with the `HepMC3` option:
 
 ```bash
 cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -DHepMC3=~/path/to/HepMC3dir/  -S . -B build
