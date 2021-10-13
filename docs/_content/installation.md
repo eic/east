@@ -84,38 +84,31 @@ important for Geant4 operation.
 
 # Building and Installing eAST
 
-Notes:
-* During this proccess, additional files may be downloaded, so internet access is required
-* To customize an installation location, use the `CMAKE_INSTALL_PREFIX` option
+Many use cases involve using the HepMC3 libraries so it is optimal
+to consider it a prerequisite. Please visit
+[the HepMC3 page](https://gitlab.cern.ch/hepmc/HepMC3/-/tree/master/){:target="_blank"}
+if you need to install HepMC3 from binaries or build it from source.
 
 
-The following is an example of what the commands for the build and install
-procedure may look like:
+Notes about the build and install procedure:
+* It is recommended that the user creates a `build` folder inside the main eAST directory; the example below assumes that this is the case
+* During the build proccess, additional files may be downloaded, so internet access is required
+* To customize the installation location, use the `CMAKE_INSTALL_PREFIX` option (see below)
+* When building eAST `cmake` will attempt to find an existing HepMC3 installation in default locations
+* A more reliable method is to specify the correct location with the `HepMC3` option (see below)
+
+The following is a working example of commands for the build and install
+procedure (assuming they are run from the eAST directory):
+
 ```bash
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -S . -B build
+cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -DHepMC3=~/path/to/HepMC3dir/ -S . -B build
 cmake --build build
 cmake --install build
 ```
 
-This will copy libraries, binaries, data, and cmake configuration files into the
+The last command will copy libraries, binaries, data, and cmake configuration files into the
 predefined install location.
 If you elect to install into a system directory (e.g. under `/opt` etc) please see the notes
-in the Geant4 section above.
-After installtion has completed you probably want to ensure that (in this example) `/path/to/installdir/bin`
+in the Geant4 section above, regarding correct permissions.
+After installation has completed you probably want to ensure that (in this example) `/path/to/installdir/bin`
 is in the `$PATH` environment variable and `/path/to/installdir/lib` in `$LD_LIBRARY_PATH`.
-
-{% comment %}
-Or alternatively, cd east mkdir build cd build cmake .. make 
-{% endcomment %}
-
-
-# HepMC support
-Please visit
-[this link](https://gitlab.cern.ch/hepmc/HepMC3/-/tree/master/){:target="_blank"}
- if you need to install HepMC3 from binaries or build it from source. When building
-eAST ```cmake``` will attempt to find an existing HepMC3 installation in default locations.
-A more reliable method is to specify a location with the `HepMC3` option:
-
-```bash
-cmake -DCMAKE_INSTALL_PREFIX=/path/to/installdir -DHepMC3=~/path/to/HepMC3dir/  -S . -B build
-```
