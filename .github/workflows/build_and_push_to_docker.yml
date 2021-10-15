@@ -11,11 +11,6 @@ jobs:
   build_and_push_to_docker:
     runs-on: ubuntu-latest
     - uses: actions/checkout@v2
-    - uses: cvmfs-contrib/github-action-cvmfs@v2
-    - uses: aidasoft/run-lcg-view@v3
-      with:
-        release-platform: "LCG_99/x86_64-centos7-gcc10-opt"
-        run: |
     - name: Docker meta
       id: docker_meta
       uses: crazy-max/ghaction-docker-meta@v1
@@ -41,7 +36,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: Dockerfile
+        file: docker/Dockerfile
         push: ${{ steps.docker_login.outcome == 'success' && github.event_name != 'pull_request' }}
         tags: ${{ steps.docker_meta.outputs.tags }}
         labels: ${{ steps.docker_meta.outputs.labels }}

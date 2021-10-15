@@ -1,0 +1,8 @@
+spack:
+  specs:
+  - cmake
+  - clhep cxxstd=17
+  - geant4 +ipo +qt +opengl -python +vecgeom cxxstd=17
+  - hepmc3 +interfaces +python
+  - mesa -llvm swr=none
+  concretization: together
