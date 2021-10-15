@@ -9,7 +9,9 @@ on:
 
 jobs:
   create_dockerfile:
-    runs-on: spack/ubuntu-bionic:latest
+    runs-on: ubuntu-latest
+    container: spack/ubuntu-bionic:latest
+    steps:
     - uses: actions/checkout@v2
     - name: Create Dockerfile
       run: cd docker/base && spack containerize > Dockerfile
