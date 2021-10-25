@@ -26,7 +26,7 @@ Alternatively, you may download the schema file in advance and modify the second
 
 *eAST* is controlled by UI commands, and it works both in interactive mode with Qt window and in batch mode with an input macro file.
 UI commands starting with `/eAST/` are implemented in *eAST* code and thus they are not available in Geant4 itself (or other Geant4 applications). Some of these *eAST*-specific commands are listed here.
-Commands that do not start with `/eAST/` are provided in Geant4 version 10.7 that can be found in [the Geant4 user's guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Control/commands.html).
+Commands that do not start with `/eAST/` are provided in Geant4 version 10.7 that can be found in [the Geant4 user's guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Control/commands.html){:target="_blank"}.
 For demonstration purposes, *eAST* includes a macro file `run.mac` that can be used for both interactive mode and batch mode.
 
 # Initialization
