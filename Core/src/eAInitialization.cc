@@ -106,10 +106,10 @@ void eAInitialization::SetWindowText(G4UIExecutive* ui)
          "/run/beamOn <i>number_of_events</i></li></ul></div>"+
        "<div style='background:#EEEEEE;'><b>Documentation :</b><ul>"+
          "<li><i>"+
-         "<b>eAST manual</b> will be created and posted at<br />"+
-         "<a href='somewhere'>"+
-         "somewhere"+
-         "</a></i></li>"+
+         "<b>eAST manual</b> is "+
+         "<a href='https://eic.github.io/east/content/manual.html'>"+
+         "here"+
+         "</a>.</i></li>"+
          "</ul></div>"
        );
 #endif
