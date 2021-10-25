@@ -31,9 +31,9 @@ For demonstration purposes, *eAST* includes a macro file `run.mac` that can be u
 
 *eAST* has to be initialized by the following command.
 ```
-/gorad/initialize
+/eAST/initialize
 ```
-This command internally calls `/run/initialize` to initialize _G4MTRunManager_, so that the user should *not* use `/run/initialize`. Prior to this initialization command, *eAST* needs the following to be defined:
+This command internally calls `/run/initialize` to initialize _G4(MT)RunManager_, so that the user should *not* use `/run/initialize`. Prior to this initialization command, *eAST* needs the following to be defined:
 - Simulation geometry
 - Choice of Physics models
 
