@@ -16,7 +16,7 @@
 #include "G4UImanager.hh"
 #include "G4UIExecutive.hh"
 
-#include "eAInitialization.hh"
+#include "eASTInitialization.hh"
 
 int main(int argc,char** argv)
 {
@@ -24,7 +24,7 @@ int main(int argc,char** argv)
   auto runManager = G4RunManagerFactory::CreateRunManager();
 
   // construct Gorad initializer
-  auto eastInitialization = new eAInitialization();
+  auto eastInitialization = new eASTInitialization();
 
   // Visualization manager construction
   auto visManager = new G4VisExecutive("Quiet");
