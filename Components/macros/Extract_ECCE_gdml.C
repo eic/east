@@ -27,6 +27,9 @@ R__LOAD_LIBRARY(libfun4all.so)
 //    root -l -b -q Extract_ECCE_gdml.C\(\"$s\"\)
 // end
 
+// Important: Fix generated gdml with
+// sed -i .bak 's/constant/matrix coldim="1"/g ; s/value/values/g' *gdml
+
 int Extract_ECCE_gdml( string subsys="all", const string outbase="")
 {
 
