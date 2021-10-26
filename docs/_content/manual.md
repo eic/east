@@ -11,9 +11,11 @@ name: manual
 $ ./eAST <run.mac>
 ```
 while to run it in interactive mode, execute the application without a macro file.
-```
+
+```bash
 $ ./eAST
 ```
+
 and type UI commands once command field of the Qt window becomes available.
 
 *eAST* reads several GDML files. GDML requires GDML schema. All methods that read gdml have an option to verify that is by default turned off since validation requires an internet connection at run-time.
@@ -24,16 +26,14 @@ Alternatively, you may download the schema file in advance and modify the second
 
 *eAST* is controlled by UI commands, and it works both in interactive mode with Qt window and in batch mode with an input macro file.
 UI commands starting with `/eAST/` are implemented in *eAST* code and thus they are not available in Geant4 itself (or other Geant4 applications). Some of these *eAST*-specific commands are listed here.
-Commands that do not start with `/eAST/` are provided in Geant4 version 10.7 that can be found in [the Geant4 user's guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Control/commands.html).
+Commands that do not start with `/eAST/` are provided in Geant4 version 10.7 that can be found in [the Geant4 user's guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Control/commands.html){:target="_blank"}.
 For demonstration purposes, *eAST* includes a macro file `run.mac` that can be used for both interactive mode and batch mode.
 
 # Initialization
 
-*eAST* has to be initialized by the following command.
-```
-/gorad/initialize
-```
-This command internally calls `/run/initialize` to initialize _G4MTRunManager_, so that the user should *not* use `/run/initialize`. Prior to this initialization command, *eAST* needs the following to be defined:
+*eAST* has to be initialized by the command: `/eAST/initialize`.
+This command internally calls `/run/initialize` to initialize _G4(MT)RunManager_, so the user should **not** explicitly call `/run/initialize`.
+Prior to initialization *eAST* needs the following to be defined (as detailed in the following subsections):
 - Simulation geometry
 - Choice of Physics models
 
@@ -41,10 +41,12 @@ Other simulation settings, e.g. primary generator settings as well as scoring an
 
 ## Simulation geometry
 
-Prior to the initialization, each detector component has to be activated by its dedicated UI command. Once a component is activated, its specific commands become available. Please refer to the README file associated with each detector component for its specific UI commands.
+Prior to the initialization, each detector component has to be activated by its dedicated UI command. Once a component is activated, its specific commands become available.
+Please refer to the README file associated with each detector component for its specific UI commands.
 
 As an example, following are the UI commands for the beampipe component.
-```
+
+```bash
 # activating "beampipe"
 /eAST/component/beampipe <verboseLevel>
 # specifying input GDML files
@@ -55,14 +57,20 @@ As an example, following are the UI commands for the beampipe component.
 ```
 
 Important: You can use paths relative to the installation location, for example:
-```
+
+```bash
+# activating "DIRC_support"
+/eAST/component/DIRC_support 1
 # specifying input GDML files
 /eAST/component/DIRC_support/gdmlFile Components/Beampipe/data/DIRC_support_06-04-21.gdml
 ```
+
 will be expanded to
-```
+
+```bash
 /path/to/installdir/share/Components/Beampipe/data/DIRC_support_06-04-21.gdml
 ```
+
 if the file or folder is not found in the working directory first.
 
 ## Physics options
@@ -70,6 +78,7 @@ if the file or folder is not found in the working directory first.
 Prior to the initialization, optional physics processes have to be defined.
 
 To add radioactive decay process
+
 ```
 /eAST/physics/addRDM  
 ```
