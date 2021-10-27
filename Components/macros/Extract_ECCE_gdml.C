@@ -23,12 +23,14 @@ R__LOAD_LIBRARY(libfun4all.so)
 // Get all subsystem options with
 // grep 'if ( subsys==' Extract_ECCE_gdml.C | cut -d'"' -f 2
 // To create them all, run
-// foreach s ( all pipe magfarfwd magfarbwd gems tracking tofs becal hcalin hcalout dirc femc drcalo lfhcal eemc ehcal )
-//    root -l -b -q Extract_ECCE_gdml.C\(\"$s\"\)
-// end
+/*
+foreach s ( all pipe magnet magfarfwd magfarbwd gems tracking tofs becal hcalin hcalout dirc femc drcalo lfhcal eemc ehcal )
+   root -l -b -q Extract_ECCE_gdml.C\(\"$s\"\)
+end
+*/
 
 // Important: Fix generated gdml with
-// sed -i .bak 's/constant/matrix coldim="1"/g' *gdml
+// sed -i.bak 's/constant/matrix coldim="1"/g' *gdml
 
 int Extract_ECCE_gdml( string subsys="all", const string outbase="")
 {
@@ -146,7 +148,10 @@ int Extract_ECCE_gdml( string subsys="all", const string outbase="")
     Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
   }
 
-  Enable::MAGNET = true;
+  if ( subsys=="magnet" || subsys=="all" ) {
+    if (outname=="") outname = "ecce_" + subsys + ".gdml";
+    Enable::MAGNET = true;
+  }
 
   if ( subsys=="hcalout" || subsys=="all" ) {
     if (outname=="") outname = "ecce_" + subsys + ".gdml";
@@ -323,10 +328,7 @@ int Extract_ECCE_gdml( string subsys="all", const string outbase="")
 
   if (Enable::DSTOUT_COMPRESS) ShowerCompress();
 
-  // InputRegister();
-
-
-  // se->skip(skip);
+  // Need to run to get the full PH4Reco
   se->run(1);
  
   
