@@ -59,7 +59,12 @@ eASTInitialization::eASTInitialization(G4int verboseLvl)
   new eASTSupportStructure("DIRC_support");
   new eASTSupportStructure("EM_CAL_support");
 
-  new eASTDetectorComponentGDML("GenericGDML");
+  new eASTDetectorComponentGDML("GenericGDML1");
+  new eASTDetectorComponentGDML("GenericGDML2");
+  new eASTDetectorComponentGDML("GenericGDML3");
+  new eASTDetectorComponentGDML("GenericGDML4");
+  new eASTDetectorComponentGDML("GenericGDML5");
+	  
 
 }
 
