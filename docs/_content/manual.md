@@ -4,7 +4,16 @@ layout: base
 name: manual
 ---
 
-# Running eAST
+<h1>Running eAST</h1>
+
+---
+
+* TOC
+{:toc}
+
+---
+
+## Starting eAST
 
 *eAST* runs both in batch mode and interactive mode. To run it in batch mode, execute the application with a macro file,
 ```bash
@@ -22,14 +31,18 @@ and type UI commands once command field of the Qt window becomes available.
 <!--By default, schema file is downloaded while reading a GDML file from [CERN site](http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd) so that you must execute *eAST* while you are connected online.  
 Alternatively, you may download the schema file in advance and modify the second line of each GDML file accordingly. Please refer to [the GDML manual](http://gdml.web.cern.ch/GDML/). -->
 
-# eAST UI commands
+---
+
+## eAST UI commands
 
 *eAST* is controlled by UI commands, and it works both in interactive mode with Qt window and in batch mode with an input macro file.
 UI commands starting with `/eAST/` are implemented in *eAST* code and thus they are not available in Geant4 itself (or other Geant4 applications). Some of these *eAST*-specific commands are listed here.
 Commands that do not start with `/eAST/` are provided in Geant4 version 10.7 that can be found in [the Geant4 user's guide](https://geant4-userdoc.web.cern.ch/UsersGuides/ForApplicationDeveloper/html/Control/commands.html){:target="_blank"}.
 For demonstration purposes, *eAST* includes a macro file `run.mac` that can be used for both interactive mode and batch mode.
 
-# Initialization
+---
+
+## Initialization
 
 *eAST* has to be initialized by the command: `/eAST/initialize`.
 This command internally calls `/run/initialize` to initialize _G4(MT)RunManager_, so the user should **not** explicitly call `/run/initialize`.
@@ -39,7 +52,7 @@ Prior to initialization *eAST* needs the following to be defined (as detailed in
 
 Other simulation settings, e.g. primary generator settings as well as scoring and histogramming should be defined after *eAST* is initialized.
 
-## Simulation geometry
+### Simulation geometry
 
 Prior to the initialization, each detector component has to be activated by its dedicated UI command. Once a component is activated, its specific commands become available.
 Please refer to the README file associated with each detector component for its specific UI commands.
@@ -73,7 +86,7 @@ will be expanded to
 
 if the file or folder is not found in the working directory first.
 
-## Physics options
+### Physics options
 
 Prior to the initialization, optional physics processes have to be defined.
 
@@ -95,9 +108,11 @@ To add a user-specific step limitation process
 ```
 where _particle_ could be "_charges_" (default), "_neutral_", "_all_" or "_e+/-_". In addition to this command, maximum step lenth(s) have to be defined after initialization (see the following section).
 
-# UI commands available after initialization
+---
 
-## Production cuts and artificial step limits
+## UI commands available after initialization
+
+### Production cuts and artificial step limits
 
 Production thresholds (a.k.a. cuts) for electron, positron, gamma and proton are by default set to 7 mm. They can be changed by :
 ```
@@ -113,7 +128,7 @@ Artificial limitation of the maximum step length applied to a specified particle
 /eAST/physics/limit/regionStepLimit <regionName> <length> <unit>
 ```
 
-## Geometry sanity-check commands
+### Geometry sanity-check commands
 
 To display defined solid, logical volumes, physical volumes and regions :
 ```
@@ -128,11 +143,13 @@ To check volume overlap for a physical volume :
 /eAST/geometry/checkOverlap <physVolName> <nSpots> <maxError> <tolerance> <unit>
 ```
 
-# UI commands for histogramming particle flux
+---
+
+## UI commands for histogramming particle flux
 
 While *eAST* relies upon sensitive detector classes of each (sensitive) detector components for creation of outfut "hit" files, it also has a mechanism of measuring particle flux and creating histogram. This measuring and histogramming functionality uses "probe" functionality of Geant4 that is newly introduced with Geant4 version 10.7.
 
-## Defining probe
+### Defining probe
 
 Please note that this section descrives a Geant4 functionality that is not specific to *eAST*. This functionality is newly introduced with Geant4 version 10.7.
 
@@ -163,7 +180,7 @@ If probes are placed more than once, scores are dumped separately for each probe
 
 After a simulation run, scored data can be dumped into a file by usual Geant4 `/score/dump` commands. Also, histograms are created by `/eAST/analysis/` commands descrived in the following section.
 
-## 1-D energy spectrum histogram directly filled by a primitive scorer
+### 1-D energy spectrum histogram directly filled by a primitive scorer
 
 The following UI command creates a 1-D energy spectrum histogram that is directly filled by the associated primitive scorer.
 ```
