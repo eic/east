@@ -29,7 +29,10 @@ foreach s ( all pipe magnet magfarfwd magfarbwd gems tracking tofs becal hcalin 
 end
 */
 
-// Important: Fix generated gdml with
+//
+// Older GEANT versions have a bug that can be patched,
+// see https://geant4-forum.web.cern.ch/t/are-constant-material-properties-missing-a-hash-in-the-name-for-gdml/699/4
+// You can also fix it by hand using
 // sed -i.bak 's/constant/matrix coldim="1"/g' *gdml
 
 int Extract_ECCE_gdml( string subsys="all", const string outbase="")
@@ -48,6 +51,13 @@ int Extract_ECCE_gdml( string subsys="all", const string outbase="")
   Fun4AllServer *se = Fun4AllServer::instance();
   se->Verbosity(0);
 
+  recoConsts *rc = recoConsts::instance();
+  // By default every random number generator uses
+  // PHRandomSeed() which reads /dev/urandom to get its seed
+  // if the RANDOMSEED flag is set its value is taken as initial seed
+  // which will produce identical results so you can debug your code
+  rc->set_IntFlag("RANDOMSEED", 42);
+
   //===============
   // Input options
   //===============
@@ -56,7 +66,6 @@ int Extract_ECCE_gdml( string subsys="all", const string outbase="")
   // used for both beamline setting and for the event generator crossing boost
   Enable::IP6 = true;
   // Enable::IP8 = true;
-
 
   //======================
   // What to run
@@ -336,12 +345,12 @@ int Extract_ECCE_gdml( string subsys="all", const string outbase="")
   // Export
   //-------
 
-  PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco("PHG4RECO");
   // freaks out if the file exists
   outname = outbase + outname;
   gSystem->Unlink(outname.c_str());
-  g4->Dump_GDML(outname);
 
+  PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco("PHG4RECO");
+  g4->Dump_G4_GDML(outname);
 
   //-----
   // Exit
