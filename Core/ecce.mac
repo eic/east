@@ -16,21 +16,28 @@
 /eAST/field/create central
 /eAST/field/central/gridunit 0 cm
 /eAST/field/central/gridunit 1 cm
-/eAST/field/central/extent 0    (0.0,398.0,2.0)
-/eAST/field/central/extent 1 (-600.0,598.0,2.0)
+
+# /eAST/field/central/extent 0    (0.0,398.0,2.0)
+# /eAST/field/central/extent 1 (-600.0,598.0,2.0)
+# /eAST/field/central/fieldunit tesla
+# /eAST/field/central/type cubic
+# /eAST/field/central/load Solenoid/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+
+/eAST/field/central/extent 0    (0.0,300.0,2.0)
+/eAST/field/central/extent 1 (-400.0,400.0,2.0)
 /eAST/field/central/fieldunit tesla
 /eAST/field/central/type cubic
-/eAST/field/central/load Solenoid/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+/eAST/field/central/load Solenoid/data/sPHENIX.2d.Bmap
 
-# /eAST/field/print (0.0, 0.0, 0.0)
-# /eAST/field/print (1000.0, 0.0, 0.0)
-# /eAST/field/print (0.0, 1000.0, 0.0)
-# /eAST/field/print (0.0, 0.0, 1000.0)
-# /eAST/field/print (0.0, 1000.0, 1000.0)
-# /eAST/field/print (1000.0, 0.0, 1000.0)
-# /eAST/field/print (1000.0, 1000.0, 0.0)
-# /eAST/field/print (1000.0, 1000.0, 1000.0)
-# /eAST/field/print (0.0, 0.0, 10000.0)
+/eAST/field/print (0.0, 0.0, 0.0)
+/eAST/field/print (1000.0, 0.0, 0.0)
+/eAST/field/print (0.0, 1000.0, 0.0)
+/eAST/field/print (0.0, 0.0, 1000.0)
+/eAST/field/print (0.0, 1000.0, 1000.0)
+/eAST/field/print (1000.0, 0.0, 1000.0)
+/eAST/field/print (1000.0, 1000.0, 0.0)
+/eAST/field/print (1000.0, 1000.0, 1000.0)
+/eAST/field/print (0.0, 0.0, 10000.0)
 
 #######################################################
 # Detector components
@@ -42,8 +49,14 @@
 /eAST/component/beampipe/rotate x -90. deg
 /eAST/component/beampipe/rotate y -90. deg
 
-/eAST/component/GenericGDML 1
-/eAST/component/GenericGDML/gdmlFile ecce_becal.gdml
+/eAST/component/GenericGDML1 1
+/eAST/component/GenericGDML1/gdmlFile ecce_becal.gdml
+/eAST/component/GenericGDML2 1
+/eAST/component/GenericGDML2/gdmlFile ecce_hcalin.gdml
+/eAST/component/GenericGDML3 1
+/eAST/component/GenericGDML3/gdmlFile ecce_hcalout.gdml
+/eAST/component/GenericGDML4 1
+/eAST/component/GenericGDML4/gdmlFile ecce_magnet.gdml
 
 # /eAST/component/DIRC_support/materialFile Components/Beampipe/data/DIRC_support_06-04-21.mat
 
