@@ -1,0 +1,114 @@
+#######################################################
+# macro file of eAST
+#######################################################
+# Set verbosities
+#######################################################
+/control/saveHistory
+/run/verbose 1
+/control/verbose 2
+/event/verbose 0
+/tracking/verbose 0
+/process/verbose 0
+
+#######################################################
+# Magnetic fields
+#######################################################
+/eAST/field/create central
+/eAST/field/central/gridunit 0 cm
+/eAST/field/central/gridunit 1 cm
+/eAST/field/central/extent 0    (0.0,398.0,2.0)
+/eAST/field/central/extent 1 (-600.0,598.0,2.0)
+/eAST/field/central/fieldunit tesla
+/eAST/field/central/type cubic
+/eAST/field/central/load Solenoid/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+
+# /eAST/field/print (0.0, 0.0, 0.0)
+# /eAST/field/print (1000.0, 0.0, 0.0)
+# /eAST/field/print (0.0, 1000.0, 0.0)
+# /eAST/field/print (0.0, 0.0, 1000.0)
+# /eAST/field/print (0.0, 1000.0, 1000.0)
+# /eAST/field/print (1000.0, 0.0, 1000.0)
+# /eAST/field/print (1000.0, 1000.0, 0.0)
+# /eAST/field/print (1000.0, 1000.0, 1000.0)
+# /eAST/field/print (0.0, 0.0, 10000.0)
+
+#######################################################
+# Detector components
+#######################################################
+# /eAST/component/beampipe 1
+# /eAST/component/beampipe/envelopeGdmlFile Components/Beampipe/data/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
+# /eAST/component/beampipe/gdmlFile Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.gdml
+# /eAST/component/beampipe/materialFile Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.mat
+# /eAST/component/beampipe/rotate x -90. deg
+# /eAST/component/beampipe/rotate y -90. deg
+
+# /eAST/component/GenericGDML1 1
+# /eAST/component/GenericGDML1/gdmlFile Components/ATHENA/athena_SolenoidCoilBarrel_assembly_13.gdml
+
+# /eAST/component/GenericGDML2 1
+# /eAST/component/GenericGDML2/gdmlFile Components/ATHENA/athena_EcalBarrelImaging_26.gdml
+
+/eAST/component/GenericGDML2 1
+/eAST/component/GenericGDML2/gdmlFile test.gdml
+
+# /eAST/component/GenericGDML3 1
+# /eAST/component/GenericGDML3/gdmlFile Components/ATHENA/athena_EcalBarrelScFi_27.gdml
+# /eAST/component/GenericGDML4 1
+# /eAST/component/GenericGDML4/gdmlFile Components/ATHENA/athena_HcalBarrel_28.gdml
+# /eAST/component/GenericGDML5 1
+# /eAST/component/GenericGDML5/gdmlFile Components/ATHENA/
+
+#/eAST/component/GenericGDML1/gdmlFile orig_athena.gdml
+#/eAST/component/GenericGDML1/gdmlFile athena.gdml
+
+#######################################################
+# Physics of the simulation
+#######################################################
+
+#######################################################
+# Selection of primary generator
+#######################################################
+/eAST/generator/useParticleGun 0
+/eAST/generator/useParticleSource 1
+/eAST/generator/useHepMC3 0
+ 
+#######################################################
+# eAST and Geant4 initialization
+#######################################################
+/eAST/initialize
+
+#######################################################
+# Set up general particle source if it is used
+#######################################################
+/control/getVal ifGPS /eAST/generator/useParticleSource
+/control/doif {ifGPS} > 0 /control/execute gps_point.mac
+
+## Important: Please for now turn off the beam pipe for hepmc input
+## bug is under investigation
+/control/getVal ifHepMC3 /eAST/generator/useHepMC3
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
+/control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile Core/data/neutral_current.hepmc3
+# /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile pythia6test.hepmc
+
+#######################################################
+# Define probes and scorers
+#######################################################
+
+#######################################################
+# Define histograms for batch mode
+#######################################################
+
+# #######################################################
+# # Run for batch mode
+# #######################################################
+/control/doifBatch /run/eventModulo 0 1
+/control/doifBatch /run/beamOn 10
+
+# #######################################################
+# # Run for interactive mode
+# #######################################################
+/control/doifInteractive /run/beamOn 0
+/control/doifInteractive /control/execute vis.mac
+/control/doifInteractive /eAST/trajectory/minimumKE 100. MeV
+
+exit
