@@ -1,6 +1,3 @@
-#ifndef EXTRACT_ATHENA_GDML_C
-#define EXTRACT_ATHENA_GDML_C
-
 #include <TFile.h>
 #include <TGeoManager.h>
 #include <TGeoNode.h>
@@ -20,48 +17,41 @@ int Extract_ATHENA_gdml( string subsys="all", const string outbase="athena_")
 
   TGDMLWrite *writer = new TGDMLWrite;
   writer->SetG4Compatibility(true);
-  // writer->WriteGDMLfile ( gGeoManager, "athena_all.gdml","vg");
-
+  writer->WriteGDMLfile ( gGeoManager, "athena_all.gdml","vg");
+  
+  vector<string> outnames;
   
   TGeoNodeMatrix* m = (TGeoNodeMatrix*) gGeoManager->GetListOfNodes()->At(0);
+  for (int i = 0; i<m->GetNdaughters() ; ++i ){
+    TGeoNode* n = (TGeoNode*) m->GetNodes()->At(i);
+    string outname = outbase+n->GetName()+".gdml";
+    if ( subsys !="all" && n->GetName()!=subsys ) continue;
+    writer->WriteGDMLfile ( gGeoManager, n, outname.c_str(),"vg");
+    outnames.push_back(outname);
+  }
+
+  // Now need to reimport these and add a world_volume
+  for ( auto fname : outnames ){
+    gGeoManager->LockDefaultUnits(false);
+    gGeoManager->SetDefaultUnits(TGeoManager::kRootUnits);
+    gGeoManager->Import(fname.c_str());
+
+    TGeoMedium *Air = gGeoManager->GetMedium("Air");
+    if ( !Air ){
+      TGeoElementTable *table = gGeoManager->GetElementTable();
+      TGeoMixture *air = new TGeoMixture("air",4, 0.00120479);
+      air->AddElement(table->GetElement(6),0.00012);
+      air->AddElement(table->GetElement(7),0.754);
+      air->AddElement(table->GetElement(8),0.234);
+      air->AddElement(table->GetElement(18),0.012827);
+      Air = new TGeoMedium("Air",0, air);  
+    }
   
-  auto top = (TGeoVolume*) gGeoManager->GetTopVolume()->Clone();
-  auto n1 = (TGeoNode*) m->GetNodes()->At(1);
-  auto t1 = (TGeoVolume*) n1->GetVolume()->Clone();
-  top->Draw();
-
-  // gGeoManager = new TGeoManager("helper", "World plus one subsys");
-  // gGeoManager->SetTopVolume(top);
-  // gGeoManager->Print();
-  // top->Draw();
-  //top->AddNode(n1);
-  // gGeoManager->AddVolume(t1);
-  // t1->Print();
-  // top->Print();
-  // n1->Print();
-  // writer->WriteGDMLfile ( gGeoManager, "test.gdml","vg");
-
-
-  // for (int i = 0; i<m->GetNdaughters() ; ++i ){
-  //   TGeoNode* n = (TGeoNode*) m->GetNodes()->At(i);
-  //   string outname = outbase+n->GetName()+".gdml";
-  //   if ( subsys !="all" && n->GetName()!=subsys ) continue;
-  //   cout << n->GetName() << " " << n->GetVolume()->IsAssembly() << endl;
-  //   writer->WriteGDMLfile ( gGeoManager, n, outname.c_str(),"vg");
-  // }
-
-  // string outname = outbase+subsys+".gdml";
-  // for (int i = 0; i<m->GetNdaughters() ; ++i ){
-  //   TGeoNode* n = (TGeoNode*) m->GetNodes()->At(i);
-  //   // if ( subsys !="all" && n->GetName()!=subsys ) m->GetNodes()->RemoveAt(i);
-  //   // gGeoManager->ClearShape(n);
-  //   cout << n->GetName() << " " << n->GetVolume()->IsAssembly() << endl;
-  //   // writer->WriteGDMLfile ( gGeoManager, n, outname.c_str(),"vg");
-  // }
-  // writer->WriteGDMLfile ( gGeoManager, outname.c_str(),"vg");
-
-
+    TGeoVolume *top = gGeoManager->MakeBox("world_volume", Air, 3000., 3000., 10000.);
+    top->AddNode( gGeoManager->GetTopVolume(), 1 );
+    gGeoManager->SetTopVolume(top);
+    gGeoManager->Export(fname.c_str());
+  }
 
   return 0;
 }
-#endif
