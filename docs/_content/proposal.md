@@ -4,8 +4,16 @@ layout: base
 name: proposal
 ---
 
+<h1>Project eAST proposal</h1>
 
-# Motivation 
+---
+
+* TOC
+{:toc}
+
+---
+
+## Motivation 
 
 
 Large-scale detector systems for the EIC are designed by larger
@@ -37,7 +45,7 @@ approach.
 
 ---
 
-# Requirements 
+## Requirements 
 
 A comprehensive and centrally maintained simulation tool based on Geant4
 for both fast and full simulations with a library of potential detector
@@ -86,9 +94,9 @@ importance for data processing and analyses for large-scale detector
 systems at the EIC.
 
 ---
-# Work program and deliverables
+## Work program and deliverables
 
-## Create CAD interface to the detector simulation tool
+### Create CAD interface to the detector simulation tool
 
 Fast and detailed simulations need to be able to implement updates on
 detector layout fast, where these updates need to be based on detailed
@@ -124,7 +132,7 @@ information needed to the detector simulation.
 Simulations.
 2) Macro file that allows material composition information to be easily ported to detector simulations.*
 
-## Create an initial version of the fast and full detector simulation tool
+### Create an initial version of the fast and full detector simulation tool
 
 The detector simulation tool has to be capable of doing both fast and
 full simulations in one application, easily configurable for each
@@ -140,7 +148,7 @@ such a detector simulation tool.
 
 *Deliverable: First running version of detector simulation tool.*
 
-## Communicate with detector study groups
+### Communicate with detector study groups
 
 The existing standalone simulation applications that are to be adapted
 to the new detector simulation tool have to be examined and converted to
@@ -157,7 +165,7 @@ community based on the experience from the prototype.
 
 *Deliverable: Documented prototype integration of an existing simulation.*
 
-## Develop and deliver a common physics list 
+### Develop and deliver a common physics list 
 
 Geant4 offers several alternative physics models. To make comparisons
 over different detector configurations, one has to use a common set of
@@ -167,7 +175,7 @@ and advise on validations of the physics models with beam-test results.
 
 *Deliverable: Documented common physics list.*
 
-## Integrate with overall software efforts
+### Integrate with overall software efforts
 
 We will compile the requirements of detector simulation to the software
 infrastructure (e.g., common geometry and data formats) to be shared
@@ -176,7 +184,7 @@ simulation, digitization, reconstruction and analysis programs.
 
 *Deliverable: Requirements document. *
 
-## Deliver a detector simulation tool extensible to heterogeneous architectures
+### Deliver a detector simulation tool extensible to heterogeneous architectures
 
 <span id="_4d34og8" class="anchor"></span>In the future, simulation jobs
 may run on computers with heterogeneous hardware configurations, e.g.,
@@ -190,7 +198,7 @@ developers of detector components of the thread-safety of their code.
 *Deliverable: Proven use of a tasking mechanism.*
 
 ---
-# Project leader
+## Project leader
 
 <span id="_2s8eyo1" class="anchor"></span>This project aims to take
 advantage of the proven value for detailed nuclear and particle physics
@@ -237,8 +245,8 @@ leader we are looking for. Finally and crucially, Dr. Asai is available
 for this work if we act promptly.
 
 ---
-# Appendix
-## Notes from the [*March 25 EIC software meeting*](https://indico.bnl.gov/event/11102/) discussion (Torre)
+## Appendix
+### Notes from the [*March 25 EIC software meeting*](https://indico.bnl.gov/event/11102/) discussion (Torre)
 
 -   CAD work is a distinct project, \~1mo duration, it goes first both
     because Elke and Rolf need it and because it gives us a month to
@@ -305,7 +313,7 @@ for this work if we act promptly.
     in the EIC GitHub
 -   should be containerized and easily distributable/usable
 
-## Notes from the [*March 2 EIC software meeting*](https://indico.bnl.gov/event/11151/) discussion (Markus)
+### Notes from the [*March 2 EIC software meeting*](https://indico.bnl.gov/event/11151/) discussion (Markus)
 
 -   Wouter asked about the steps after the community input. We clarified
     that there will be regular updates in the weekly EIC Software

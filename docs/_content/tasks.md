@@ -6,12 +6,14 @@ name: tasks
 
 <h1> Open Tasks</h1>
 
+---
+
 * TOC
 {:toc}
 
 ---
 
-# CAD import
+## CAD import
 
 * MOU with INFN as we plan to use their converter
 * Verify that we can import the latest CAD files from the EIC project
@@ -19,12 +21,12 @@ name: tasks
 * Document the CAD import
 * Test the silicon tracker CAD model by James Fast
 
-# Fast Simulations
+## Fast Simulations
 
 * Create an example calorimeter geometry in eAST
 * Give an example for fast simulations in eAST, perhaps for one region (Kolja, Maxim, Makoto)
 
-# Full Simulations
+## Full Simulations
 
 * Afterburner (Markus will discuss with Jin)
   * Including option to turn off pre-assigned decay procedure
@@ -40,12 +42,12 @@ name: tasks
   * Ask for test-beam data (Markus, Torre)
   * Can we work with the test setup from the CUA calorimeter tests?
 
-# Documentation
+## Documentation
 
 * Document key eAST features on the website
 * Document how to reuse existing detector simulation in eAST
 * Prepare an online tutorial
 
-# Promotion
+## Promotion
 
 * Select proper graphics including event display snapshots to demonstrate eAST capabilities

@@ -4,12 +4,16 @@ layout: base
 name: contribute
 ---
 
+<h1>Contribute to this site</h1>
+
+---
+
 * TOC
 {:toc}
 
 ---
 
-# Overview
+## Overview
 
 This page will be of interest to the collaborators interested in contributing to this
 site or involved in its maintenance. In many cases making a contribution can be as easy
@@ -28,7 +32,7 @@ website generator.
 
 ---
 
-# Jekyll, Markdown and Liquid
+## Jekyll, Markdown and Liquid
 
 The {% include link.md name='jekyll' tag='Jekyll' %} website generator renders
 pages written in {% include link.md name='markdown' tag='Markdown' %} format, which
@@ -85,7 +89,7 @@ language. It is easy to read and learn.
 
 ---
 
-# Formatting
+## Formatting
 
 We aim to provide a uniform look and feel across the site.
 
@@ -145,7 +149,7 @@ class MyClass {       // The class
 ```
 ---
 
-# Managing Data
+## Managing Data
 
 Jekyll is a capable platform when it comes to storing and manipulating structured data.
 The data component of the site can reside in the "front matter" section of the Markdown-formatted
