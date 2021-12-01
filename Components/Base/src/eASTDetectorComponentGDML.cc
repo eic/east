@@ -74,9 +74,14 @@ void eASTDetectorComponentGDML::Construct(G4VPhysicalVolume* worldPhys)
   auto tempEnvSolid = tempEnvLog->GetSolid();
   G4int ndaughter = G4int(tempEnvLog->GetNoDaughters());
   auto visAtt = new G4VisAttributes(G4Colour(1.0,0.0,1.0));
+  // G4cerr << tempEnvLog->GetName() << "  " << ndaughter << G4endl;
+
   for(G4int idaughter=0;idaughter<ndaughter;idaughter++)
   {
     auto daughter = tempEnvLog->GetDaughter(idaughter);
+    // std::string name = daughter->GetLogicalVolume()->GetName();
+    // name+="_" + std::to_string(idaughter);
+    // daughter->GetLogicalVolume()->SetName( name );
     auto new_rmat = GetRotation();
     if(new_rmat!=G4RotationMatrix())
     {
@@ -93,6 +98,19 @@ void eASTDetectorComponentGDML::Construct(G4VPhysicalVolume* worldPhys)
     daughter->SetMotherLogical(worldPhys->GetLogicalVolume());
     daughter->GetLogicalVolume()->SetRegion(pRegion);
     pRegion->AddRootLogicalVolume(daughter->GetLogicalVolume());
+    // G4cerr << daughter->GetLogicalVolume()->GetName() << G4endl;
+    // G4cerr << idaughter << G4endl;
+    for ( size_t i=0; i<daughter->GetLogicalVolume()->GetNoDaughters() ; i++ ){
+      auto dd = daughter->GetLogicalVolume()->GetDaughter(i);
+      // G4cerr << dd->GetName() << G4endl;
+      for ( size_t j=0; j<dd->GetLogicalVolume()->GetNoDaughters() ; j++ ){
+	auto ddd = dd->GetLogicalVolume()->GetDaughter(j);
+	std::string name3 = ddd->GetName();
+      	// if ( name3.rfind("av",0) == 0 ){
+	//   G4cerr << "  " << name3 << G4endl;
+	// }
+      }
+    }
   }
   delete tempEnv;
   delete tempEnvLog;
