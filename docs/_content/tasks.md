@@ -24,6 +24,7 @@ name: tasks
 ## Fast Simulations
 
 * Create an example calorimeter geometry in eAST
+  * 12/01/21 kk: Done, can get (components of) ECCE and ATHENA, see [Examples](examples).
 * Give an example for fast simulations in eAST, perhaps for one region (Kolja, Maxim, Makoto)
 
 ## Full Simulations
