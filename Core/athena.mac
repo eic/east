@@ -43,20 +43,24 @@
 # /eAST/component/beampipe/rotate y -90. deg
 
 # /eAST/component/GenericGDML1 1
+# /eAST/component/GenericGDML1/gdmlFile Components/ATHENA/athena_all.gdml
+
+# /eAST/component/GenericGDML1 1
 # /eAST/component/GenericGDML1/gdmlFile Components/ATHENA/athena_SolenoidCoilBarrel_assembly_13.gdml
 
-# /eAST/component/GenericGDML2 1
-# /eAST/component/GenericGDML2/gdmlFile Components/ATHENA/athena_EcalBarrelImaging_26.gdml
-
 /eAST/component/GenericGDML2 1
-/eAST/component/GenericGDML2/gdmlFile test.gdml
+/eAST/component/GenericGDML2/gdmlFile Components/ATHENA/athena_EcalBarrelImaging_26.gdml
 
 # /eAST/component/GenericGDML3 1
 # /eAST/component/GenericGDML3/gdmlFile Components/ATHENA/athena_EcalBarrelScFi_27.gdml
-# /eAST/component/GenericGDML4 1
-# /eAST/component/GenericGDML4/gdmlFile Components/ATHENA/athena_HcalBarrel_28.gdml
+
+/eAST/component/GenericGDML4 1
+/eAST/component/GenericGDML4/gdmlFile Components/ATHENA/athena_HcalBarrel_28.gdml
+
+
 # /eAST/component/GenericGDML5 1
 # /eAST/component/GenericGDML5/gdmlFile Components/ATHENA/
+
 
 #/eAST/component/GenericGDML1/gdmlFile orig_athena.gdml
 #/eAST/component/GenericGDML1/gdmlFile athena.gdml
