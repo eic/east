@@ -2,6 +2,7 @@
 #include <TGeoManager.h>
 #include <TGeoNode.h>
 #include <TGDMLWrite.h>
+#include <RVersion.h>
 
 #include <string>
 
@@ -11,10 +12,13 @@ int Extract_ATHENA_gdml( string subsys="all", const string outbase="athena_")
   gGeoManager = (TGeoManager*) file->Get("default");
 
   // need to switch to root units 
-  // (unclear why, but needed for corectness)
+  // This flexibility was added in 6.22 
+  // And seems to have changed the default
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,22,00)
   gGeoManager->LockDefaultUnits(false);
   gGeoManager->SetDefaultUnits(TGeoManager::kRootUnits);
-
+#endif
+    
   TGDMLWrite *writer = new TGDMLWrite;
   writer->SetG4Compatibility(true);
   writer->WriteGDMLfile ( gGeoManager, "athena_all.gdml","vg");
@@ -32,8 +36,10 @@ int Extract_ATHENA_gdml( string subsys="all", const string outbase="athena_")
 
   // Now need to reimport these and add a world_volume
   for ( auto fname : outnames ){
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,22,00)
     gGeoManager->LockDefaultUnits(false);
     gGeoManager->SetDefaultUnits(TGeoManager::kRootUnits);
+#endif
     gGeoManager->Import(fname.c_str());
 
     TGeoMedium *Air = gGeoManager->GetMedium("Air");
@@ -50,7 +56,7 @@ int Extract_ATHENA_gdml( string subsys="all", const string outbase="athena_")
     TGeoVolume *top = gGeoManager->MakeBox("world_volume", Air, 3000., 3000., 10000.);
     top->AddNode( gGeoManager->GetTopVolume(), 1 );
     gGeoManager->SetTopVolume(top);
-    gGeoManager->Export(fname.c_str());
+    gGeoManager->Export(fname.c_str(), "vg");
   }
 
   return 0;
