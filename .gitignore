@@ -4,6 +4,8 @@ cmake-build-*/
 
 # Downloaded data files
 Solenoid/data
+Components/ECCE/*.gdml
+Components/ATHENA/*.gdml
 
 # jekyll files
 Gemfile.lock
