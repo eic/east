@@ -50,13 +50,13 @@
 /eAST/component/beampipe/rotate y -90. deg
 
 /eAST/component/GenericGDML1 1
-/eAST/component/GenericGDML1/gdmlFile ecce_becal.gdml
+/eAST/component/GenericGDML1/gdmlFile Components/ECCE/ecce_becal.gdml
 /eAST/component/GenericGDML2 1
-/eAST/component/GenericGDML2/gdmlFile ecce_hcalin.gdml
+/eAST/component/GenericGDML2/gdmlFile Components/ECCE/ecce_hcalin.gdml
 /eAST/component/GenericGDML3 1
-/eAST/component/GenericGDML3/gdmlFile ecce_hcalout.gdml
+/eAST/component/GenericGDML3/gdmlFile Components/ECCE/ecce_hcalout.gdml
 /eAST/component/GenericGDML4 1
-/eAST/component/GenericGDML4/gdmlFile ecce_magnet.gdml
+/eAST/component/GenericGDML4/gdmlFile Components/ECCE/ecce_magnet.gdml
 
 # /eAST/component/DIRC_support/materialFile Components/Beampipe/data/DIRC_support_06-04-21.mat
 
