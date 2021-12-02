@@ -104,8 +104,8 @@ A closer look at `ecce.mac` shows that components are added via
 As of now, up to 5 generic components an be added this way. An arbitrary number,
 but in the near future we want to switch to less generic classes anyway.
 
-**WARNING**: An invocation of `cmake` will overwrite any changes you make to the `*.mac`
-by automatically copying the originals in `Core/`, so rename them or copy them.
+**WARNING**: An invocation of `make install` will overwrite any changes you make to the `*.mac`
+by automatically copying the originals from `Core/`, so rename them or copy them.
 
 #### Notes
 * If you want to regenerate the list of subsystems, you can use
