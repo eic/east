@@ -65,6 +65,8 @@ void eASTPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 {
   if(fParticleGun) fParticleGun->GeneratePrimaryVertex(event);
   if(fParticleSource) fParticleSource->GeneratePrimaryVertex(event);
+#ifdef eAST_USE_HepMC3
   if(fHepMC3Interface) fHepMC3Interface->GeneratePrimaryVertex(event);
+#endif // eAST_USE_HepMC3
 }
 
