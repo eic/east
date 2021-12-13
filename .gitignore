@@ -1,3 +1,6 @@
+# G4 Artefacts:
+G4History.*
+
 # Build directory
 build
 cmake-build-*/
