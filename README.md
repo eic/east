@@ -10,4 +10,4 @@ Project *eAST* (eA Simulation Toolkit) is led by Makoto Asai (SLAC) and builds o
 ## Installing and Using eAST
 
 Please refer to the full documentation and manual for *eAST* hosted on our
-[github page](https://eic.github.io/east/).
+[GitHub page](https://eic.github.io/east/content/manual.html).
