@@ -4,7 +4,7 @@ layout: base
 name: examples
 ---
 
-# Examples
+<h1>Examples</h1>
 
 ---
 
@@ -27,13 +27,13 @@ or, for bash,
 source /cvmfs/eic.opensciencegrid.org/ecce/gcc-8.3/opt/fun4all/core/bin/ecce_setup.sh -n
 ```
 
-1. Obtain the latest detector Implementation:
+2. Obtain the latest detector Implementation:
 ```sh
 mkdir ecce
 cd ecce
 git clone https://github.com/ECCE-EIC/macros.git
 ```
-1. Copy (or soft-link) the script included in eAST to extract individual components.
+3. Copy (or soft-link) the script included in eAST to extract individual components.
 For this example, we will assume that eAST is installed in `/home/eicuser/east/`,
 please adjust accordingly.
 ```sh
@@ -44,6 +44,7 @@ Optional: If you know or suspect that subsystems have been added or significantl
 changed recently, compare this macro to `Fun4All_G4_EICDetector.C`.
 `Extract_ECCE_gdml.C` is largely a copy of that segment, just grouped with
 sensible names, e.g.
+
 ```c++
 if ( subsys=="tracking" || subsys=="all" ) {
   if (outname=="") outname = "ecce_" + subsys + ".gdml";
@@ -56,6 +57,7 @@ if ( subsys=="tracking" || subsys=="all" ) {
   Enable::FST = true;
 }
 ```
+
 4. Finally, extract the subsystem gdml descriptions. The script can be called with
 the name of a subsystem as argument:
 ```sh
@@ -74,7 +76,8 @@ do
     root -l -b -q Extract_ECCE_gdml.C\(\"$s\"\)
 done
 ```
-1. The `ecce.mac` macro in eAST expects these gdml files in a specific location.
+
+5. The `ecce.mac` macro in eAST expects these gdml files in a specific location.
 You can adjust the paths in the macro, but we recommend moving the gdml files:
 ```sh
 mv *.gdml /home/eicuser/east/Components/ECCE/
@@ -107,7 +110,7 @@ but in the near future we want to switch to less generic classes anyway.
 **WARNING**: An invocation of `make install` will overwrite any changes you make to the `*.mac`
 by automatically copying the originals from `Core/`, so rename them or copy them.
 
-#### Notes
+## Notes
 * If you want to regenerate the list of subsystems, you can use
 ```sh
 grep 'if ( subsys==' Extract_ECCE_gdml.C | cut -d'"' -f 2
