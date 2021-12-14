@@ -1,6 +1,6 @@
 // ********************************************************************
 //
-// eAInitialization.cc
+// eASTInitialization.cc
 //   Defines the initialization procedure of Geant4 and eAST
 //
 // History
@@ -8,7 +8,7 @@
 //
 // ********************************************************************
 
-#include "eAInitialization.hh"
+#include "eASTInitialization.hh"
 
 #include "eASTDetectorConstruction.hh"
 #include "eASTPhysicsList.hh"
@@ -25,8 +25,9 @@
 
 #include "eASTBeamPipe.hh"
 #include "eASTSupportStructure.hh"
+#include "eASTDetectorComponentGDML.hh"
 
-eAInitialization::eAInitialization(G4int verboseLvl)
+eASTInitialization::eASTInitialization(G4int verboseLvl)
 : verboseLevel(verboseLvl)
 {
   // adding units
@@ -38,7 +39,7 @@ eAInitialization::eAInitialization(G4int verboseLvl)
 
   messenger = new G4GenericMessenger(this,"/eAST/","eAST commands");
   auto& initCmd = messenger->DeclareMethod("initialize",
-         &eAInitialization::Initialize,"Initialize G4RunManager and eAST");
+         &eASTInitialization::Initialize,"Initialize G4RunManager and eAST");
   initCmd.SetToBeBroadcasted(false);
   initCmd.SetStates(G4State_PreInit);
 
@@ -58,14 +59,21 @@ eAInitialization::eAInitialization(G4int verboseLvl)
   new eASTSupportStructure("DIRC_support");
   new eASTSupportStructure("EM_CAL_support");
 
+  new eASTDetectorComponentGDML("GenericGDML1");
+  new eASTDetectorComponentGDML("GenericGDML2");
+  new eASTDetectorComponentGDML("GenericGDML3");
+  new eASTDetectorComponentGDML("GenericGDML4");
+  new eASTDetectorComponentGDML("GenericGDML5");
+	  
+
 }
 
-eAInitialization::~eAInitialization()
+eASTInitialization::~eASTInitialization()
 {
   delete messenger; 
 }
 
-void eAInitialization::Initialize()
+void eASTInitialization::Initialize()
 {
   auto runManager = G4RunManager::GetRunManager();
   runManager->SetUserInitialization(detector);
@@ -80,7 +88,7 @@ void eAInitialization::Initialize()
 #include "G4UIQt.hh"
 #endif
 
-void eAInitialization::SetWindowText(G4UIExecutive* ui)
+void eASTInitialization::SetWindowText(G4UIExecutive* ui)
 {
   // If the current GUI is not G4UIQt, do nothing and return.
   if(!(ui->IsGUI())) return;

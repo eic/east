@@ -35,6 +35,8 @@ class eASTRegionInformation : public G4VUserRegionInformation
     G4bool isMagnet = false;
     G4bool isSupportStructure = false;
 
+    G4bool isDetectorComponentGDML = false;
+
     G4bool isVertexDetector = false;
     G4bool isTracker = false;
     G4bool isEMCalorimeter = false;
@@ -47,6 +49,7 @@ class eASTRegionInformation : public G4VUserRegionInformation
     void SetMagnet(G4bool val = true) { isMagnet = val; }
     void SetSupportStructure(G4bool val = true) { isSupportStructure = val; }
 
+    void SetDetectorComponentGDML(G4bool val = true) { isDetectorComponentGDML = val; }
     void SetVertexDetector(G4bool val = true) { isVertexDetector = val; }
     void SetTracker(G4bool val = true) { isTracker = val; }
     void SetEMCalorimeter(G4bool val = true) { isEMCalorimeter = val; }
@@ -58,6 +61,7 @@ class eASTRegionInformation : public G4VUserRegionInformation
     G4bool IsMagnet() const { return isMagnet; }
     G4bool IsSupportStructure() const { return isSupportStructure; }
 
+    G4bool IsDetectorComponentGDML() const { return isDetectorComponentGDML; }
     G4bool IsVertexDetector() const { return isVertexDetector; }
     G4bool IsTracker() const { return isTracker; }
     G4bool IsEMCalorimeter() const { return isEMCalorimeter; }

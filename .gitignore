@@ -7,9 +7,15 @@ cmake-build-*/
 
 # Downloaded data files
 Solenoid/data
+Components/ECCE/*.gdml
+Components/ATHENA/*.gdml
 
 # jekyll files
 Gemfile.lock
+
+# Editor backups
+*~
+\#*
 
 # Prerequisites
 *.d
@@ -63,7 +69,7 @@ Gemfile.lock
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 .idea/
 
-# Jekyll/GitHub pages artefacts
+# Jekyll/GitHub pages artifacts
 _site
 _site/*
 .sass-cache

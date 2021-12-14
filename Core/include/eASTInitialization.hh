@@ -1,6 +1,6 @@
 // ********************************************************************
 //
-// eRInitialization.hh
+// eASTInitialization.hh
 //   Defines the initialization procedure of Geant4 and eAST
 //
 // History
@@ -8,8 +8,8 @@
 //
 // ********************************************************************
 
-#ifndef eAInitialization_h
-#define eAInitialization_h 1
+#ifndef eASRInitialization_h
+#define eASTInitialization_h 1
 
 #include "G4Types.hh"
 
@@ -20,11 +20,11 @@ class eASTActionInitialization;
 class G4GenericMessenger;
 class G4UIExecutive;
 
-class eAInitialization
+class eASTInitialization
 {
   public:
-    eAInitialization(G4int verboseLvl=0);
-    ~eAInitialization();
+    eASTInitialization(G4int verboseLvl=0);
+    ~eASTInitialization();
     void Initialize();
     void SetWindowText(G4UIExecutive*);
 
