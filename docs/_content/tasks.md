@@ -31,6 +31,8 @@ name: tasks
 
 * Afterburner (Markus will discuss with Jin)
   * Including option to turn off pre-assigned decay procedure
+* Time structure (Makoto)
+  * For streaming readout study
 * Implementation of detector components
   * Separate file (either C++ or GDML) for each component
   * Associated sensitive detector is preferred but not mandatory
