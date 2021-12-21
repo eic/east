@@ -15,21 +15,22 @@ name: tasks
 
 ## CAD import
 
-* MOU with INFN as we plan to use their converter
+* MOU with INFN as we plan to use their converter (Makoto, Andrea, Markus)
 * Verify that we can import the latest CAD files from the EIC project
 * Make the latest GDML files available as part of the east-geometry repository with Git LFS support
-* Document the CAD import
-* Test the silicon tracker CAD model by James Fast
+* Document the CAD import (Wouter, Makoto, Maxim)
+* Test the silicon tracker CAD model by James Fast (not for now)
 
 ## Fast Simulations
 
 * Create an example calorimeter geometry in eAST
   * 12/01/21 kk: Done, can get (components of) ECCE and ATHENA, see [Examples](examples).
+  * Periodically make ECCE and ATHENA gdml files available in eAST repository (Kolja)
 * Give an example for fast simulations in eAST, perhaps for one region (Kolja, Maxim, Makoto)
 
 ## Full Simulations
 
-* Afterburner (Markus will discuss with Jin)
+* Afterburner (Markus will discuss with Jin, Makoto)
   * Including option to turn off pre-assigned decay procedure
 * Time structure (Makoto)
   * For streaming readout study
