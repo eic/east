@@ -39,6 +39,7 @@ name: tasks
   * Define detector regions
 * Import detector components from ATHENA or ECCE in eAST, including sensitive detectors if available
 * Physics List
+  * Migration to Geant4 version 11.0 (Makoto)
   * Validation with CLAS12 simulations (Maurizio)
   * Add options (e.g. NeutronHP, Optical photon)
 * Validation
