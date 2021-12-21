@@ -50,7 +50,7 @@ name: tasks
     
 ## Documentation
 
-* Document key eAST features on the website
+* Document key eAST features on the website (Makoto, Maxim, Kolja, Wouter, etc)
 * Document how to reuse existing detector simulation in eAST
 * Prepare an online tutorial
 
