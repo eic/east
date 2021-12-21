@@ -25,7 +25,7 @@ name: tasks
 
 * Create an example calorimeter geometry in eAST
   * 12/01/21 kk: Done, can get (components of) ECCE and ATHENA, see [Examples](examples).
-  * Periodically make ECCE and ATHENA gdml files available in eAST repository (Kolja)
+  * Periodically make ECCE and ATHENA gdml files available in eAST Git LFS repository (Kolja)
 * Give an example for fast simulations in eAST, perhaps for one region (Kolja, Maxim, Makoto)
 
 ## Full Simulations
@@ -42,11 +42,12 @@ name: tasks
 * Physics List
   * Migration to Geant4 version 11.0 (Makoto)
   * Validation with CLAS12 simulations (Maurizio)
-  * Add options (e.g. NeutronHP, Optical photon)
+  * Add options (e.g. NeutronHP, Optical photon) (Makoto)
 * Validation
   * Ask for test-beam data (Markus, Torre)
-  * Can we work with the test setup from the CUA calorimeter tests?
-
+  * Can we work with the test setup from the CUA calorimeter tests? 
+    -- Ask them if they can make GDML file (Markus)
+    
 ## Documentation
 
 * Document key eAST features on the website
