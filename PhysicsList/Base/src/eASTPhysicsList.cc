@@ -6,6 +6,7 @@
 //  History
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.05.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
