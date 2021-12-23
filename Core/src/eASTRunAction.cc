@@ -6,7 +6,8 @@
 //   Filling histograms is taken care by eASTRun class.
 //
 // History
-//   May 8th, 2021 : first implementation
+//    May 8th, 2021 : first implementation
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 // ********************************************************************
 
@@ -36,7 +37,9 @@ eASTRunAction::eASTRunAction()
 
 eASTRunAction::~eASTRunAction()
 {
+#if G4VERSION_NUMBER < 1100
   delete G4AnalysisManager::Instance();  
+#endif
   delete messenger;
 }
 
