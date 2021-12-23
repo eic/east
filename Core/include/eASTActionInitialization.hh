@@ -13,7 +13,7 @@
 
 #include "G4VUserActionInitialization.hh"
 
-#include "eASTAnalysis.hh"
+#include "G4AnalysisManager.hh"
 #include "G4TScoreHistFiller.hh"
 #include "G4Types.hh"
 

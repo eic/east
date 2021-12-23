@@ -5,6 +5,7 @@
 //
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -12,9 +13,15 @@
 #include "eASTNeutronPhysics.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4NeutronInelasticProcess.hh"
-#include "G4HadronElasticProcess.hh"
 #include "G4HadronCaptureProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#include "G4NeutronCaptureProcess.hh"
+#endif
+#include "G4HadronElasticProcess.hh"
 #include "G4NeutronKiller.hh"
 
 #include "G4CascadeInterface.hh"
@@ -91,14 +98,23 @@ void eASTNeutronPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(nProcEl);
 
   // Inelastic process
+#if G4VERSION_NUMBER < 1100
   G4NeutronInelasticProcess* nProcInel = new G4NeutronInelasticProcess;
+#else
+  auto* nProcInel = new G4HadronInelasticProcess("NeutronInelasticProcess",
+                                G4Neutron::Neutron() );
+#endif
   nProcInel->RegisterMe(loInelModel);
   nProcInel->RegisterMe(ftfp);
   nProcInel->AddDataSet(inelCS);
   procMan->AddDiscreteProcess(nProcInel);
 
   // Capture process
+#if G4VERSION_NUMBER < 1100
   G4HadronCaptureProcess* nProcCap = new G4HadronCaptureProcess("nCapture");
+#else
+  auto* nProcCap = new G4NeutronCaptureProcess("nCapture");
+#endif
   nProcCap->RegisterMe(capModel);
   nProcCap->AddDataSet(capCS);
   procMan->AddDiscreteProcess(nProcCap);

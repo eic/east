@@ -46,6 +46,7 @@
 #include "G4IonConstructor.hh"
 #include "G4ShortLivedConstructor.hh"
 
+#include "G4Version.hh"
 
 eASTPhysicsList::eASTPhysicsList()
  :G4VModularPhysicsList()
@@ -57,6 +58,7 @@ eASTPhysicsList::eASTPhysicsList()
   //
   new G4UnitDefinition( "millielectronVolt", "meV", "Energy", 1.e-3*eV);   
   // 
+#if G4VERSION_NUMBER < 1100
   const G4double minute = 60*second;
   const G4double hour   = 60*minute;
   const G4double day    = 24*hour;
@@ -65,6 +67,7 @@ eASTPhysicsList::eASTPhysicsList()
   new G4UnitDefinition("hour",   "h",   "Time", hour);
   new G4UnitDefinition("day",    "d",   "Time", day);
   new G4UnitDefinition("year",   "y",   "Time", year);
+#endif
 
   // Mandatory for G4NuclideTable
   // Half-life threshold must be set small or many short-lived isomers 

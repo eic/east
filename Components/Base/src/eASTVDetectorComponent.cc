@@ -17,6 +17,7 @@
 #include "eASTUserActionDispatcher.hh"
 #include "G4UImanager.hh"
 #include "G4Tokenizer.hh"
+#include "G4Version.hh"
 #include <fstream>
 
 eASTVDetectorComponent::eASTVDetectorComponent(G4String compName, G4int vl)
@@ -87,7 +88,11 @@ void eASTVDetectorComponent::ReadMaterialFile(G4String fileName)
       G4Tokenizer next(line);
       G4String logVolName = next();
       G4String matName = next();
+#if G4VERSION_NUMBER < 1100
       if(logVolName.isNull() || matName.isNull()) continue;
+#else
+      if(logVolName.empty() || matName.empty()) continue;
+#endif
       G4String cmd = "/eAST/material/create " + matName;
       G4UImanager::GetUIpointer()->ApplyCommand(cmd);
       cmd = "/eAST/material/set " + logVolName + " " + matName;

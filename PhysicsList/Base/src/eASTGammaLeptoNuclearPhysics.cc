@@ -6,6 +6,7 @@
 //
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -13,7 +14,14 @@
 #include "eASTGammaLeptoNuclearPhysics.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4PhotoNuclearProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#include "G4PhotoNuclearCrossSection.hh"
+#include "G4HadronicProcess.hh"
+#endif
 #include "G4ElectronNuclearProcess.hh"
 #include "G4PositronNuclearProcess.hh"
 #include "G4MuonNuclearProcess.hh"
@@ -72,10 +80,25 @@ void eASTGammaLeptoNuclearPhysics::ConstructProcess()
 
   // Gamma
   procMan = G4Gamma::Gamma()->GetProcessManager();
+#if G4VERSION_NUMBER < 1100
   G4PhotoNuclearProcess* pnProc = new G4PhotoNuclearProcess;
+#else
+  auto* pnProc = new G4HadronInelasticProcess("PhotoNuclearProcess",
+                             G4Gamma::Gamma() );
+  pnProc->AddDataSet(new G4PhotoNuclearCrossSection);
+#endif
   pnProc->RegisterMe(theGammaReaction);
   pnProc->RegisterMe(qgsp);
   procMan->AddDiscreteProcess(pnProc);
+
+//#if G4VERSION_NUMBER >= 1100
+// Following processes will be set as optional (with setting corresponding
+// cross-section data
+//  auto* photonCapture = new G4HadronicProcess( "photonNuclear", fCapture );
+//  auto* photonFission = new G4HadronicProcess( "photonFission", fFission );
+//  procMan->AddDiscreteProcess(photonCapture);
+//  procMan->AddDiscreteProcess(photonFission);
+//#endif
 
   // Electron
   procMan = G4Electron::Electron()->GetProcessManager();

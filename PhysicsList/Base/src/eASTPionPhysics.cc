@@ -6,6 +6,7 @@
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.02.2021 : migration to Geant4 version 10.7 - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,8 +15,13 @@
 #include "G4MesonConstructor.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4PionPlusInelasticProcess.hh"
 #include "G4PionMinusInelasticProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#endif
 #include "G4HadronElasticProcess.hh"
 #include "G4HadronicAbsorptionBertini.hh"
 
@@ -95,7 +101,12 @@ void eASTPionPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(pipProcEl);
 
   // inelastic 
+#if G4VERSION_NUMBER < 1100
   G4PionPlusInelasticProcess* pipProcInel = new G4PionPlusInelasticProcess;
+#else
+  auto* pipProcInel = new G4HadronInelasticProcess("PionPlusInelasticProcess",
+                                  G4PionPlus::PionPlus() );
+#endif
   pipProcInel->RegisterMe(loInelModel);
   pipProcInel->RegisterMe(ftfp);
   pipProcInel->AddDataSet(new G4BGGPionInelasticXS(G4PionPlus::PionPlus() ) );
@@ -115,7 +126,12 @@ void eASTPionPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(pimProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4PionMinusInelasticProcess* pimProcInel = new G4PionMinusInelasticProcess;
+#else
+  auto* pimProcInel = new G4HadronInelasticProcess("PionMinusInelasticProcess",
+                                  G4PionMinus::PionMinus() );
+#endif
   pimProcInel->RegisterMe(loInelModel);
   pimProcInel->RegisterMe(ftfp);
   pimProcInel->AddDataSet(new G4BGGPionInelasticXS(G4PionMinus::PionMinus() ) );

@@ -6,6 +6,7 @@
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.02.2021 : migration to Genat4 version 10.7 - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -13,10 +14,15 @@
 #include "eASTKaonPhysics.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4KaonPlusInelasticProcess.hh"
 #include "G4KaonMinusInelasticProcess.hh"
 #include "G4KaonZeroLInelasticProcess.hh"
 #include "G4KaonZeroSInelasticProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#endif
 #include "G4HadronElasticProcess.hh"
 #include "G4HadronicAbsorptionBertini.hh"
 
@@ -100,7 +106,12 @@ void eASTKaonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(kpProcEl);
 
   // inelastic 
+#if G4VERSION_NUMBER < 1100
   G4KaonPlusInelasticProcess* kpProcInel = new G4KaonPlusInelasticProcess;
+#else 
+  auto* kpProcInel = new G4HadronInelasticProcess("KaonPlusInelasticProcess",
+                                 G4KaonPlus::KaonPlus() );
+#endif
   kpProcInel->RegisterMe(loInelModel);
   kpProcInel->RegisterMe(ftfp);
   kpProcInel->AddDataSet(kpCS);
@@ -119,7 +130,12 @@ void eASTKaonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(kmProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4KaonMinusInelasticProcess* kmProcInel = new G4KaonMinusInelasticProcess;
+#else
+  auto* kmProcInel = new G4HadronInelasticProcess("KaonMinusInelasticProcess",
+                                 G4KaonMinus::KaonMinus() );
+#endif
   kmProcInel->RegisterMe(loInelModel);
   kmProcInel->RegisterMe(ftfp);
   kmProcInel->AddDataSet(kmCS);
@@ -142,7 +158,12 @@ void eASTKaonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(k0LProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4KaonZeroLInelasticProcess* k0LProcInel = new G4KaonZeroLInelasticProcess;
+#else
+  auto* k0LProcInel = new G4HadronInelasticProcess("Kaon0LongInelasticProcess",
+                                  G4KaonZeroLong::KaonZeroLong() );
+#endif
   k0LProcInel->RegisterMe(loInelModel);
   k0LProcInel->RegisterMe(ftfp);
   k0LProcInel->AddDataSet(kzCS);
@@ -161,7 +182,12 @@ void eASTKaonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(k0SProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4KaonZeroSInelasticProcess* k0SProcInel = new G4KaonZeroSInelasticProcess;
+#else
+  auto* k0SProcInel = new G4HadronInelasticProcess("Kaon0ShortInelasticProcess",
+                                  G4KaonZeroShort::KaonZeroShort() );
+#endif
   k0SProcInel->RegisterMe(loInelModel);
   k0SProcInel->RegisterMe(ftfp);
   k0SProcInel->AddDataSet(kzCS);
