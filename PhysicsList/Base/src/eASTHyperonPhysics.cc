@@ -6,6 +6,7 @@
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.02.2021 : migration to Geant4 version 10.7 - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -13,12 +14,17 @@
 #include "eASTHyperonPhysics.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4LambdaInelasticProcess.hh"
 #include "G4SigmaPlusInelasticProcess.hh"
 #include "G4SigmaMinusInelasticProcess.hh"
 #include "G4XiZeroInelasticProcess.hh"
 #include "G4XiMinusInelasticProcess.hh"
 #include "G4OmegaMinusInelasticProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#endif
 
 #include "G4HadronElasticProcess.hh"
 #include "G4HadronicAbsorptionBertini.hh"
@@ -95,7 +101,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(lamProcEl);
 
   // inelastic 
+#if G4VERSION_NUMBER < 1100
   G4LambdaInelasticProcess* lamProcInel = new G4LambdaInelasticProcess;
+#else
+  auto* lamProcInel = new G4HadronInelasticProcess("LambdaInelasticProcess",
+                                  G4Lambda::Lambda() );
+#endif
   lamProcInel->RegisterMe(loInelModel);
   lamProcInel->RegisterMe(ftfp);
   lamProcInel->AddDataSet(chipsInelastic);
@@ -114,7 +125,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(spProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4SigmaPlusInelasticProcess* spProcInel = new G4SigmaPlusInelasticProcess;
+#else
+  auto* spProcInel = new G4HadronInelasticProcess("SigmaPlusInelasticProcess",
+                                 G4SigmaPlus::SigmaPlus() );
+#endif
   spProcInel->RegisterMe(loInelModel);
   spProcInel->RegisterMe(ftfp);
   spProcInel->AddDataSet(chipsInelastic);
@@ -133,7 +149,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(smProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4SigmaMinusInelasticProcess* smProcInel = new G4SigmaMinusInelasticProcess;
+#else
+  auto* smProcInel = new G4HadronInelasticProcess("SigmaMinusInelasticProcess",
+                                 G4SigmaMinus::SigmaMinus() );
+#endif
   smProcInel->RegisterMe(loInelModel);
   smProcInel->RegisterMe(ftfp);
   smProcInel->AddDataSet(chipsInelastic);
@@ -156,7 +177,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(xzProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4XiZeroInelasticProcess* xzProcInel = new G4XiZeroInelasticProcess;
+#else
+  auto* xzProcInel = new G4HadronInelasticProcess("XiZeroInelasticProcess",
+                                 G4XiZero::XiZero() );
+#endif
   xzProcInel->RegisterMe(loInelModel);
   xzProcInel->RegisterMe(ftfp);
   xzProcInel->AddDataSet(chipsInelastic);
@@ -175,7 +201,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(xmProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4XiMinusInelasticProcess* xmProcInel = new G4XiMinusInelasticProcess;
+#else
+  auto* xmProcInel = new G4HadronInelasticProcess("XiMinusInelasticProcess",
+                                 G4XiMinus::XiMinus() );
+#endif
   xmProcInel->RegisterMe(loInelModel);
   xmProcInel->RegisterMe(ftfp);
   xmProcInel->AddDataSet(chipsInelastic);
@@ -198,7 +229,12 @@ void eASTHyperonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(omProcEl);
 
   // inelastic
+#if G4VERSION_NUMBER < 1100
   G4OmegaMinusInelasticProcess* omProcInel = new G4OmegaMinusInelasticProcess;
+#else
+  auto* omProcInel = new G4HadronInelasticProcess("OmegaMinusInelasticProcess",
+                                 G4OmegaMinus::OmegaMinus() );
+#endif
   omProcInel->RegisterMe(loInelModel);
   omProcInel->RegisterMe(ftfp);
   omProcInel->AddDataSet(chipsInelastic);

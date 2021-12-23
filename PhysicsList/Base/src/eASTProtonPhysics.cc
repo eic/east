@@ -5,6 +5,7 @@
 //
 //    Jun.21.2018 : original implementation - Dennis H. Wright (SLAC)
 //    May.06.2021 : migration to eAST - Makoto Asai (SLAC)
+//    Dec.22.2021 : migration to Geant4 version 11.0 - Makoto Asai (JLab)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +13,12 @@
 #include "eASTProtonPhysics.hh"
 
 #include "G4ProcessManager.hh"
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 #include "G4ProtonInelasticProcess.hh"
+#else
+#include "G4HadronInelasticProcess.hh"
+#endif
 #include "G4HadronElasticProcess.hh"
 
 #include "G4CascadeInterface.hh"
@@ -78,7 +84,12 @@ void eASTProtonPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(pProcEl);
 
   // Inelastic process
+#if G4VERSION_NUMBER < 1100
   G4ProtonInelasticProcess* pProcInel = new G4ProtonInelasticProcess;
+#else
+  auto* pProcInel = new G4HadronInelasticProcess("ProtonInelasticProcess",
+                                G4Proton::Proton() );
+#endif
   pProcInel->RegisterMe(loInelModel);
   pProcInel->RegisterMe(ftfp);
   pProcInel->AddDataSet(inelCS);

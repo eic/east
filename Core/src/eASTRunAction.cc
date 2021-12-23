@@ -19,11 +19,15 @@
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4Version.hh"
 
 eASTRunAction::eASTRunAction()
 { 
   messenger = new eASTRunActionMessenger(this);
   auto analysisManager = G4AnalysisManager::Instance();
+#if G4VERSION_NUMBER >= 1100
+  analysisManager->SetDefaultFileType("csv");
+#endif
   G4cout << "Using " << analysisManager->GetType() << G4endl;
 
   analysisManager->SetVerboseLevel(verbose);
