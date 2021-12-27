@@ -53,10 +53,9 @@
 
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTAntiBaryonPhysics::eASTAntiBaryonPhysics()
 {}
-
 
 eASTAntiBaryonPhysics::~eASTAntiBaryonPhysics()
 {
@@ -67,7 +66,14 @@ eASTAntiBaryonPhysics::~eASTAntiBaryonPhysics()
 
   delete theAntiNucleonXS;
 }
+#else
+eASTAntiBaryonPhysics::eASTAntiBaryonPhysics()
+: G4VPhysicsConstructor("eASTAntiBaryon")
+{;}
 
+eASTAntiBaryonPhysics::~eASTAntiBaryonPhysics()
+{;}
+#endif
 
 void eASTAntiBaryonPhysics::ConstructParticle()
 {}

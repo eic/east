@@ -32,10 +32,10 @@
 #include "G4ComponentGGNuclNuclXsc.hh"
 #include "G4SystemOfUnits.hh"
 
-
+#include "G4Version.hh"
+#if G4VERSION_NUMBER < 1100
 eASTIonPhysics::eASTIonPhysics()
 {}
-
 
 eASTIonPhysics::~eASTIonPhysics()
 {
@@ -47,7 +47,14 @@ eASTIonPhysics::~eASTIonPhysics()
   delete theGGNuclNuclXS;
   delete ionGGXS;
 }
+#else
+eASTIonPhysics::eASTIonPhysics()
+: G4VPhysicsConstructor("eASTIon")
+{;}
 
+eASTIonPhysics::~eASTIonPhysics()
+{;}
+#endif
 
 void eASTIonPhysics::ConstructParticle()
 {}

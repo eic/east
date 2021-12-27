@@ -39,11 +39,10 @@
 
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTNeutronPhysics::eASTNeutronPhysics()
 {
 }
-
 
 eASTNeutronPhysics::~eASTNeutronPhysics()
 {
@@ -52,7 +51,14 @@ eASTNeutronPhysics::~eASTNeutronPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTNeutronPhysics::eASTNeutronPhysics()
+: G4VPhysicsConstructor("eASTNeutron")
+{;}
 
+eASTNeutronPhysics::~eASTNeutronPhysics()
+{;}
+#endif
 
 void eASTNeutronPhysics::ConstructParticle()
 {}

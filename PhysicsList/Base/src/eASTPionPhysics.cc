@@ -39,10 +39,9 @@
 
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTPionPhysics::eASTPionPhysics()
 {}
-
 
 eASTPionPhysics::~eASTPionPhysics()
 {
@@ -51,7 +50,14 @@ eASTPionPhysics::~eASTPionPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTPionPhysics::eASTPionPhysics()
+: G4VPhysicsConstructor("eASTPion")
+{;}
 
+eASTPionPhysics::~eASTPionPhysics()
+{;}
+#endif
 
 void eASTPionPhysics::ConstructParticle()
 {}
