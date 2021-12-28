@@ -37,10 +37,9 @@
 
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTGammaLeptoNuclearPhysics::eASTGammaLeptoNuclearPhysics()
 {}
-
 
 eASTGammaLeptoNuclearPhysics::~eASTGammaLeptoNuclearPhysics()
 {
@@ -49,7 +48,14 @@ eASTGammaLeptoNuclearPhysics::~eASTGammaLeptoNuclearPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTGammaLeptoNuclearPhysics::eASTGammaLeptoNuclearPhysics()
+: G4VPhysicsConstructor("eASTGammaLeptoNuclear")
+{;}
 
+eASTGammaLeptoNuclearPhysics::~eASTGammaLeptoNuclearPhysics()
+{;}
+#endif
 
 void eASTGammaLeptoNuclearPhysics::ConstructProcess()
 {
@@ -92,8 +98,6 @@ void eASTGammaLeptoNuclearPhysics::ConstructProcess()
   procMan->AddDiscreteProcess(pnProc);
 
 //#if G4VERSION_NUMBER >= 1100
-// Following processes will be set as optional (with setting corresponding
-// cross-section data
 //  auto* photonCapture = new G4HadronicProcess( "photonNuclear", fCapture );
 //  auto* photonFission = new G4HadronicProcess( "photonFission", fFission );
 //  procMan->AddDiscreteProcess(photonCapture);

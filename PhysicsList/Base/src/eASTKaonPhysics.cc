@@ -41,10 +41,9 @@
 #include "G4ComponentGGHadronNucleusXsc.hh"
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTKaonPhysics::eASTKaonPhysics()
 {}
-
 
 eASTKaonPhysics::~eASTKaonPhysics()
 {
@@ -53,7 +52,14 @@ eASTKaonPhysics::~eASTKaonPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTKaonPhysics::eASTKaonPhysics()
+: G4VPhysicsConstructor("eASTKaon")
+{;}
 
+eASTKaonPhysics::~eASTKaonPhysics()
+{;}
+#endif
 
 void eASTKaonPhysics::ConstructParticle()
 {}

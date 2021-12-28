@@ -34,10 +34,9 @@
 
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTProtonPhysics::eASTProtonPhysics()
 {}
-
 
 eASTProtonPhysics::~eASTProtonPhysics()
 {
@@ -46,7 +45,14 @@ eASTProtonPhysics::~eASTProtonPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTProtonPhysics::eASTProtonPhysics()
+: G4VPhysicsConstructor("eASTProton")
+{;}
 
+eASTProtonPhysics::~eASTProtonPhysics()
+{;}
+#endif
 
 void eASTProtonPhysics::ConstructProcess()
 {

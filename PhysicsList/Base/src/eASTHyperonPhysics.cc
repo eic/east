@@ -41,10 +41,9 @@
 #include "G4ChipsHyperonInelasticXS.hh"
 #include "G4SystemOfUnits.hh"
 
-
+#if G4VERSION_NUMBER < 1100
 eASTHyperonPhysics::eASTHyperonPhysics()
 {}
-
 
 eASTHyperonPhysics::~eASTHyperonPhysics()
 {
@@ -53,7 +52,14 @@ eASTHyperonPhysics::~eASTHyperonPhysics()
   delete fragModel;
   delete preCompoundModel;
 }
+#else
+eASTHyperonPhysics::eASTHyperonPhysics()
+: G4VPhysicsConstructor("eASTHyperon")
+{;}
 
+eASTHyperonPhysics::~eASTHyperonPhysics()
+{;}
+#endif
 
 void eASTHyperonPhysics::ConstructParticle()
 {}
