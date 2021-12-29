@@ -23,7 +23,7 @@ int main(int argc,char** argv)
   // Construct Run Manager
   auto runManager = G4RunManagerFactory::CreateRunManager();
 
-  // construct Gorad initializer
+  // construct eAST initializer
   auto eastInitialization = new eASTInitialization();
 
   // Visualization manager construction

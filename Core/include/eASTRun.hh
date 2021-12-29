@@ -1,7 +1,7 @@
 // ********************************************************************
 //
 // eASTRun.hh
-//   Header file of Gorad Run class
+//   Header file of Run class
 //
 // History
 //   September 8th, 2020 : first implementation
