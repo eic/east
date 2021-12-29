@@ -1,14 +1,16 @@
 // ********************************************************************
 //
 // eASTPrimaryGeneratorAction.cc
-//   Gorad primary generator action class
+//   primary generator action class
 //
 // History
-//   September 8th, 2020 : first implementation
+//   September 8th, 2021 : first implementation
+//   December 29th, 2021 : Adding messenger - M. Asai (JLab)
 //
 // ********************************************************************
 
 #include "eASTPrimaryGeneratorAction.hh"
+#include "eASTPrimGenActionMessenger.hh"
 
 #include "G4Event.hh"
 #include "G4ParticleGun.hh"
@@ -48,6 +50,8 @@ eASTPrimaryGeneratorAction::eASTPrimaryGeneratorAction(
   if(useHepMC3Interface)
   { fHepMC3Interface = eASTHepMC3Interface::GetInstance(); }
 #endif // eAST_USE_HepMC3
+
+  messenger = new eASTPrimGenActionMessenger(this);
 }
 
 eASTPrimaryGeneratorAction::~eASTPrimaryGeneratorAction()
@@ -59,6 +63,8 @@ eASTPrimaryGeneratorAction::~eASTPrimaryGeneratorAction()
   if(fHepMC3Interface!=nullptr && eASTHepMC3Interface::GetInstance()!=nullptr)
     { delete fHepMC3Interface; }
 #endif // eAST_USE_HepMC3
+
+  delete messenger;
 }
 
 void eASTPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
@@ -68,5 +74,15 @@ void eASTPrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 #ifdef eAST_USE_HepMC3
   if(fHepMC3Interface) fHepMC3Interface->GeneratePrimaryVertex(event);
 #endif // eAST_USE_HepMC3
+
+  G4int evId = event->GetEventID();
+  G4double tVtx = deltaT * (G4double)evId + T0;
+  auto* pv = event->GetPrimaryVertex();
+  while(pv!=nullptr)
+  {
+    pv->SetT0(pv->GetT0() + tVtx);
+    pv = pv->GetNext();
+  }
+    
 }
 

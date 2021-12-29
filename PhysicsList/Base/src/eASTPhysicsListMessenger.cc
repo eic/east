@@ -1,7 +1,7 @@
 // ********************************************************************
 //
 // eASTPhysicsListMessenger.cc
-//   A messenger class that handles Gorad physics list options.
+//   A messenger class that handles physics list options.
 //
 // History
 //   September 8th, 2020 : first implementation

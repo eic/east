@@ -67,11 +67,19 @@
 /eAST/initialize
 
 #######################################################
+# Set start time of each event
+#######################################################
+###/eAST/generator/setTime 1. 0. us
+
+#######################################################
 # Set up general particle source if it is used
 #######################################################
 /control/getVal ifGPS /eAST/generator/useParticleSource
 /control/doif {ifGPS} > 0 /control/execute gps_point.mac
 
+#######################################################
+# Set up HepMC3 interface if it is used
+#######################################################
 ## Important: Please for now turn off the beam pipe for hepmc input
 ## bug is under investigation
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
@@ -90,7 +98,7 @@
 # #######################################################
 # # Run for batch mode
 # #######################################################
-/control/doifBatch /run/eventModulo 0 1
+######/control/doifBatch /run/eventModulo 0 1
 /control/doifBatch /run/beamOn 10
 
 # #######################################################
