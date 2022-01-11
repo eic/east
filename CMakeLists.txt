@@ -6,7 +6,6 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
 endif()
 project(eAST VERSION 0.1.0)
 
-
 ## This enables us to use CMAKE_INSTALL_FULL_DATADIR in the code
 ## (should resolve to ${CMAKE_INSTALL_PREFIX}/share)
 include(GNUInstallDirs)
@@ -98,6 +97,9 @@ if(eAST_USE_HepMC3)
 else()
   target_link_libraries(eAST ${Geant4_LIBRARIES})
 endif()
+
+## Helper to get ATHENA's geometry
+add_subdirectory( Components/ATHENA ${CMAKE_BINARY_DIR}/ATHENA )
   
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
