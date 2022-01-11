@@ -80,8 +80,6 @@
 #######################################################
 # Set up HepMC3 interface if it is used
 #######################################################
-## Important: Please for now turn off the beam pipe for hepmc input
-## bug is under investigation
 /control/getVal ifHepMC3 /eAST/generator/useHepMC3
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/verbose 2
 /control/doif {ifHepMC3} > 0 /eAST/generator/HepMC3/openFile Core/data/neutral_current.hepmc3
