@@ -188,22 +188,20 @@ cd /home/eicuser/east/build
 A closer look at `athena.mac` shows that components are added via
 ```
 /eAST/component/GenericGDML1 1
-/eAST/component/GenericGDML1/gdmlFile Components/ECCE/ecce_becal.gdml
-/eAST/component/GenericGDML2 1
-/eAST/component/GenericGDML2/gdmlFile Components/ECCE/ecce_hcalin.gdml
+/eAST/component/GenericGDML1/gdmlFile Components/ATHENA/athena_EcalBarrelImaging_26.gdml
 ...
 ```
 As of now, up to 5 generic components an be added this way. An arbitrary number,
 but in the near future we want to switch to less generic classes anyway.
 
+**WARNING**: Due to clashing names, many components cannot be used at the same time. 
+This behavior should be fixed soon.
+
+
 **WARNING**: An invocation of `make install` will overwrite any changes you make to the `*.mac`
 by automatically copying the originals from `Core/`, so rename them or copy them.
 
-## Notes
-* If you want to regenerate the list of subsystems, you can use
-```sh
-grep 'if ( subsys==' Extract_ECCE_gdml.C | cut -d'"' -f 2
-```
+
 * Further reading for [ECCE software/fun4all](https://ecce-eic.github.io/)
 
 
