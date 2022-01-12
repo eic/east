@@ -1,0 +1,23 @@
+name: Build and Push to Docker (Base)
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*'
+
+jobs:
+  create_dockerfile:
+    runs-on: ubuntu-latest
+    container: spack/ubuntu-bionic:latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create Dockerfile
+      run: source /opt/spack/share/spack/setup-env.sh && cd docker/base && spack containerize > Dockerfile
+    - name: Archive Dockerfile
+      uses: actions/upload-artifact@v2
+      with:
+        name: Dockerfile
+        path: |
+          docker/base/Dockerfile
