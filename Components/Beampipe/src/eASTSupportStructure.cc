@@ -19,7 +19,7 @@
 #include "G4GDMLParser.hh"
 #include "G4GenericMessenger.hh"
 #include "G4VisAttributes.hh"
-
+#include "G4Version.hh"
 #include "eASTRegionInformation.hh"
 
 eASTSupportStructure::eASTSupportStructure(G4String compName, G4int vl, const G4bool validate_gdml)
@@ -57,6 +57,11 @@ void eASTSupportStructure::Construct(G4VPhysicalVolume* worldPhys)
   }
 
   G4GDMLParser parser;
+#if G4VERSION_NUMBER > 1100
+  // Taking care of potential volume-name duplication
+  parser.SetStripFlag(false);
+  parser.SetReverseSearch(true);
+#endif
   // Support structures will be placed directly to the world volume
   // There is no envelope volume to be defined
   // A region is created for this component and all volumes that consist
