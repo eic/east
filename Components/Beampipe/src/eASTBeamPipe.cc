@@ -20,7 +20,7 @@
 #include "G4GDMLParser.hh"
 #include "G4GenericMessenger.hh"
 #include "G4VisAttributes.hh"
-
+#include "G4Version.hh"
 #include "eASTRegionInformation.hh"
 
 eASTBeamPipe::eASTBeamPipe(G4String compName, G4int vl, const G4bool validate_gdml)
@@ -62,6 +62,11 @@ void eASTBeamPipe::Construct(G4VPhysicalVolume* worldPhys)
   }
 
   G4GDMLParser parser;
+#if G4VERSION_NUMBER > 1100
+  // Taking care of potential volume-name duplication
+  parser.SetStripFlag(false);
+  parser.SetReverseSearch(true);
+#endif
   G4LogicalVolume* envelopeLog = nullptr;
 
   if(envGdmlFileName == "*NOTDEFINED*")
