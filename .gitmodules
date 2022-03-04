@@ -1,0 +1,3 @@
+[submodule "EicData"]
+	path = EicData
+	url = https://github.com/eic/EicData.git
