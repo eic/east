@@ -105,7 +105,7 @@ endif()
 # relies on these scripts being in the current working directory.
 #
 set(RS_SCRIPTS
-    gps_point.mac run.mac vis.mac ecce.mac athena.mac
+    gps_point.mac run.mac vis.mac
   )
 
 foreach(_script ${RS_SCRIPTS})
