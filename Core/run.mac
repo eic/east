@@ -20,7 +20,7 @@
 /eAST/field/central/extent 1 (-600.0,598.0,2.0)
 /eAST/field/central/fieldunit tesla
 /eAST/field/central/type cubic
-/eAST/field/central/load Solenoid/data/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
+/eAST/field/central/load EicData/Solenoid/EIC_Magnetic_Field_Map_2021_05_07_radial_coords__cm___T_.120000.lines.Bmap
 
 # /eAST/field/print (0.0, 0.0, 0.0)
 # /eAST/field/print (1000.0, 0.0, 0.0)
@@ -36,19 +36,19 @@
 # Detector components
 #######################################################
 /eAST/component/beampipe 1
-/eAST/component/beampipe/envelopeGdmlFile Components/Beampipe/data/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
-/eAST/component/beampipe/gdmlFile Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.gdml
-/eAST/component/beampipe/materialFile Components/Beampipe/data/Detector_chamber_210222_test1_BG-04-07-2021.mat
+/eAST/component/beampipe/envelopeGdmlFile EicData/Beampipe/Detector_chamber_210222_BG-05-21-2021_single_volume.gdml
+/eAST/component/beampipe/gdmlFile         EicData/Beampipe/Detector_chamber_210222_test1_BG-04-07-2021.gdml
+/eAST/component/beampipe/materialFile     EicData/Beampipe/Detector_chamber_210222_test1_BG-04-07-2021.mat
 /eAST/component/beampipe/rotate x -90. deg
 /eAST/component/beampipe/rotate y -90. deg
 
 /eAST/component/DIRC_support 1
-/eAST/component/DIRC_support/gdmlFile Components/Beampipe/data/DIRC_support_06-04-21.gdml
-/eAST/component/DIRC_support/materialFile Components/Beampipe/data/DIRC_support_06-04-21.mat
+/eAST/component/DIRC_support/gdmlFile     EicData/Beampipe/DIRC_support_06-04-21.gdml
+/eAST/component/DIRC_support/materialFile EicData/Beampipe/DIRC_support_06-04-21.mat
 
 /eAST/component/EM_CAL_support 1
-/eAST/component/EM_CAL_support/gdmlFile Components/Beampipe/data/EM_CAL_Support_06-04-21.gdml
-/eAST/component/EM_CAL_support/materialFile Components/Beampipe/data/EM_CAL_Support_06-04-21.mat
+/eAST/component/EM_CAL_support/gdmlFile     EicData/Beampipe/EM_CAL_Support_06-04-21.gdml
+/eAST/component/EM_CAL_support/materialFile EicData/Beampipe/EM_CAL_Support_06-04-21.mat
 
 #######################################################
 # Physics of the simulation
