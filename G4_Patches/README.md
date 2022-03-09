@@ -2,7 +2,7 @@
 
 This directory holds eAST-specific patches that should be applied to each specific version of Geant4.
 Each sub-directory corresponds to the specific version of Geant4 and thus should not be applied to ealier or newer versions.
-Please note that the patch is not incremental. It should directly be applied to the fresh release version of Geant4.
+Please note that the patch is not incremental. It should directly be applied to the out-of-box release version of Geant4.
 
 Each sub-directory has a tar-file that should be expanded at the directory where you see "source". For example of Geant4 version 11.0.p01
 
