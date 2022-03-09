@@ -6,11 +6,13 @@ Please note that the patch is not incremental. It should directly be applied to 
 
 Each sub-directory has a tar-file that should be expanded at the directory where you see "source". For example of Geant4 version 11.0.p01
 
+<pre>
    % cd .../geant4-v11.0.1
    % ls
    CMakeLists.txt		LICENSE			ReleaseNotes		config			examples		
    CONTRIBUTING.rst	README.rst		cmake			environments		patch-v11.0.1		source
    % cp .../east/G4_Patches/G4.v11.0.p01/patch-v11.0.1.tar .
    % tar xf patch-v11.0.1.tar
-   
+</pre>
+
 Then, you need to re-compile and re-install the entire Geant4.
