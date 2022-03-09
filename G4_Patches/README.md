@@ -15,4 +15,4 @@ Each sub-directory has a tar-file that should be expanded at the directory where
    % tar xf patch-v11.0.1.tar
 </pre>
 
-Then, you need to re-compile and re-install the entire Geant4.
+Then, you need to re-compile and re-install the entire Geant4 library.
