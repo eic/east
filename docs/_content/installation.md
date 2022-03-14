@@ -38,7 +38,7 @@ tables:
 
 ### Requirements and Procedure
 
-*eAST* runs on top of the latest public version of Geant4 (currently [version 11.0](https://geant4.web.cern.ch/support/download){:target="_blank"}), so before building eAST you need to install Geant4. The process involves using `cmake`.
+*eAST* runs on top of the latest public version of Geant4 (currently [version 11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"}), so before building eAST you need to install Geant4. The process involves using `cmake`.
 Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and make sure you follow all instructions carefully. In particular, it is
 important that you use the "build" directory as recommended in the Geant4 guide. If an error was made when
 using `cmake` the safest option is to start from clean source i.e. to wipe out the Geant4 directory and
@@ -85,7 +85,7 @@ important for Geant4 operation.
 ### The "eAST-specific" Patch
 
 In order to read multiple GDML files through eAST, you will need to apply a specific patch: [https://github.com/eic/east/tree/main/G4_Patches](https://github.com/eic/east/tree/main/G4_Patches){:target="_blank"}.
-The patch is safe to apply and it won't alter the default behavior of GEANT.
+The patch is safe to apply and it won't alter the default behavior of GEANT4.
 
 ---
 
