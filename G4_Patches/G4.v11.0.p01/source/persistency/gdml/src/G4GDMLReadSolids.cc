@@ -3559,7 +3559,6 @@ void G4GDMLReadSolids::PropertyRead(
   {
     G4MaterialPropertyVector* propvect;
     G4String temp = name + ref;
-    std::cout << temp << std::endl;
     // first check if it was already built
     if(mapOfMatPropVects.find(temp) == mapOfMatPropVects.end())
     {
