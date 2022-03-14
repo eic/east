@@ -76,7 +76,7 @@ and their versions comply with GEANT requirements.**
 Certain files maybe downloaded automatically during the build, so make sure your computer is online
 suring that process.
 If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges (e.g. to use `chown` etc).
-It is a good idea to create such folder (e.g. *geant4.10.07.p02* but the name of course can be different) beforehand and use `chown` to ensure
+It is a good idea to create such folder (e.g. *geant4.11.00.p01* but the name of course can be different) beforehand and use `chown` to ensure
 it's writeable by the user who does the installation, before actually running `make install`.
 
 There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to correctly set the environment variables
