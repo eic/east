@@ -77,10 +77,6 @@ void eASTGammaLeptoNuclearPhysics::ConstructProcess()
   qgsp->SetMinEnergy(3*GeV);
   qgsp->SetMaxEnergy(100*TeV);
 
-  // Lepto-nuclear models
-  G4ElectroVDNuclearModel* evdn = new G4ElectroVDNuclearModel;
-  G4MuonVDNuclearModel* mvdn = new G4MuonVDNuclearModel;
-
 
   G4ProcessManager* procMan = 0;
 
@@ -103,6 +99,10 @@ void eASTGammaLeptoNuclearPhysics::ConstructProcess()
 //  procMan->AddDiscreteProcess(photonCapture);
 //  procMan->AddDiscreteProcess(photonFission);
 //#endif
+
+  // Lepto-nuclear models
+  G4ElectroVDNuclearModel* evdn = new G4ElectroVDNuclearModel;
+  G4MuonVDNuclearModel* mvdn = new G4MuonVDNuclearModel;
 
   // Electron
   procMan = G4Electron::Electron()->GetProcessManager();
