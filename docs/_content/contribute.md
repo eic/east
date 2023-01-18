@@ -60,25 +60,45 @@ can be created for use on the website.
 
 If you decide to contribute to this website we strongly recommend that you install
 Jekyll on your machine. The workflow would then consist of
+
 * Cloning or forking the eAST repository
-* Making and validating changes locally using Jekyll
+* Making and validating changes locally using Jekyll (i.e. using your editor to make changes, then inspecting pages with a browser, as explained below)
 * git - commit and push
 
-Since Jekyll is an application written in Ruby language
-installing Ruby is a requirement. **Knowledge of Ruby is absolutely not required**
+Since Jekyll is an application written in Ruby language installing Ruby is a requirement.
+**Knowledge of Ruby is absolutely not required**
 since all development takes place in the very basic Markdown and YAML environment.
 Installation instructions can be found on
 on the [installation page](https://jekyllrb.com/docs/installation/) of the Jekyll website.
-Once the installation is done, you can run a development web server locally:
+Once the installation is done, you can run a development web server locally. Assuming
+you are working on eAST documentation (this website), and your current folder is
+_east_, this is achieved as follows:
 
 ```bash
+# Go the folder which contains the website materials:
+cd docs
+# This is done only once, after you clone the eAST repository, in order to install necesary dependencies
+bundle install
+# Finally run
 bundle exec jekyll serve
 ```
 
-Assuming you are in the ```docs``` folder of the eAST repository,
-once Jekyll has been started you can view the web site by connecting to `localhost:4000`.
-Changes made to files locally are immediately compiled and reflected on the
-displayed site (at the next page load). The optimal workflow is to make changes and debug
+At this point Jekyll has been started in the _docs_ folder, and
+you can view the web site by pointing your browser to `localhost:4000`.
+Depending on the OS environment, for host name resolution to work, you may
+also need to specify the host address as ```0.0.0.0```. Also, when working in the
+WSL2 environment, please be aware that port 4000 is often blocked. In these
+circumstances, the above command line should be modified to:
+
+```bash
+bundle exec jekyll serve  --host 0.0.0.0 --port 8000
+```
+
+...and you would need to point your browser to ```localhost:8000``` to
+view the locally generated website.
+
+Changes made to files locally are automatically compiled and reflected on the
+displayed site (when the page is reloaded). The optimal workflow is to make changes and debug
 entirely locally before doing a 'git commit' and pushing to GitHub. Once material
 is pushed to GitHub the instance of the website hosted on that portal will be automatically
 recompiled and serve. This may take a few minutes.
