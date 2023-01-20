@@ -38,14 +38,19 @@ tables:
 
 ### Requirements and Procedure
 
-*eAST* runs on top of the latest public version of Geant4 (currently [version 11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"}), so before building eAST you need to install Geant4. The process involves using `cmake`.
-Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and make sure you follow all instructions carefully. In particular, it is
+*eAST* runs on top of the latest public version of Geant4 (currently [version 11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"}),
+so before building eAST you need to install Geant4. The process involves using `cmake`.
+Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"}
+and make sure you follow all instructions carefully. In particular, it is
 important that you use the "build" directory as recommended in the Geant4 guide. If an error was made when
 using `cmake` the safest option is to start from clean source i.e. to wipe out the Geant4 directory and
 recreate it from the tarball - this helps to avoid possible effects of lingering cmake artefacts.
 
-*In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*. As you can see from the table, if you start from scratch you may need to install
-the prerequisits first such as <em>X11, Qt5, OpenGL and Xerces-C++</em> libraries.
+*In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*.
+As you can see from the table, if you start from scratch you may need to install the prerequisits first such as
+<em>X11, Qt5, OpenGL and Xerces-C++</em> libraries. Please see the Appendix for comments and some practical
+advice about how to proceed.
+
 
 <table border="1" width="60%">
 <tr>
@@ -119,3 +124,34 @@ If you elect to install into a system directory (e.g. under `/opt` etc) please s
 in the Geant4 section above, regarding correct permissions.
 After installation has completed you probably want to ensure that (in this example) `/path/to/installdir/bin`
 is in the `$PATH` environment variable and `/path/to/installdir/lib` in `$LD_LIBRARY_PATH`.
+
+---
+
+## Appendix (GEANT4 dependencies)
+
+### Xerces
+
+The [Xerces build and intallation webpage](https://xerces.apache.org/xerces-c/build-3.html#UNIXl){:target="_blank"}
+mentions cmake -- although the latter is not explicitly invoked, and you only need to run `configure` and `make`.
+Read carefully.
+
+### Qt
+
+The Qt installation procedure has evolved over the years. Using the GUI installer
+provided by the developer appears to frequently cause problems. At the time of writing,
+this procedure is working:
+
+```bash
+# prerequisites:
+sudo apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa-dev libqt5x11extras5
+# qt:
+sudo apt-get install qtbase5-dev
+sudo apt-get install qtdeclarative5-dev
+```
+### libxmu
+
+```bash
+sudo apt-get install -y libxmu-dev
+```
+
+
