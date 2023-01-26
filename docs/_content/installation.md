@@ -36,21 +36,32 @@ tables:
 
 ## GEANT4
 
-### Requirements and Procedure
+### Installation
 
-*eAST* runs on top of the latest public version of Geant4 (currently [version 11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"}),
-so before building eAST you need to install Geant4. The process involves using `cmake`.
-Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"}
-and make sure you follow all instructions carefully. In particular, it is
-important that you use the "build" directory as recommended in the Geant4 guide. If an error was made when
-using `cmake` the safest option is to start from clean source i.e. to wipe out the Geant4 directory and
-recreate it from the tarball - this helps to avoid possible effects of lingering cmake artefacts.
+* *eAST* runs on top of the latest public version of Geant4,
+so before building eAST you need to install Geant4.
+* The current Geant4 version is [11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
+this link to download and install. Please refer to [the installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and follow all instructions.
+* In most cases Geant4 wil need to be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}. The process involves using `cmake`, and it's
+important that you use a proper "build" directory as recommended in the installation guide.
+* Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
+and their versions comply with GEANT requirements.
+* `cmake` will produce helpful diagnostics if some dependencies are missing, in which case these
+will need to be installed (see the table and Appendix below). In case of this and other errors when
+using `cmake` the safest option is clean up the "build" directory and
+start the build procedure from scratch.
+* During the build process certain files will be downloaded automatically from remote servers,
+so make sure your computer is online at that time.
+* If the install path is in a folder to which the user doesn't have _write_ access (e.g. under "opt"), one may need to use root/chown or `sudo` to get necessary privileges.
+
+
+### CMake options
 
 *In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*.
 As you can see from the table, if you start from scratch you may need to install the prerequisits first such as
-<em>X11, Qt5, OpenGL and Xerces-C++</em> libraries. Please see the Appendix for comments and some practical
+<em>X11, Qt5, OpenGL and Xerces-C++</em> libraries.
+Please see the [Appendix](/content/installation.html#appendix-geant4-dependencies) for comments and some practical
 advice about how to proceed.
-
 
 <table border="1" width="60%">
 <tr>
@@ -75,17 +86,18 @@ A command line for ```cmake``` using these options might look like this:
 ```bash
 cmake -DCMAKE_INSTALL_PREFIX=/install/path -DGEANT4_INSTALL_DATA=ON -DGEANT4_USE_OPENGL_X11=ON -DGEANT4_USE_GDML=ON -DGEANT4_USE_QT=ON /path/to/geant/directory
 ```
-**Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
-and their versions comply with GEANT requirements.**
 
-Certain files maybe downloaded automatically during the build, so make sure your computer is online
-suring that process.
-If the install path is outside the user folder e.g. under "opt", one may need to use root identity or "sudo" to get the necessary privileges (e.g. to use `chown` etc).
-It is a good idea to create such folder (e.g. *geant4.11.00.p01* but the name of course can be different) beforehand and use `chown` to ensure
-it's writeable by the user who does the installation, before actually running `make install`.
+In certain cases (not very common) the user may need to build a version of Geant4 where
+multithreading is disabled. One such cases is creation of Python bindings on certain platforms.
+In such cases, the following option will need to be added:
 
-There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to correctly set the environment variables
-important for Geant4 operation.
+```bash
+-DGEANT4_BUILD_MULTITHREADED=OFF
+```
+
+### Post-installation
+
+There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to set the environment variables important for Geant4 operation.
 
 ### The "eAST-specific" Patch
 
