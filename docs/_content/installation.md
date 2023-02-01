@@ -38,12 +38,17 @@ tables:
 
 ### Installation
 
-* *eAST* runs on top of the latest public version of Geant4,
-so before building eAST you need to install Geant4.
-* The current Geant4 version is [11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
-this link to download and install. Please refer to [the installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and follow all instructions.
-* In most cases Geant4 wil need to be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}. The process involves using `cmake`, and it's
-important that you use a proper "build" directory as recommended in the installation guide.
+* __eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
+The current Geant4 version is [11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
+this link to download and install.
+* Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and follow all instructions.
+* In most cases Geant4 wil need to be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}. Before building Geant4 in the eAST context (which requires
+the ability to read multiple GDML files), you will need to apply a __specific patch__:
+[https://github.com/eic/east/tree/main/G4_Patches](https://github.com/eic/east/tree/main/G4_Patches){:target="_blank"}.
+The patch is safe to apply and it won't alter the default behavior of GEANT4.
+* The process involves using `cmake`, and it's
+important that you use a proper _build directory_ as recommended in the installation guide.
+Please see the _CMake options_ section below for details on options.
 * Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
 and their versions comply with GEANT requirements.
 * `cmake` will produce helpful diagnostics if some dependencies are missing, in which case these
@@ -52,7 +57,8 @@ using `cmake` the safest option is clean up the "build" directory and
 start the build procedure from scratch.
 * During the build process certain files will be downloaded automatically from remote servers,
 so make sure your computer is online at that time.
-* If the install path is in a folder to which the user doesn't have _write_ access (e.g. under "opt"), one may need to use root/chown or `sudo` to get necessary privileges.
+* If the __install path__ is in a folder to which the user doesn't have _write_ access (e.g. under "opt"), one may need to use root/chown or `sudo` to get necessary privileges.
+* There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to set the environment variables important for Geant4 operation.
 
 
 ### CMake options
@@ -95,14 +101,6 @@ In such cases, the following option will need to be added:
 -DGEANT4_BUILD_MULTITHREADED=OFF
 ```
 
-### Post-installation
-
-There is a [post-installation step](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"} that should be followed to set the environment variables important for Geant4 operation.
-
-### The "eAST-specific" Patch
-
-In order to read multiple GDML files through eAST, you will need to apply a specific patch: [https://github.com/eic/east/tree/main/G4_Patches](https://github.com/eic/east/tree/main/G4_Patches){:target="_blank"}.
-The patch is safe to apply and it won't alter the default behavior of GEANT4.
 
 ---
 
