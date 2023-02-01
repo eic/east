@@ -143,7 +143,7 @@ is in the `$PATH` environment variable and `/path/to/installdir/lib` in `$LD_LIB
 
 The [Xerces build and intallation webpage](https://xerces.apache.org/xerces-c/build-3.html#UNIXl){:target="_blank"}
 mentions cmake -- although the latter is not explicitly invoked, and you only need to run `configure` and `make`.
-Read carefully.
+Read the web page carefully.
 
 ### Qt
 
@@ -162,6 +162,16 @@ sudo apt-get install qtdeclarative5-dev
 
 ```bash
 sudo apt-get install -y libxmu-dev
+```
+
+### Passing options to "make"
+
+On many Linux platforms, `cmake` is relying on `make` for the build step.
+It is possible in these cases to pass helpful options (such as use multiple cores
+for compilation) to `make` by setting an environment variable:
+
+```bash
+export MAKEFLAGS=-j4
 ```
 
 
