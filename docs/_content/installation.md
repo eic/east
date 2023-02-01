@@ -106,13 +106,7 @@ In such cases, the following option will need to be added:
 
 ## Building and Installing eAST
 
-Many use cases involve using the HepMC3 libraries so it is optimal
-to consider it a prerequisite. Please visit
-[the HepMC3 page](https://gitlab.cern.ch/hepmc/HepMC3/-/tree/master/){:target="_blank"}
-if you need to install HepMC3 from binaries or build it from source.
-
-
-Notes about the build and install procedure:
+### The procedure
 * It is recommended that the user creates a `build` folder inside the main eAST directory; the example below assumes that this is the case
 * During the build proccess, additional files may be downloaded, so internet access is required
 * To customize the installation location, use the `CMAKE_INSTALL_PREFIX` option (see below)
@@ -134,6 +128,20 @@ If you elect to install into a system directory (e.g. under `/opt` etc) please s
 in the Geant4 section above, regarding correct permissions.
 After installation has completed you probably want to ensure that (in this example) `/path/to/installdir/bin`
 is in the `$PATH` environment variable and `/path/to/installdir/lib` in `$LD_LIBRARY_PATH`.
+
+### HepMC3
+
+Many use cases involve using the HepMC3 libraries so it is effectively a prerequisite for eAST.
+This is also implied in the build option illustrated in the previous section (cf. `-DHepMC3`).
+Please visit
+[the HepMC3 page](https://gitlab.cern.ch/hepmc/HepMC3/-/tree/master/){:target="_blank"}
+if you need to install HepMC3 from binaries or build it from source. When downloading the tar
+file as per instructions, it is possible that the link is stale, so the version number will
+need to be adjusted to point to an existing file.
+
+Once the HepMC3 installation is complete (or is already in place), in order for eAST to work,
+the environment variable `LD_LIBRARY_PATH` will need to be updated to include the
+path the the HepMC3 libraries.
 
 ---
 
