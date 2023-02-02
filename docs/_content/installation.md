@@ -39,7 +39,7 @@ tables:
 ### Installation
 
 * __eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
-The current Geant4 version is [11.0-p01](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
+The current Geant4 version is [11.1.0](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
 this link to download and install.
 * Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and follow all instructions.
 * In most cases Geant4 wil need to be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}. Before building Geant4 in the eAST context (which requires
