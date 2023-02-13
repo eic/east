@@ -41,11 +41,10 @@ tables:
 * __eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
 The current Geant4 version is [11.1.0](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
 this link to download and install.
-* Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"} and follow all instructions.
-* In most cases Geant4 wil need to be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}. Before building Geant4 in the eAST context (which requires
-the ability to read multiple GDML files), you will need to apply a __specific patch__:
-[https://github.com/eic/east/tree/main/G4_Patches](https://github.com/eic/east/tree/main/G4_Patches){:target="_blank"}.
-The patch is safe to apply and it won't alter the default behavior of GEANT4.
+* Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"}
+and follow all instructions.
+In many cases (e.g. if the platform is Debian) Geant4 will need to
+be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}.
 * The process involves using `cmake`, and it's
 important that you use a proper _build directory_ as recommended in the installation guide.
 Please see the _CMake options_ section below for details on options.
@@ -104,9 +103,9 @@ In such cases, the following option will need to be added:
 
 ---
 
-## Building and Installing eAST
+## Setting up eAST
 
-### The procedure
+### Build and Install
 * It is recommended that the user creates a `build` folder inside the main eAST directory; the example below assumes that this is the case
 * During the build proccess, additional files may be downloaded, so internet access is required
 * To customize the installation location, use the `CMAKE_INSTALL_PREFIX` option (see below)
@@ -139,9 +138,12 @@ if you need to install HepMC3 from binaries or build it from source. When downlo
 file as per instructions, it is possible that the link is stale, so the version number will
 need to be adjusted to point to an existing file.
 
+### Final steps
+
 Once the HepMC3 installation is complete (or is already in place), in order for eAST to work,
 the environment variable `LD_LIBRARY_PATH` will need to be updated to include the
-path the the HepMC3 libraries.
+path the the HepMC3 libraries. This can be done after sourcing the Geant4
+ [post-installation script](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"}.
 
 ---
 
