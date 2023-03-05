@@ -13,16 +13,32 @@ name: manual
 
 ---
 
+
+## Setting up the environemt
+
+* Source the Geant4  [post-installation script](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"}.
+* Add the location of the _HepMC3_ libraries to the environment variable `LD_LIBRARY_PATH`
+* For convenience, add the location of the `eAST` executable to the `PATH` variable
+
+Example (bash):
+
+```bash
+# Note that the actual location of Geant4, eAST and HepMC3 will vary, depending on how you install
+source /opt/geant4/bin/geant4.sh
+export LD_LIBRARY_PATH=/opt/hepmc3/lib:$LD_LIBRARY_PATH
+export PATH=/opt/east/bin/:$PATH
+```
+
 ## Starting eAST
 
 *eAST* runs both in batch mode and interactive mode. To run it in batch mode, execute the application with a macro file,
 ```bash
-$ ./eAST <run.mac>
+$ eAST <run.mac>
 ```
 while to run it in interactive mode, execute the application without a macro file.
 
 ```bash
-$ ./eAST
+$ eAST
 ```
 
 and type UI commands once command field of the Qt window becomes available.
