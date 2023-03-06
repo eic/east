@@ -1,0 +1,26 @@
+#
+#
+#
+
+FROM python:3.10.1-bullseye
+
+ARG CMAKE_VERSION=3.24.2
+
+WORKDIR /user
+
+# Update the repository info:
+RUN cat /etc/apt/sources.list | sed 's/main/contrib/g' >> /etc/apt/sources.list
+RUN apt-get -y update
+RUN apt-get -y upgrade
+
+# We'll need CMake for a few components, so let's get it:
+RUN apt-get -y install cmake
+
+# Geant4 prerequisites:
+RUN apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa-dev libqt5x11extras5
+# qt:
+RUN apt-get -y install qtbase5-dev
+RUN apt-get -y install qtdeclarative5-dev
+
+# libxmu
+RUN apt-get install -y libxmu-dev
