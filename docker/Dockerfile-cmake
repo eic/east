@@ -1,0 +1,19 @@
+#
+#
+#
+
+FROM python:3.10.1-bullseye
+
+WORKDIR /tmp
+
+# RUN apt install build-essential checkinstall zlib1g-dev libssl-dev
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2.tar.gz && \
+tar xvzf cmake-3.24.2.tar.gz && \
+cd cmake-3.24.2 && \
+./bootstrap && \
+make -j 4 && \
+make install && \
+cmake --version
+
+RUN rm -fr /tmp
