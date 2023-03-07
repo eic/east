@@ -1,52 +1,18 @@
 #
+# To be used from the main eAST directory, i.e. one level above the "docker" folder
 #
-#
 
-FROM buddhasystem/east-prerequisites:0.1
-
-ARG HEPMC3_VERSION=3.2.5
-ARG GEANT4_VERSION=11.1.1
-
-# Let's use a catch-all temporary folder for downloads and builds
-WORKDIR /temp_build
-
-# HepMC3
-RUN wget https://hepmc.web.cern.ch/hepmc/releases/HepMC3-${HEPMC3_VERSION}.tar.gz && tar xfvz HepMC3-${HEPMC3_VERSION}.tar.gz
-RUN mkdir hepmc3-build && \
-cd hepmc3-build &&  \
-cmake -DCMAKE_INSTALL_PREFIX=/opt/hepmc3     \
-        -DHEPMC3_ENABLE_ROOTIO:BOOL=OFF            \
-        -DHEPMC3_ENABLE_PROTOBUFIO:BOOL=OFF        \
-        -DHEPMC3_ENABLE_TEST:BOOL=OFF              \
-        -DHEPMC3_INSTALL_INTERFACES:BOOL=ON        \
-        -DHEPMC3_BUILD_STATIC_LIBS:BOOL=OFF        \
-        -DHEPMC3_BUILD_DOCS:BOOL=OFF     \
-        -DHEPMC3_ENABLE_PYTHON:BOOL=ON   \
-        -DHEPMC3_PYTHON_VERSIONS=2.7     \
-        -DHEPMC3_Python_SITEARCH27=../hepmc3-install/lib/python2.7/site-packages \
-        ../HepMC3-${HEPMC3_VERSION} && \
-        make -j4 && \
-        make install
-
-# Xerces
-RUN  wget https://dlcdn.apache.org//xerces/c/3/sources/xerces-c-3.2.4.tar.gz && tar xvfz xerces-c-3.2.4.tar.gz && \
-        cd xerces-c-3.2.4 && \
-        ./configure && make -j4 && make install
-
-# --prefix=/opt/xerces-c 
-
-# Geant4
-RUN wget https://gitlab.cern.ch/geant4/geant4/-/archive/v11.1.1/geant4-v${GEANT4_VERSION}.tar.gz && tar xvfz geant4-v${GEANT4_VERSION}.tar.gz
-RUN mkdir geant4-v${GEANT4_VERSION}-build && cd geant4-v${GEANT4_VERSION}-build && \
-        cmake \
-        -DCMAKE_INSTALL_PREFIX=/opt/geant4 \
-        -DGEANT4_INSTALL_DATA=ON \
-        -DGEANT4_USE_OPENGL_X11=ON \
-        -DGEANT4_USE_GDML=ON \
-        -DGEANT4_USE_QT=ON ../geant4-v${GEANT4_VERSION} && \
-        make -j4 && make install
+FROM buddhasystem/east-geant4:0.1
 
 
 # Switch to the nominal user directory, clean up
 WORKDIR /user
-RUN rm -fr /temp_build
+COPY . /user/east
+
+RUN cd east && rm -fr .git* docker build && \
+mkdir build && \
+export MAKEFLAGS=-j4 && \
+cmake -DCMAKE_INSTALL_PREFIX=/opt/east -DHepMC3=~/opt/hepmc3 -S . -B build && \
+cmake --build build && \
+cmake --install build
+
