@@ -1,5 +1,6 @@
 #
-#
+# Building Geant4 on top of an image which contains prerequisites for eAST.
+# Can be used for ruinning Geant4 container without invoking eAST.
 #
 
 FROM buddhasystem/east-prerequisites:0.1
@@ -33,6 +34,7 @@ RUN  wget https://dlcdn.apache.org//xerces/c/3/sources/xerces-c-3.2.4.tar.gz && 
         cd xerces-c-3.2.4 && \
         ./configure && make -j4 && make install
 
+# This optional location, as it turns out, is not easily detected by Geant, so we dropped this option:
 # --prefix=/opt/xerces-c 
 
 # Geant4
@@ -50,3 +52,5 @@ RUN mkdir geant4-v${GEANT4_VERSION}-build && cd geant4-v${GEANT4_VERSION}-build 
 # Switch to the nominal user directory, clean up
 WORKDIR /user
 RUN rm -fr /temp_build
+ENV LD_LIBRARY_PATH=/opt/hepmc3/lib:/opt/geant4/lib:/usr/local/lib
+ENV CPATH=/opt/geant4/include/Geant4/

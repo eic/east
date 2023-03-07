@@ -1,6 +1,12 @@
+# This Dockerfile defines the base image for building Geant4
+# on top of it.
 #
+# The reason we chose Python:3.10.1 as the base is to use it
+# in the next stage of this project, which is development
+# of Python bindings.
 #
-#
+# The image here only contains apt-installable components,
+# notably including "cmake" which doesn't come with plain Debian
 
 FROM python:3.10.1-bullseye
 
@@ -17,8 +23,8 @@ RUN apt-get -y upgrade
 RUN apt-get -y install cmake
 
 # Geant4 prerequisites:
+# Qt
 RUN apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa-dev libqt5x11extras5
-# qt:
 RUN apt-get -y install qtbase5-dev
 RUN apt-get -y install qtdeclarative5-dev
 
