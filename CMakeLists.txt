@@ -60,6 +60,7 @@ foreach(COMPONENT
   file(GLOB sources ${PROJECT_SOURCE_DIR}/${COMPONENT}/src/*.cc)
   file(GLOB headers
     ${PROJECT_SOURCE_DIR}/Core/include/*.hh
+    ${PROJECT_SOURCE_DIR}/Components/Base/include/*.hh
     ${PROJECT_SOURCE_DIR}/${COMPONENT}/include/*.hh
   )
 
@@ -71,7 +72,8 @@ foreach(COMPONENT
     PUBLIC
       $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Core/include>
-      $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/${COMPONENT}/include>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Components/Base/include>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${COMPONENT}/include>
     )
 
   target_compile_options(${TARGET}
@@ -106,7 +108,7 @@ else()
   list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/eASTHepMC3Interface.hh")
   list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 endif()
-		
+
 #----------------------------------------------------------------------------
 # Add the field maps
 #
@@ -128,7 +130,7 @@ if(eAST_USE_HepMC3)
 else()
   target_link_libraries(eAST lib${PROJECT_NAME}Core lib${PROJECT_NAME}PhysicsListBase ${Geant4_LIBRARIES})
 endif()
-  
+
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build RS. This is so that we can run the executable directly because it
