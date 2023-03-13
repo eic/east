@@ -45,23 +45,63 @@ if(eAST_USE_HepMC3)
 endif()
 
 #----------------------------------------------------------------------------
+# Build libraries of components
+#
+foreach(COMPONENT
+  PhysicsList/Base
+)
+
+  file(GLOB sources ${PROJECT_SOURCE_DIR}/${COMPONENT}/src/*.cc)
+  file(GLOB headers ${PROJECT_SOURCE_DIR}/${COMPONENT}/include/*.hh)
+
+  string(REPLACE "/" "" COMPONENT_NO_SLASH ${COMPONENT})
+  set(TARGET ${PROJECT_NAME}${COMPONENT_NO_SLASH})
+  add_library(${TARGET} SHARED ${sources} ${headers})
+
+  target_include_directories(${TARGET}
+    PUBLIC
+      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+      $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${COMPONENT}/include>
+    )
+
+  target_compile_options(${TARGET}
+    PUBLIC
+      ${${PROJECT_NAME_UC}_CXX_FLAGS_LIST}
+    PRIVATE
+      ${${PROJECT_NAME_UC}_DIAG_FLAGS_LIST}
+    )
+
+  target_link_libraries(${TARGET}
+    PUBLIC
+      ${Geant4_LIBRARIES}
+      ${HEPMC_LIBRARIES}
+    )
+
+  install(TARGETS ${TARGET}
+    EXPORT ${MAIN_PROJECT_NAME_LC}-exports
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+  install(FILES ${headers} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+
+endforeach()
+
+#----------------------------------------------------------------------------
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Core/include
-                    ${CMAKE_CURRENT_SOURCE_DIR}/PhysicsList/Base/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/PrimGenInterface/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/Components/Base/include
                     ${CMAKE_CURRENT_SOURCE_DIR}/Components/Beampipe/include
                     ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/Core/src/*.cc
-                  ${PROJECT_SOURCE_DIR}/PhysicsList/Base/src/*.cc
                   ${PROJECT_SOURCE_DIR}/PrimGenInterface/src/*.cc
                   ${PROJECT_SOURCE_DIR}/Components/Base/src/*.cc
                   ${PROJECT_SOURCE_DIR}/Components/Beampipe/src/*.cc
                   )
 file(GLOB headers ${PROJECT_SOURCE_DIR}/Core/include/*.hh
-                  ${PROJECT_SOURCE_DIR}/PhysicsList/Base/include/*.hh
                   ${PROJECT_SOURCE_DIR}/PrimGenInterface/include/*.hh
                   ${PROJECT_SOURCE_DIR}/Components/Base/include/*.hh
                   ${PROJECT_SOURCE_DIR}/Components/Beampipe/include/*.hh
@@ -76,7 +116,7 @@ else()
   list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/eASTHepMC3Interface.hh")
   list(REMOVE_ITEM headers "${PROJECT_SOURCE_DIR}/PrimGenInterface/include/HepMC_3_2_4_ReaderFactory.h")
 endif()
-		
+
 #----------------------------------------------------------------------------
 # Add the field maps
 #
@@ -94,11 +134,11 @@ file(DOWNLOAD
 #
 add_executable(eAST Core/eAST.cc ${sources} ${headers})
 if(eAST_USE_HepMC3)
-  target_link_libraries(eAST ${Geant4_LIBRARIES}  ${HEPMC3_LIB} )
+  target_link_libraries(eAST ${PROJECT_NAME}PhysicsListBase ${Geant4_LIBRARIES} ${HEPMC3_LIB} )
 else()
-  target_link_libraries(eAST ${Geant4_LIBRARIES})
+  target_link_libraries(eAST ${PROJECT_NAME}PhysicsListBase ${Geant4_LIBRARIES})
 endif()
-  
+
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build RS. This is so that we can run the executable directly because it
