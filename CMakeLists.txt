@@ -123,7 +123,6 @@ install(TARGETS eAST
   EXPORT east-export
   DESTINATION bin)
 
-
 #----------------------------------------------------------------------------
 # Install data to CMAKE_INSTALL_FULL_DATADIR/east
 install(

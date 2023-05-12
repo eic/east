@@ -14,9 +14,13 @@ COPY . /user/east
 RUN cd east && rm -fr .git* docker build && \
 mkdir build && \
 export MAKEFLAGS=-j4 && \
-cmake -DCMAKE_INSTALL_PREFIX=/opt/east -DHepMC3=~/opt/hepmc3 -S . -B build && \
+cmake -DCMAKE_INSTALL_PREFIX=/opt/east -DHepMC3=/opt/hepmc3 -S . -B build && \
 cmake --build build && \
 cmake --install build
 
+RUN mkdir /opt/east/include
+RUN cd /user/east && find . -name '*.hh' -exec cp {} /opt/east/include \; && ls -l /opt/east/include
+
 RUN rm -fr /user/east/build
 ENV PATH=/opt/east/bin:$PATH
+ENV CPATH=/opt/east/include:$CPATH
