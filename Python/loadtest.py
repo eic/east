@@ -8,6 +8,7 @@ preload = [
     'G4RunManagerFactory.hh',
     'G4UImanager.hh',
     'G4UIExecutive.hh',
+    'eASTInitialization.hh',
     ]
 
 for pre in preload:
@@ -18,9 +19,9 @@ for pre in preload:
 cppyy.load_library('libG4run')
 cppyy.load_library('libG4graphics_reps')
 cppyy.load_library('libG4intercoms')
+cppyy.load_library('east')
 
-
-from cppyy.gbl import G4RunManagerFactory, G4UImanager
+from cppyy.gbl import G4RunManagerFactory, G4UImanager, eASTInitialization
 
 runManager = G4RunManagerFactory.CreateRunManager()
 
@@ -32,7 +33,14 @@ searchpath  = UImanager.GetMacroSearchPath()
 
 print(searchpath)
 
+eastI = eASTInitialization()
+
 # UImanager = G4UImanager.GetUIpointer()
+
+UImanager.ApplyCommand("/control/verbose 2")
+
+# UImanager.ApplyCommand("/run/initialize")
+
 # visManager = G4VisExecutive("Quiet")
 
 

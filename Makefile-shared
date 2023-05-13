@@ -1,0 +1,48 @@
+CXX = g++
+
+CXXFLAGS_DYNAMIC = -fPIC -std=c++17
+
+SRCS = Core/src/eASTInitialization.cc Core/src/eASTDetectorConstruction.cc Core/src/eASTDetectorConstructionMessenger.cc Core/src/eASTMagneticField.cc Core/src/eASTActionInitialization.cc Core/src/eASTUserActionDispatcher.cc
+OBJS := $(patsubst Core/src/%.cc, %.o, $(SRCS) )
+
+SRCS1 = PhysicsList/Base/src/eASTPhysicsList.cc PhysicsList/Base/src/eASTPhysicsListMessenger.cc
+OBJS1 := $(patsubst PhysicsList/Base/src/%.cc, %.o, $(SRCS1) )
+
+SRCS2 = Components/Beampipe/src/eASTBeamPipe.cc Components/Beampipe/src/eASTSupportStructure.cc
+OBJS2 := $(patsubst Components/Beampipe/src/%.cc, %.o, $(SRCS2) )
+
+
+SRCS3 = Components/Base/src/eASTVDetectorComponent.cc Components/Base/src/eASTDetectorComponentMessenger.cc Components/Base/src/eASTDetectorComponentGDML.cc
+OBJS3 := $(patsubst Components/Base/src/%.cc, %.o, $(SRCS3) )
+
+LIBRARY = east.so
+
+all: $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) 
+#	$(CXX) -c $(CXXFLAGS_DYNAMIC) -o eASTInitialization.o Core/src/eASTInitialization.cc
+#	$(CXX) -c $(CXXFLAGS_DYNAMIC) -o eASTDetectorConstruction.o Core/src/eASTDetectorConstruction.cc
+
+$(OBJS): %.o: Core/src/%.cc
+	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
+
+$(OBJS1): %.o: PhysicsList/Base/src/%.cc
+	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
+
+$(OBJS2): %.o: Components/Beampipe/src/%.cc
+	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
+
+$(OBJS3): %.o: Components/Base/src/%.cc
+	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
+
+#$(BUILD):
+#	$(shell mkdir -p $(BUILD))
+
+LIBRARY:
+	@echo Building the shared library
+	g++ $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) -shared -lxerces-c -o $(LIBRARY) 
+
+
+
+
+clean:
+	rm -f $(LIBRARY)
+	rm -f $(OBJS)
