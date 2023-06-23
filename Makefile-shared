@@ -2,22 +2,33 @@ CXX = g++
 
 CXXFLAGS_DYNAMIC = -fPIC -std=c++17
 
-SRCS = Core/src/eASTInitialization.cc Core/src/eASTDetectorConstruction.cc Core/src/eASTDetectorConstructionMessenger.cc Core/src/eASTMagneticField.cc Core/src/eASTActionInitialization.cc Core/src/eASTUserActionDispatcher.cc
+SRCS := $(wildcard Core/src/*.cc)
 OBJS := $(patsubst Core/src/%.cc, %.o, $(SRCS) )
 
-SRCS1 = PhysicsList/Base/src/eASTPhysicsList.cc PhysicsList/Base/src/eASTPhysicsListMessenger.cc
+SRCS1 := $(wildcard PhysicsList/Base/src/*.cc)
+
 OBJS1 := $(patsubst PhysicsList/Base/src/%.cc, %.o, $(SRCS1) )
 
-SRCS2 = Components/Beampipe/src/eASTBeamPipe.cc Components/Beampipe/src/eASTSupportStructure.cc
+SRCS2 := $(wildcard Components/Beampipe/src/*.cc)
 OBJS2 := $(patsubst Components/Beampipe/src/%.cc, %.o, $(SRCS2) )
 
 
-SRCS3 = Components/Base/src/eASTVDetectorComponent.cc Components/Base/src/eASTDetectorComponentMessenger.cc Components/Base/src/eASTDetectorComponentGDML.cc
+SRCS3 := $(wildcard Components/Base/src/*.cc)
 OBJS3 := $(patsubst Components/Base/src/%.cc, %.o, $(SRCS3) )
 
+
+SRCS4 := $(wildcard PrimGenInterface/src/*.cc)
+OBJS4 := $(patsubst PrimGenInterface/src/%.cc, %.o, $(SRCS4) )
+
+# ------------------------------------------------------------------------
 LIBRARY = east.so
 
-all: $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) 
+
+LIBRARY: $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) $(OBJS4)
+	@echo Building the shared library
+	g++ $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) $(OBJS4) -shared -lxerces-c -o $(LIBRARY)
+
+all: $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) $(OBJS4)
 #	$(CXX) -c $(CXXFLAGS_DYNAMIC) -o eASTInitialization.o Core/src/eASTInitialization.cc
 #	$(CXX) -c $(CXXFLAGS_DYNAMIC) -o eASTDetectorConstruction.o Core/src/eASTDetectorConstruction.cc
 
@@ -33,16 +44,17 @@ $(OBJS2): %.o: Components/Beampipe/src/%.cc
 $(OBJS3): %.o: Components/Base/src/%.cc
 	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
 
+$(OBJS4): %.o: PrimGenInterface/src/%.cc
+	$(CXX) -c $(CXXFLAGS_DYNAMIC) $< -o $@
+
 #$(BUILD):
 #	$(shell mkdir -p $(BUILD))
-
-LIBRARY:
-	@echo Building the shared library
-	g++ $(OBJS) $(OBJS1) $(OBJS2) $(OBJS3) -shared -lxerces-c -o $(LIBRARY) 
-
-
 
 
 clean:
 	rm -f $(LIBRARY)
 	rm -f $(OBJS)
+
+# SRCS1 = PhysicsList/Base/src/eASTPhysicsList.cc PhysicsList/Base/src/eASTPhysicsListMessenger.cc PhysicsList/Base/src/eASTProtonPhysics.cc PhysicsList/Base/src/eASTNeutronPhysics.cc
+# SRCS2 = Components/Beampipe/src/eASTBeamPipe.cc Components/Beampipe/src/eASTSupportStructure.cc
+# SRCS3 = Components/Base/src/eASTVDetectorComponent.cc Components/Base/src/eASTDetectorComponentMessenger.cc Components/Base/src/eASTDetectorComponentGDML.cc
