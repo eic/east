@@ -5,7 +5,7 @@ eAST baseline Physics List
 Extensions can be applied to corresponding detector component(s).
 
 The current version works with Geant4 version 11.1-patch01.
-It also works with versions 10.7-patch02 but does not work with earlier versions of Geant4.
+It also works with versions 10.7-patch02 and higher but does not work with earlier versions of Geant4.
 
 Description will be added here.
 
