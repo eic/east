@@ -38,16 +38,14 @@ tables:
 
 ### Installation
 
-* __eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
-The current Geant4 version is [11.1.0](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
-this link to download and install.
+__eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
+At the time of writing, the current Geant4 version is 11.2.0. You can access [this link](https://geant4.web.cern.ch/support/download){:target="_blank"}
+to access download pages for this and other versions of Geant4, for installation. Comments:
 * Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"}
-and follow all instructions.
-In many cases (e.g. if the platform is Debian) Geant4 will need to
-be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}.
-* The process involves using `cmake`, and it's
-important that you use a proper _build directory_ as recommended in the installation guide.
-Please see the _CMake options_ section below for details on options.
+and follow all instructions. In many cases (e.g. if the platform is Debian) Geant4 will need to be
+[installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}.
+* The process involves using `cmake`, and it's important that you use a proper _build directory_ as recommended in the installation guide.
+__Please see the "_CMake options_" section below for details on options.__
 * Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
 and their versions comply with GEANT requirements.
 * `cmake` will produce helpful diagnostics if some dependencies are missing, in which case these
