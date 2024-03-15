@@ -153,6 +153,9 @@ The [Xerces build and intallation webpage](https://xerces.apache.org/xerces-c/bu
 mentions cmake -- although the latter is not explicitly invoked, and you only need to run `configure` and `make`.
 Read the web page carefully.
 
+On some flavors of Linux, e.g. _Rocky_, care must be taken to ensure the `icu` package is correctly installed.
+It appears to happen transparently on Debian.
+
 ### Qt
 
 The Qt installation procedure has evolved over the years. Using the GUI installer
@@ -166,6 +169,22 @@ sudo apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa
 sudo apt-get install qtbase5-dev
 sudo apt-get install qtdeclarative5-dev
 ```
+
+Recent versions of Geant may require one more dependency:
+```bash
+# On Debian platforms
+sudo apt-get install -y qt3d5-dev 
+```
+
+Running Geant4 applications equipped with GUI based on the Qt package in the WSL2 environment
+may result in a blank graphic window. One solution to that is to unset an enironment variable:
+
+```bash
+export LIBGL_ALWAYS_INDIRECT=
+```
+
+
+
 ### libxmu
 
 ```bash
