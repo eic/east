@@ -38,14 +38,16 @@ tables:
 
 ### Installation
 
-__eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
-At the time of writing, the current Geant4 version is 11.2.0. You can access [this link](https://geant4.web.cern.ch/support/download){:target="_blank"}
-to access download pages for this and other versions of Geant4, for installation. Comments:
+* __eAST__ runs on top of the latest public version of Geant4, so before building eAST you need to install __Geant4__.
+The current Geant4 version is [11.1.0](https://geant4.web.cern.ch/support/download){:target="_blank"} -- use
+this link to download and install.
 * Please refer to [the Geant4 installation guide](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/index.html){:target="_blank"}
-and follow all instructions. In many cases (e.g. if the platform is Debian) Geant4 will need to be
-[installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}.
-* The process involves using `cmake`, and it's important that you use a proper _build directory_ as recommended in the installation guide.
-__Please see the "_CMake options_" section below for details on options.__
+and follow all instructions.
+In many cases (e.g. if the platform is Debian) Geant4 will need to
+be [installed from source](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/installguide.html){:target="_blank"}.
+* The process involves using `cmake`, and it's
+important that you use a proper _build directory_ as recommended in the installation guide.
+Please see the _CMake options_ section below for details on options.
 * Before you commence the build please make sure that the compilers i.e. `gcc` and `g++` are in the $PATH
 and their versions comply with GEANT requirements.
 * `cmake` will produce helpful diagnostics if some dependencies are missing, in which case these
@@ -63,7 +65,7 @@ so make sure your computer is online at that time.
 *In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*.
 As you can see from the table, if you start from scratch you may need to install the prerequisits first such as
 <em>X11, Qt5, OpenGL and Xerces-C++</em> libraries.
-Please see the [Appendix](/content/installation.html#appendix-geant4-dependencies) for comments and some practical
+Please see the [Appendix](/content/installation.html#appendix) for comments and some practical
 advice about how to proceed.
 
 <table border="1" width="60%">
@@ -145,18 +147,17 @@ path the the HepMC3 libraries. This can be done after sourcing the Geant4
 
 ---
 
-## Appendix (GEANT4 dependencies)
+## Appendix
 
-### Xerces
+### GEANT4 dependencies
+
+#### Xerces
 
 The [Xerces build and intallation webpage](https://xerces.apache.org/xerces-c/build-3.html#UNIXl){:target="_blank"}
 mentions cmake -- although the latter is not explicitly invoked, and you only need to run `configure` and `make`.
 Read the web page carefully.
 
-On some flavors of Linux, e.g. _Rocky_, care must be taken to ensure the `icu` package is correctly installed.
-It appears to happen transparently on Debian.
-
-### Qt
+#### Qt
 
 The Qt installation procedure has evolved over the years. Using the GUI installer
 provided by the developer appears to frequently cause problems. At the time of writing,
@@ -169,29 +170,13 @@ sudo apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa
 sudo apt-get install qtbase5-dev
 sudo apt-get install qtdeclarative5-dev
 ```
-
-Recent versions of Geant may require one more dependency:
-```bash
-# On Debian platforms
-sudo apt-get install -y qt3d5-dev 
-```
-
-Running Geant4 applications equipped with GUI based on the Qt package in the WSL2 environment
-may result in a blank graphic window. One solution to that is to unset an enironment variable:
-
-```bash
-export LIBGL_ALWAYS_INDIRECT=
-```
-
-
-
-### libxmu
+#### libxmu
 
 ```bash
 sudo apt-get install -y libxmu-dev
 ```
 
-### Passing options to "make"
+#### Passing options to "make"
 
 On many Linux platforms, `cmake` is relying on `make` for the build step.
 It is possible in these cases to pass helpful options (such as use multiple cores
@@ -199,6 +184,15 @@ for compilation) to `make` by setting an environment variable:
 
 ```bash
 export MAKEFLAGS=-j4
+```
+
+### Running Geant4 graphics under WSL2
+
+In some cases an extra step is needed to get the graphics driver to work correctly,
+for example in WSL2 the following setting is helpful:
+
+```bash
+export LIBGL_ALWAYS_INDIRECT=
 ```
 
 
