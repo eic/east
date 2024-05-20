@@ -14,7 +14,7 @@ name: manual
 ---
 
 
-## Setting up the environemt
+## Setting up the environment
 
 * Source the Geant4  [post-installation script](https://geant4-userdoc.web.cern.ch/UsersGuides/InstallationGuide/html/postinstall.html){:target="_blank"}.
 * Add the location of the _HepMC3_ libraries to the environment variable `LD_LIBRARY_PATH`
@@ -27,6 +27,12 @@ Example (bash):
 source /opt/geant4/bin/geant4.sh
 export LD_LIBRARY_PATH=/opt/hepmc3/lib:$LD_LIBRARY_PATH
 export PATH=/opt/east/bin/:$PATH
+```
+
+When using WSL2 and requiring graphics capability in Geant4, the following setting
+helps to get the graphcis working correctly:
+```bash
+export LIBGL_ALWAYS_INDIRECT=
 ```
 
 ## Starting eAST

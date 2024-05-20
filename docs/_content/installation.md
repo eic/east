@@ -65,7 +65,7 @@ so make sure your computer is online at that time.
 *In order to successfuly build eAST it is mandatory that you set the options listed below when using `cmake` to build Geant4*.
 As you can see from the table, if you start from scratch you may need to install the prerequisits first such as
 <em>X11, Qt5, OpenGL and Xerces-C++</em> libraries.
-Please see the [Appendix](/content/installation.html#appendix-geant4-dependencies) for comments and some practical
+Please see the [Appendix](/content/installation.html#appendix) for comments and some practical
 advice about how to proceed.
 
 <table border="1" width="60%">
@@ -147,15 +147,17 @@ path the the HepMC3 libraries. This can be done after sourcing the Geant4
 
 ---
 
-## Appendix (GEANT4 dependencies)
+## Appendix
 
-### Xerces
+### GEANT4 dependencies
+
+#### Xerces
 
 The [Xerces build and intallation webpage](https://xerces.apache.org/xerces-c/build-3.html#UNIXl){:target="_blank"}
 mentions cmake -- although the latter is not explicitly invoked, and you only need to run `configure` and `make`.
 Read the web page carefully.
 
-### Qt
+#### Qt
 
 The Qt installation procedure has evolved over the years. Using the GUI installer
 provided by the developer appears to frequently cause problems. At the time of writing,
@@ -168,13 +170,13 @@ sudo apt-get -y install build-essential openssl libssl-dev libssl1.0 libgl1-mesa
 sudo apt-get install qtbase5-dev
 sudo apt-get install qtdeclarative5-dev
 ```
-### libxmu
+#### libxmu
 
 ```bash
 sudo apt-get install -y libxmu-dev
 ```
 
-### Passing options to "make"
+#### Passing options to "make"
 
 On many Linux platforms, `cmake` is relying on `make` for the build step.
 It is possible in these cases to pass helpful options (such as use multiple cores
@@ -182,6 +184,15 @@ for compilation) to `make` by setting an environment variable:
 
 ```bash
 export MAKEFLAGS=-j4
+```
+
+### Running Geant4 graphics under WSL2
+
+In some cases an extra step is needed to get the graphics driver to work correctly,
+for example in WSL2 the following setting is helpful:
+
+```bash
+export LIBGL_ALWAYS_INDIRECT=
 ```
 
 
